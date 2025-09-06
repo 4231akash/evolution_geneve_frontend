@@ -1,0 +1,130 @@
+/* styles/Header.module.css */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0px 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  z-index: 1000;
+  transition: transform 0.4s ease;
+
+  /* ✅ Background & Blur for Glass Effect */
+  /* background: rgba(10, 10, 10, 0.2);  */
+  /* slightly lighter for true glass look */
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+
+  /* ✅ Optional: Glass Border for Better Visual Separation */
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.15); */
+  /* border-radius: 0 0 16px 16px; soft rounded bottom edge */
+}
+
+.header.hidden {
+  transform: translateY(-100%);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--secondary-color);
+  letter-spacing: 2px;
+  font-family: var(--font-playfair);
+
+}
+
+.nav {
+  display: flex;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  margin-left: 30px;
+}
+
+.navLink {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.navLink:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transition: width 0.3s;
+}
+
+.navLink:hover {
+  color: var(--secondary-color);
+}
+
+.navLink:hover:after {
+  width: 100%;
+}
+
+.mobileMenuBtn {
+  /* display: none; */
+  font-size: 24px;
+  color: var(--text-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.logoWrapper {
+  
+}
+.logoContainer {
+  position: relative;
+  width: 250px;  
+  height: 200px;
+}
+
+.logo {
+  object-fit: contain; /* prevents image from being cropped */
+}
+
+
+.logoText {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--secondary-color);
+  letter-spacing: 2px;
+  font-family: var(--font-playfair);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 20px;
+  }
+
+  .navItem {
+    margin-left: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: block;
+  }
+}

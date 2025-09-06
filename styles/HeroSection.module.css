@@ -1,0 +1,138 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+
+  background: url("/images/banner_main.svg") no-repeat center center;
+  background-size: cover;
+  background-attachment: scroll;
+  opacity: 0.85;
+}
+
+.content {
+  max-width: 1400px;
+  width: 100%;
+  padding: clamp(16px, 5vw, 64px);
+  z-index: 2;
+}
+
+.heroContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* --- Watch Image (Behind Text) --- */
+.watchContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.3);
+  opacity: 0;
+  z-index: 3;
+  transition: transform 1.2s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 1s ease;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.watchContainer.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.watchImagePlain {
+  width: clamp(200px, 30vw, 500px);
+  height: auto;
+  display: block;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* --- Text --- */
+.textContainer {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.25rem, 1vw, 0.75rem);
+}
+
+.textTop,
+.textBottom {
+  font-size: clamp(1.5rem, 10vw, 14rem); /* scales smoothly across breakpoints */
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  text-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.textTop {
+  transform: translateX(-100%);
+}
+
+.textBottom {
+  transform: translateX(100%);
+}
+
+.textTop.visible,
+.textBottom.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* --- Breakpoint Fine-tuning --- */
+@media (max-width: 475px) {
+  .textTop, .textBottom {
+    font-size: clamp(1.2rem, 8vw, 2.5rem);
+  }
+}
+
+@media (min-width: 640px) {
+  .textTop, .textBottom {
+    font-size: clamp(2rem, 7vw, 6rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .textTop, .textBottom {
+    font-size: clamp(4rem, 6vw, 10rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .watchImagePlain {
+    width: clamp(400px, 25vw, 550px);
+  }
+}
+
+@media (min-width: 1536px) {
+  .watchImagePlain {
+    width: clamp(450px, 22vw, 650px);
+  }
+}
+
+@media (min-width: 2000px) {
+  .content {
+    max-width: 1800px;
+  }
+  .textTop, .textBottom {
+    font-size: clamp(6rem, 6vw, 16rem);
+  }
+  .watchImagePlain {
+    width: clamp(500px, 18vw, 800px);
+  }
+}

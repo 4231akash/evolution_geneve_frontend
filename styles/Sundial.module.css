@@ -1,0 +1,305 @@
+@import url("https://fonts.googleapis.com/css2?family=Tai+Heritage+Pro&family=Felipa&display=swap");
+
+.historySection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+  overflow: hidden;
+  margin: 0;
+  padding: 2rem; /* padding to avoid sticking to edges */
+  box-sizing: border-box;
+}
+
+.backgroundGif {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/videos/bg_sundial_video.gif") no-repeat center center;
+  background-size: cover;
+  filter: brightness(0.3);
+  z-index: 1;
+}
+.backgroundGif2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/videos/bg_manual_winding_video.gif") no-repeat center center;
+  background-size: cover;
+  filter: brightness(0.3);
+  z-index: 1;
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  width: 100%;
+  max-width: 1400px; /* keeps content centered on large screens */
+  height: fit-content;
+  align-items: center;
+  justify-content: center; /* perfectly center left & right content */
+  gap: 10rem;
+  padding: 0 1rem; /* small horizontal padding for smaller screens */
+  box-sizing: border-box;
+}
+
+/* --- Left & Right Content Animations --- */
+.leftContent,
+.rightContent {
+  opacity: 0;
+  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1s ease;
+  will-change: transform, opacity;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center inner content */
+}
+
+.leftContent {
+  transform: translateX(-110%);
+  width: 33%;
+}
+
+.rightContent {
+  transform: translateX(110%);
+  width: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftContent.inView,
+.rightContent.inView {
+  opacity: 1;
+  transform: translateX(var(--parallax-x, 0px));
+}
+
+.scrollImageWrapper {
+  position: relative;
+  width: 500px;
+  height: 650px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/images/left_note.svg") no-repeat center center;
+  background-size: contain;
+}
+
+.watchImage {
+  max-width: 350px;
+  height: auto;
+}
+
+.textOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* center text horizontally */
+  text-align: center;
+  color: #3a2e1d;
+  padding: 1rem; /* padding inside scroll image */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  max-height: 70%;
+  overflow-y: auto;
+    /* ✅ Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.textOverlay::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.textOverlay h2 {
+  font-family: "Tai Heritage Pro", serif;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 50px;
+  font-variant: small-caps;
+  margin-bottom: 1rem;
+}
+
+.textOverlay p {
+  font-family: "Felipa", cursive;
+  font-weight: 400;
+  font-size: 22.5px;
+  line-height: 140%;
+  word-wrap: break-word;
+  min-height: 200px;
+}
+
+.typingCursor {
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --- Responsive Breakpoints --- */
+
+/* XS: small phones (<475px) */
+@media (max-width: 474px) {
+  .contentWrapper {
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .scrollImageWrapper {
+    width: 300px;
+    height: 380px;
+  }
+  .textOverlay {
+    max-width: 250px;
+  }
+  .watchImage {
+    max-width: 200px;
+  }
+  .textOverlay h2 {
+    font-size: 1rem;
+    line-height: 1.2rem;
+  }
+  .textOverlay p {
+    font-size: 0.7rem;
+    line-height: 120%;
+    min-height: auto;
+  }
+}
+
+/* SM: large phones / small tablets (≥475px) */
+@media (min-width: 475px) and (max-width: 639px) {
+  .scrollImageWrapper {
+    width: 340px;
+    height: 420px;
+  }
+  .textOverlay {
+    max-width: 250px;
+  }
+  .textOverlay h2 {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+  }
+  .textOverlay p {
+    font-size: 0.9rem;
+  }
+  .watchImage {
+    max-width: 220px;
+  }
+}
+
+/* MD: tablets (≥640px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .scrollImageWrapper {
+    width: 380px;
+    height: 470px;
+  }
+  .textOverlay {
+    max-width: 300px;
+  }
+  .textOverlay h2 {
+    font-size: 1.6rem;
+    line-height: 2rem;
+  }
+  .textOverlay p {
+    font-size: 1rem;
+  }
+  .watchImage {
+    max-width: 250px;
+  }
+}
+
+/* LG: laptops (≥1024px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .scrollImageWrapper {
+    width: 450px;
+    height: 540px;
+  }
+  .textOverlay {
+    max-width: 300px;
+  }
+
+  .textOverlay h2 {
+    font-size: 36px;
+  }
+  .textOverlay p {
+    font-size: 1.2rem;
+  }
+  .watchImage {
+    max-width: 300px;
+  }
+}
+
+/* XL: large desktops (≥1280px) */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .scrollImageWrapper {
+    width: 500px;
+    height: 650px;
+  }
+  .textOverlay {
+    max-width: 380px;
+  }
+  .textOverlay h2 {
+    font-size: 40px;
+  }
+  .watchImage {
+    max-width: 340px;
+  }
+}
+
+/* 2XL: very large screens (≥1536px) */
+@media (min-width: 1536px) {
+  .scrollImageWrapper {
+    width: 650px;
+    height: 700px;
+  }
+  .textOverlay {
+    max-width: 380px;
+  }
+  .textOverlay h2 {
+    font-size: 44px;
+  }
+  .textOverlay p {
+    font-size: 24px;
+  }
+  .watchImage {
+    max-width: 380px;
+  }
+}
+
+/* Ultra-wide screens (≥2000px) */
+@media (min-width: 2000px) {
+  .scrollImageWrapper {
+    width: 600px;
+    height: 750px;
+  }
+  .textOverlay h2 {
+    font-size: 48px;
+  }
+  .textOverlay p {
+    font-size: 26px;
+    line-height: 130%;
+  }
+  .watchImage {
+    max-width: 420px;
+  }
+}
