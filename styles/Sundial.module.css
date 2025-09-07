@@ -9,7 +9,7 @@
   justify-content: center; /* Center horizontally */
   overflow: hidden;
   margin: 0;
-  padding: 2rem; /* padding to avoid sticking to edges */
+  /* padding: 2rem; padding to avoid sticking to edges */
   box-sizing: border-box;
 }
 
@@ -18,7 +18,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: url("/videos/bg_sundial_video.gif") no-repeat center center;
   background-size: cover;
   filter: brightness(0.3);
@@ -29,7 +29,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: url("/videos/bg_manual_winding_video.gif") no-repeat center center;
   background-size: cover;
   filter: brightness(0.3);
@@ -42,33 +42,35 @@
   display: flex;
   width: 100%;
   max-width: 1400px; /* keeps content centered on large screens */
-  height: fit-content;
+  height: 100vh;
   align-items: center;
   justify-content: center; /* perfectly center left & right content */
-  gap: 10rem;
-  padding: 0 1rem; /* small horizontal padding for smaller screens */
+  gap: 6rem;
+  /* padding: 0 1rem; small horizontal padding for smaller screens */
   box-sizing: border-box;
 }
 
 /* --- Left & Right Content Animations --- */
+/* Replace the previous block that included "transition: transform ..." */
 .leftContent,
 .rightContent {
   opacity: 0;
-  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1s ease;
+  transition: opacity 220ms ease-out; /* keep opacity smoothing only */
   will-change: transform, opacity;
   display: flex;
   align-items: center;
-  justify-content: center; /* center inner content */
+  justify-content: center;
 }
+
 
 .leftContent {
   transform: translateX(-110%);
-  width: 33%;
+  /* width: 33%; */
 }
 
 .rightContent {
   transform: translateX(110%);
-  width: 35%;
+  /* width: 35%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,7 +85,7 @@
 .scrollImageWrapper {
   position: relative;
   width: 500px;
-  height: 650px;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,15 +94,16 @@
 }
 
 .watchImage {
-  max-width: 350px;
-  height: auto;
+  width: 540px;
+  height: 90vh;
+  filter: opacity(80%);
 }
 
 .textOverlay {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -55%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,9 +115,9 @@
   width: 100%;
   max-width: 800px;
   height: auto;
-  max-height: 70%;
+  max-height: 80%;
   overflow-y: auto;
-    /* ✅ Hide scrollbar */
+  /* ✅ Hide scrollbar */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
 }
@@ -213,6 +216,12 @@
     width: 380px;
     height: 470px;
   }
+  .watchImage {
+        max-width: 250px;
+  }
+  .contentWrapper {
+    gap: 2rem;
+  }
   .textOverlay {
     max-width: 300px;
   }
@@ -223,15 +232,16 @@
   .textOverlay p {
     font-size: 1rem;
   }
-  .watchImage {
-    max-width: 250px;
-  }
+
 }
 
 /* LG: laptops (≥1024px) */
 @media (min-width: 1024px) and (max-width: 1279px) {
+  .contentWrapper {
+    gap: 2rem;
+  }
   .scrollImageWrapper {
-    width: 450px;
+    width: 420px;
     height: 540px;
   }
   .textOverlay {
@@ -245,7 +255,9 @@
     font-size: 1.2rem;
   }
   .watchImage {
-    max-width: 300px;
+    width: 440px;
+    height: 90vh;
+    filter: opacity(80%);
   }
 }
 
@@ -253,16 +265,22 @@
 @media (min-width: 1280px) and (max-width: 1535px) {
   .scrollImageWrapper {
     width: 500px;
-    height: 650px;
+    height: 90vh;
   }
   .textOverlay {
     max-width: 380px;
   }
   .textOverlay h2 {
     font-size: 40px;
+    /* line-height: 100px; */
+  }
+  .textOverlay p {
+    font-size: 1.5rem;
   }
   .watchImage {
-    max-width: 340px;
+    max-width: 540px;
+    height: 90vh;
+    filter: opacity(80%);
   }
 }
 
@@ -282,7 +300,9 @@
     font-size: 24px;
   }
   .watchImage {
-    max-width: 380px;
+    max-width: 540px;
+    height: 90vh;
+    filter: opacity(80%);
   }
 }
 
@@ -300,6 +320,8 @@
     line-height: 130%;
   }
   .watchImage {
-    max-width: 420px;
+    width: 540px;
+    height: 90vh;
+    filter: opacity(80%);
   }
 }

@@ -17,31 +17,28 @@ const HeroSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setTextVisible(true);
-            setImageVisible(true);
-          } else {
-            // Reset animation when scrolling out
-            setTextVisible(false);
-            setImageVisible(false);
+            // Trigger animations only if not already shown
+            if (!textVisible) {
+              setTextVisible(true);
+              setTimeout(() => {
+                setImageVisible(true);
+              }, 1200); // Delay for text animation
+            }
           }
+          // ❌ Remove reset logic — let it animate only once
         });
       },
-      {
-        threshold: 0.5, // 50% of the section is visible
-      }
+      { threshold: 0.5 }
     );
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
+    if (heroRef.current) observer.observe(heroRef.current);
     return () => {
       if (heroRef.current) observer.unobserve(heroRef.current);
     };
-  }, []);
+  }, [textVisible]);
 
   return (
-    <section id="#hero" className={styles.hero} ref={heroRef}>
+    <section id="hero" className={styles.hero} ref={heroRef}>
       <div className={styles.content}>
         <div className={styles.heroContent}>
           {/* Watch Image */}
@@ -60,22 +57,22 @@ const HeroSection = () => {
             />
           </div>
 
-          {/* Text */}
+          {/* Image-based Text */}
           <div className={`${styles.textContainer} ${abrilFatface.className}`}>
-            <h2
-              className={`${styles.textTop} ${
-                textVisible ? styles.visible : ""
-              }`}
-            >
-              WHEN HISTORY
-            </h2>
-            <h2
+            <img
+              src="/images/inspires.svg"
+              alt="When History Inspires"
+              className={`${styles.textTop} ${textVisible ? styles.visible : ""}`}
+              draggable="false"
+            />
+            <img
+              src="/images/innovation.svg"
+              alt="Innovation"
               className={`${styles.textBottom} ${
                 textVisible ? styles.visible : ""
               }`}
-            >
-              INSPIRES INNOVATION
-            </h2>
+              draggable="false"
+            />
           </div>
         </div>
       </div>

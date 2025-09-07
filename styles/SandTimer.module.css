@@ -6,42 +6,49 @@
   width: 100%;
   height: 100vh;
   margin: 0;
-  padding: 2rem; /* ✅ uniform padding */
+  /* padding: 2rem; */
   display: flex;
   align-items: center;
-  justify-content: center; /* center left & right content */
+  justify-content: center;
   overflow: hidden;
   box-sizing: border-box;
 }
 
-.backgroundGif {
-  position: absolute;
-  inset: 0;
-  background: url("/videos/bg_sand_timer_video.gif") center/cover no-repeat;
-  filter: brightness(0.3);
-  z-index: 1;
-}
+.backgroundGif,
 .backgroundGif2 {
   position: absolute;
   inset: 0;
-  background: url("/videos/bg_self_winding_video.gif") center/cover no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   filter: brightness(0.3);
   z-index: 1;
 }
 
+.backgroundGif {
+  background-image: url("/videos/bg_sand_timer_video.gif");
+}
+
+.backgroundGif2 {
+  background-image: url("/videos/bg_self_winding_video.gif");
+}
+
+/* --- Content Wrapper --- */
 .contentWrapper {
   position: relative;
   z-index: 10;
   display: flex;
   width: 100%;
-  max-width: 1400px; /* ✅ keep content centered on large screens */
+  max-width: 1400px;
+  height: 100vh;
   align-items: center;
-  justify-content: center; /* ✅ center content horizontally */
+  justify-content: center;
   gap: 10rem;
-  padding: 0 1rem; /* small horizontal padding for small screens */
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
+/* --- Left & Right Content Animations --- */
 .leftContent,
 .rightContent {
   opacity: 0;
@@ -49,7 +56,7 @@
   will-change: transform, opacity;
   display: flex;
   justify-content: center;
-  align-items: center; /* ✅ perfectly center inner content */
+  align-items: center;
 }
 
 .leftContent {
@@ -65,15 +72,10 @@
 .leftContent.inView,
 .rightContent.inView {
   opacity: 1;
-  transform: translateX(var(--parallax-x, 0px));
+  transform: translateX(0);
 }
 
-.watchImage {
-  max-width: 350px;
-  height: auto;
-}
-
-/* --- Scroll Image & Text --- */
+/* --- Scroll Image & Watch --- */
 .scrollImageContainer {
   position: relative;
   display: flex;
@@ -83,17 +85,26 @@
 
 .scrollImageWrapper {
   position: relative;
-  width: 500px;
-  height: 650px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 500px;
+  height: 90vh;
 }
 
 .scrollImage {
   object-fit: contain;
+  width: 100%;
+  height: 100%;
 }
 
+.watchImage {
+  max-width: 350px;
+  height: 90vh;
+  filter: opacity(80%);
+}
+
+/* --- Text Overlay --- */
 .textOverlay {
   position: absolute;
   top: 50%;
@@ -102,21 +113,20 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* ✅ text perfectly centered */
+  align-items: center;
   text-align: center;
   color: #3a2e1d;
-  padding: 1rem; /* ✅ padding inside scroll image */
+  padding: 1rem;
   width: 100%;
   max-width: 800px;
-  height: auto;
   max-height: 70%;
-  overflow-y: auto; /* scroll if text too long */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .textOverlay::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 .textOverlay h2 {
@@ -131,7 +141,7 @@
   font-family: "Felipa", cursive;
   font-size: 22.5px;
   line-height: 140%;
-  min-height: 250px; /* space for typing effect */
+  min-height: 250px;
 }
 
 .typingCursor {
@@ -148,34 +158,13 @@
   }
 }
 
-/* --- Responsive --- */
-@media (max-width: 900px) {
-  .leftContent,
-  .rightContent {
-    width: 80%;
-  }
-  .scrollImageWrapper {
-    width: 100%;
-    height: auto;
-  }
-  .textOverlay h2 {
-    font-size: 32px;
-  }
-  .textOverlay p {
-    font-size: 20px;
-  }
-}
+/* --- Responsive Breakpoints --- */
 
 /* XS: phones (<475px) */
 @media (max-width: 474px) {
   .contentWrapper {
     flex-direction: column;
     gap: 1rem;
-    justify-content: center;
-    align-items: center;
-  }
-  .textOverlay {
-    max-width: 250px;
   }
   .scrollImageWrapper {
     width: 300px;
@@ -184,8 +173,12 @@
   .watchImage {
     max-width: 200px;
   }
+  .textOverlay {
+    max-width: 250px;
+  }
   .textOverlay h2 {
     font-size: 1rem;
+    line-height: 1.2rem;
   }
   .textOverlay p {
     font-size: 0.7rem;
@@ -198,12 +191,13 @@
   .contentWrapper {
     flex-direction: column;
     gap: 1rem;
-    justify-content: center;
-    align-items: center;
   }
   .scrollImageWrapper {
     width: 340px;
     height: 420px;
+  }
+  .watchImage {
+    max-width: 220px;
   }
   .textOverlay {
     max-width: 250px;
@@ -214,22 +208,19 @@
   .textOverlay p {
     font-size: 0.9rem;
   }
-  .watchImage {
-    max-width: 220px;
-  }
 }
 
 /* MD: ≥640px and <1024px */
 @media (min-width: 640px) and (max-width: 1023px) {
+  .contentWrapper {
+    gap: 5rem;
+  }
   .scrollImageWrapper {
     width: 380px;
     height: 470px;
   }
-  .contentWrapper {
-    /* flex-direction: column; */
-    gap: 5rem;
-    justify-content: center;
-    align-items: center;
+  .watchImage {
+    max-width: 250px;
   }
   .textOverlay {
     max-width: 300px;
@@ -240,16 +231,21 @@
   .textOverlay p {
     font-size: 1rem;
   }
-  .watchImage {
-    max-width: 250px;
-  }
 }
 
 /* LG: ≥1024px and <1280px */
 @media (min-width: 1024px) and (max-width: 1279px) {
+  .contentWrapper {
+    gap: 2rem;
+  }
   .scrollImageWrapper {
     width: 420px;
     height: 540px;
+  }
+  .watchImage {
+    width: 440px;
+    height: 90vh;
+    filter: opacity(80%);
   }
   .textOverlay {
     max-width: 350px;
@@ -260,16 +256,18 @@
   .textOverlay p {
     font-size: 21px;
   }
-  .watchImage {
-    max-width: 300px;
-  }
 }
 
 /* XL: ≥1280px and <1536px */
 @media (min-width: 1280px) and (max-width: 1535px) {
   .scrollImageWrapper {
     width: 500px;
-    height: 650px;
+    height: 90vh;
+  }
+  .watchImage {
+    max-width: 540px;
+    height: 90vh;
+    filter: opacity(80%);
   }
   .textOverlay {
     max-width: 400px;
@@ -277,16 +275,18 @@
   .textOverlay h2 {
     font-size: 40px;
   }
-  .watchImage {
-    max-width: 340px;
-  }
 }
 
 /* 2XL: ≥1536px */
 @media (min-width: 1536px) {
   .scrollImageWrapper {
-    width: 550px;
+    width: 650px;
     height: 700px;
+  }
+  .watchImage {
+    max-width: 540px;
+    height: 90vh;
+    filter: opacity(80%);
   }
   .textOverlay {
     max-width: 400px;
@@ -297,9 +297,6 @@
   .textOverlay p {
     font-size: 24px;
   }
-  .watchImage {
-    max-width: 380px;
-  }
 }
 
 /* Ultra-wide: ≥2000px */
@@ -307,6 +304,11 @@
   .scrollImageWrapper {
     width: 600px;
     height: 750px;
+  }
+  .watchImage {
+    max-width: 540px;
+    height: 90vh;
+    filter: opacity(80%);
   }
   .textOverlay {
     max-width: 450px;
@@ -317,8 +319,5 @@
   .textOverlay p {
     font-size: 26px;
     line-height: 130%;
-  }
-  .watchImage {
-    max-width: 420px;
   }
 }

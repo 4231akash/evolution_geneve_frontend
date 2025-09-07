@@ -81,7 +81,7 @@
 
 .mobileMenuBtn {
   /* display: none; */
-  font-size: 24px;
+  font-size: 2rem;
   color: var(--text-color);
   background: none;
   border: none;

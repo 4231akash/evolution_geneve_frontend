@@ -1,93 +1,122 @@
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import styles from "../styles/SandTimer.module.css";
+  import { useState, useEffect, useRef } from "react";
+  import Image from "next/image";
+  import styles from "../styles/SandTimer.module.css";
 
-import scrollImage from "../public/images/right_note.svg";
-import watchBackImage from "../public/images/self_winding_watch.svg";
+  import scrollImage from "../public/images/right_note.svg";
+  import watchBackImage from "../public/images/self_winding_watch.svg";
+const easeInOutCubic = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-const SelfWindingSection = () => {
-  const [isInView, setIsInView] = useState(false);
+const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
+  const SelfWindingSection = () => {
   const [displayedText, setDisplayedText] = useState("");
-  const [scrollPosition, setScrollPosition] = useState(0);
-
+  const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef(null);
+  const rafRef = useRef(null);
+  const tickingRef = useRef(false);
+  const typingIntervalRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
-  const fullText =
-    "The early 20th century marked a turning point with the invention of the rotor system harnessed the motion of the wearer's wrist to power the winding mechanism. This pivotal innovation laid the foundation for what would become the automatic watch we know today. An automatic watch, also known as a self-winding watch or simply an automatic, is a mechanical watch where the natural motion of the wearer provides energy to wind the mainspring, making manual winding unnecessary if worn enough.";
+    const fullText =
+      "The early 20th century marked a turning point with the invention of the rotor system harnessed the motion of the wearer's wrist to power the winding mechanism. This pivotal innovation laid the foundation for what would become the automatic watch we know today. An automatic watch, also known as a self-winding watch or simply an automatic, is a mechanical watch where the natural motion of the wearer provides energy to wind the mainspring, making manual winding unnecessary if worn enough.";
 
-  // --- Scroll handler for parallax ---
-  const handleScroll = () => {
-    if (sectionRef.current) {
-      const rect = sectionRef.current.getBoundingClientRect();
-      const progress = -rect.top / (rect.height / 2);
-      setScrollPosition(progress * 50);
-    }
-  };
-
+     // Scroll handler
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const onScroll = () => {
+      if (!sectionRef.current) return;
+      if (tickingRef.current) return;
+      tickingRef.current = true;
 
-  // --- Intersection Observer for animation trigger ---
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      { threshold: 0.2 }
-    );
+      rafRef.current = requestAnimationFrame(() => {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const windowH = window.innerHeight || document.documentElement.clientHeight;
 
-    if (sectionRef.current) observer.observe(sectionRef.current);
+        let raw = 1 - rect.top / windowH;
+        raw = clamp(raw, 0, 1);
+
+        const eased = easeInOutCubic(raw);
+        setScrollProgress(eased);
+
+        tickingRef.current = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
     return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  // --- Typing / deleting animation ---
+  // Typing logic
   useEffect(() => {
-    let intervalId;
-    let i = displayedText.length;
+    if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
 
-    if (isInView) {
-      intervalId = setInterval(() => {
-        if (i < fullText.length) {
-          setDisplayedText(fullText.substring(0, i + 1));
-          i++;
-        } else clearInterval(intervalId);
-      }, 25);
-    } else {
-      intervalId = setInterval(() => {
-        if (i > 0) {
-          setDisplayedText(fullText.substring(0, i - 1));
-          i--;
-        } else clearInterval(intervalId);
+    if (scrollProgress >= 0.95) {
+      typingTimeoutRef.current = setTimeout(() => {
+        typingIntervalRef.current = setInterval(() => {
+          setDisplayedText((prev) => {
+            if (prev.length < fullText.length) return fullText.slice(0, prev.length + 1);
+            clearInterval(typingIntervalRef.current);
+            typingIntervalRef.current = null;
+            return prev;
+          });
+        }, 25);
+      }, 300);
+    } else if (scrollProgress <= 0.4) {
+      typingIntervalRef.current = setInterval(() => {
+        setDisplayedText((prev) => {
+          if (prev.length > 0) return fullText.slice(0, prev.length - 1);
+          clearInterval(typingIntervalRef.current);
+          typingIntervalRef.current = null;
+          return prev;
+        });
       }, 15);
     }
 
-    return () => clearInterval(intervalId);
-  }, [isInView]);
+    return () => {
+      if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, [scrollProgress, fullText]);
+
+  // Derived transforms
+  const leftTranslatePct = -110 + scrollProgress * 110; // image slides in from left
+  const rightTranslatePct = 110 - scrollProgress * 110; // text slides in from right
+  const visibleOpacity = clamp((scrollProgress - 0.05) / 0.45, 0, 1);
 
   return (
     <section ref={sectionRef} className={styles.historySection}>
-      {/* ✅ Background handled in CSS */}
       <div className={styles.backgroundGif2}></div>
 
       <div className={styles.contentWrapper}>
+        {/* Left Content - Image */}
         <div
-          className={`${styles.leftContent} ${isInView ? styles.inView : ""}`}
-          style={{ "--parallax-x": `${scrollPosition}px` }}
+          className={styles.leftContent}
+          style={{
+            transform: `translateX(${leftTranslatePct}%)`,
+            opacity: visibleOpacity,
+            willChange: "transform, opacity",
+          }}
         >
           <img
             src={"/images/self_winding_watch.svg"}
             alt="Sand Timer Watch"
             className={styles.watchImage}
-            // width={400}
-            // height={400}
           />
         </div>
 
+        {/* Right Content - Scroll + Text */}
         <div
-          className={`${styles.rightContent} ${isInView ? styles.inView : ""}`}
-          style={{ "--parallax-x": `${scrollPosition * -1}px` }}
+          className={styles.rightContent}
+          style={{
+            transform: `translateX(${rightTranslatePct}%)`,
+            opacity: visibleOpacity,
+            willChange: "transform, opacity",
+          }}
         >
           <div className={styles.scrollImageContainer}>
             <div className={styles.scrollImageWrapper}>
@@ -101,10 +130,10 @@ const SelfWindingSection = () => {
             </div>
 
             <div className={styles.textOverlay}>
-              <h2>The Self Winding</h2>
+              <h2>The Sand Timer</h2>
               <p>
                 {displayedText}
-                {isInView && displayedText.length < fullText.length && (
+                {scrollProgress >= 0.95 && displayedText.length < fullText.length && (
                   <span className={styles.typingCursor}>|</span>
                 )}
               </p>
@@ -114,6 +143,6 @@ const SelfWindingSection = () => {
       </div>
     </section>
   );
-};
+  };
 
-export default SelfWindingSection;
+  export default SelfWindingSection;

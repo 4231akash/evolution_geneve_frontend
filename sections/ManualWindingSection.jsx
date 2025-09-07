@@ -1,103 +1,130 @@
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Sundial.module.css";
 
-// Make sure to replace these with your actual image paths in the /public folder
-import bgImage from "../public/images/bg_manual_winding.svg";
-import scrollImage from "../public/images/left_note.svg";
-import watchBackImage from "../public/images/manual_winding_watch.svg";
-import backgroundGif from "../public/videos/bg_manual_winding_video.gif";
+const easeInOutCubic = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
 
 const ManualWindingSection = () => {
-  const [isInView, setIsInView] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
-  const [scrollPosition, setScrollPosition] = useState(0);
-
+  const [scrollProgress, setScrollProgress] = useState(0); // 0..1
   const sectionRef = useRef(null);
+  const rafRef = useRef(null);
+  const tickingRef = useRef(false);
+  const typingIntervalRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
   const fullText =
     "Mechanical watches evolved in Europe in the 17th century from spring powered clocks, which appeared in the 15th century. A manual winding mechanical watch is driven by a mainspring which must be wound periodically by hand. Its force is transmitted through a series of gears to power the balance wheel, a weighted wheel which oscillates back and forth at a constant rate. A device called an escapement releases the watch's wheels to move forward a small amount with each swing of the balance wheel, moving the watch's hands forward at a constant rate.";
 
-  // Scroll listener for parallax
+  // Scroll handler (RAF-based)
   useEffect(() => {
-    const handleScroll = () => {
-      if (sectionRef.current) {
+    const onScroll = () => {
+      if (!sectionRef.current) return;
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+
+      rafRef.current = requestAnimationFrame(() => {
         const rect = sectionRef.current.getBoundingClientRect();
-        const progress = -rect.top / (rect.height / 2);
-        setScrollPosition(progress * 50);
-      }
+        const windowH = window.innerHeight || document.documentElement.clientHeight;
+
+        let raw = 1 - rect.top / windowH;
+        raw = clamp(raw, 0, 1);
+
+        const eased = easeInOutCubic(raw);
+        setScrollProgress(eased);
+
+        tickingRef.current = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // run once on mount
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
-  // Intersection Observer for in-view animation
+  // Typing handler (trigger when scrollProgress ~1)
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+    if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
 
-  // Typing / deleting animation
-  useEffect(() => {
-    let intervalId;
-    if (isInView) {
-      let i = displayedText.length;
-      intervalId = setInterval(() => {
-        if (i < fullText.length) {
-          setDisplayedText(fullText.substring(0, i + 1));
-          i++;
-        } else clearInterval(intervalId);
-      }, 25);
-    } else {
-      let i = displayedText.length;
-      intervalId = setInterval(() => {
-        if (i > 0) {
-          setDisplayedText(fullText.substring(0, i - 1));
-          i--;
-        } else clearInterval(intervalId);
+    if (scrollProgress >= 0.95) {
+      typingTimeoutRef.current = setTimeout(() => {
+        typingIntervalRef.current = setInterval(() => {
+          setDisplayedText((prev) => {
+            if (prev.length < fullText.length) return fullText.slice(0, prev.length + 1);
+            clearInterval(typingIntervalRef.current);
+            typingIntervalRef.current = null;
+            return prev;
+          });
+        }, 25);
+      }, 300);
+    } else if (scrollProgress <= 0.4) {
+      typingIntervalRef.current = setInterval(() => {
+        setDisplayedText((prev) => {
+          if (prev.length > 0) return fullText.slice(0, prev.length - 1);
+          clearInterval(typingIntervalRef.current);
+          typingIntervalRef.current = null;
+          return prev;
+        });
       }, 15);
     }
-    return () => clearInterval(intervalId);
-  }, [isInView]);
+
+    return () => {
+      if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, [scrollProgress, fullText]);
+
+  // Derived transforms
+  const leftTranslatePct = -110 + scrollProgress * 110;
+  const rightTranslatePct = 110 - scrollProgress * 110;
+  const visibleOpacity = clamp((scrollProgress - 0.05) / 0.45, 0, 1);
 
   return (
     <section ref={sectionRef} className={styles.historySection}>
-      {/* ✅ Background is now pure CSS */}
       <div className={styles.backgroundGif2}></div>
 
       <div className={styles.contentWrapper}>
         {/* Left Content */}
         <div
-          className={`${styles.leftContent} ${isInView ? styles.inView : ""}`}
-          style={{ "--parallax-x": `${scrollPosition * -1}px` }}
+          className={styles.leftContent}
+          style={{
+            transform: `translateX(${leftTranslatePct}%)`,
+            opacity: visibleOpacity,
+            willChange: "transform, opacity",
+          }}
         >
-          <div className={styles.scrollImageContainer}>
-            <div className={styles.scrollImageWrapper}>
-              <div className={styles.textOverlay}>
-                <h2>The Manual Winding</h2>
-                <p>
-                  {displayedText}
-                  {isInView && displayedText.length < fullText.length && (
-                    <span className={styles.typingCursor}>|</span>
-                  )}
-                </p>
-              </div>
+          <div className={styles.scrollImageWrapper}>
+            <div className={styles.textOverlay}>
+              <h2>The Manual Winding</h2>
+              <p>
+                {displayedText}
+                {scrollProgress >= 0.95 && displayedText.length < fullText.length && (
+                  <span className={styles.typingCursor}>|</span>
+                )}
+              </p>
             </div>
           </div>
         </div>
 
         {/* Right Content */}
         <div
-          className={`${styles.rightContent} ${isInView ? styles.inView : ""}`}
-          style={{ "--parallax-x": `${scrollPosition}px` }}
+          className={styles.rightContent}
+          style={{
+            transform: `translateX(${rightTranslatePct}%)`,
+            opacity: visibleOpacity,
+            willChange: "transform, opacity",
+          }}
         >
           <img
             src="/images/manual_winding_watch.svg"
-            alt="Back case of the Evolution Geneve watch"
+            alt="Manual winding watch back case"
             className={styles.watchImage}
           />
         </div>
