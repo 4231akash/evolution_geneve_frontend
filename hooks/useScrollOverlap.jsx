@@ -50,6 +50,7 @@ export default function useScrollOverlap() {
       });
 
       // Smooth snap between sections
+      
       // ScrollTrigger.create({
       //   trigger: document.body,
       //   start: 0,
