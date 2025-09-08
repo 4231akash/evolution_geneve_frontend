@@ -76,7 +76,7 @@ useEffect(() => {
             return prev;
           });
         }, 25);
-      }, 300);
+      }, 100);
     } else if (scrollProgress <= 0.4) {
       typingIntervalRef.current = setInterval(() => {
         setDisplayedText((prev) => {

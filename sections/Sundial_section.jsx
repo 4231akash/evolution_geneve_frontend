@@ -75,7 +75,7 @@ useEffect(() => {
             return prev;
           });
         }, 25);
-      }, 300); // small delay to make animation feel smooth
+      }, 100); // small delay to make animation feel smooth
     } else if (scrollProgress <= 0.4) {
       // Delete text only when we scroll significantly back
       typingIntervalRef.current = setInterval(() => {

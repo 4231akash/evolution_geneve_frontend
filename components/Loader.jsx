@@ -5,12 +5,21 @@ export default function Loader({ onFinish }) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    const checkImagesLoaded = () => {
+      const images = Array.from(document.querySelectorAll("img"));
+      const allLoaded = images.every(img => img.complete && img.naturalWidth !== 0);
+      return allLoaded;
+    };
+
     const handleLoad = () => {
-      // ⏳ Keep loader for 2 seconds before hiding
-      setTimeout(() => {
-        setIsVisible(false);
-        if (onFinish) onFinish();
-      }, 2000); // 2s delay
+      // Poll until all images are loaded
+      const interval = setInterval(() => {
+        if (checkImagesLoaded()) {
+          clearInterval(interval);
+          setIsVisible(false);
+          if (onFinish) onFinish();
+        }
+      }, 100); // check every 100ms
     };
 
     if (document.readyState === "complete") {
