@@ -5,30 +5,43 @@ export default function Loader({ onFinish }) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const checkImagesLoaded = () => {
-      const images = Array.from(document.querySelectorAll("img"));
-      const allLoaded = images.every(img => img.complete && img.naturalWidth !== 0);
-      return allLoaded;
+    const waitForAssets = async () => {
+      // 1. Wait for all <img> tags
+      const imgs = Array.from(document.querySelectorAll("img"));
+      await Promise.all(
+        imgs.map(
+          img =>
+            new Promise(resolve => {
+              if (img.complete && img.naturalWidth !== 0) resolve();
+              else img.onload = img.onerror = resolve;
+            })
+        )
+      );
+
+      // 2. Wait for all background images using data-bg
+      const bgElements = document.querySelectorAll("[data-bg]");
+      await Promise.all(
+        Array.from(bgElements).map(
+          el =>
+            new Promise(resolve => {
+              const img = new Image();
+              img.src = el.dataset.bg;
+              img.onload = img.onerror = resolve;
+            })
+        )
+      );
+
+      // 3. Keep loader for at least 2s for branding
+      setTimeout(() => {
+        setIsVisible(false);
+        onFinish?.();
+      }, 2000);
     };
 
-    const handleLoad = () => {
-      // Poll until all images are loaded
-      const interval = setInterval(() => {
-        if (checkImagesLoaded()) {
-          clearInterval(interval);
-          setIsVisible(false);
-          if (onFinish) onFinish();
-        }
-      }, 100); // check every 100ms
-    };
+    if (document.readyState === "complete") waitForAssets();
+    else window.addEventListener("load", waitForAssets);
 
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-    }
-
-    return () => window.removeEventListener("load", handleLoad);
+    return () => window.removeEventListener("load", waitForAssets);
   }, [onFinish]);
 
   if (!isVisible) return null;

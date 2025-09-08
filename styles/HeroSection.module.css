@@ -9,11 +9,11 @@
   text-align: center;
   color: white;
 
-  background: url("/images/banner_main.svg") no-repeat center center;
+  /* background: url("/images/banner_main.svg") no-repeat center center; */
   background-size: cover;
   background-attachment: scroll;
   opacity: 0.85;
-  background-color:#D9D9D9B0;
+
   filter: contrast(120%) brightness(100%);
 }
 

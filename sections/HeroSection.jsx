@@ -38,7 +38,16 @@ const HeroSection = () => {
   }, [textVisible]);
 
   return (
-    <section id="hero" className={styles.hero} ref={heroRef}>
+    <section
+      id="hero"
+      className={styles.hero}
+      ref={heroRef}
+      data-bg="/images/banner_main.svg"
+      style={{
+        background: 'url("/images/banner_main.svg") no-repeat center center',
+        backgroundColor: "#D9D9D9B0",
+      }}
+    >
       <div className={styles.content}>
         <div className={styles.heroContent}>
           {/* Watch Image */}
@@ -62,7 +71,9 @@ const HeroSection = () => {
             <img
               src="/images/inspires.svg"
               alt="When History Inspires"
-              className={`${styles.textTop} ${textVisible ? styles.visible : ""}`}
+              className={`${styles.textTop} ${
+                textVisible ? styles.visible : ""
+              }`}
               draggable="false"
             />
             <img
