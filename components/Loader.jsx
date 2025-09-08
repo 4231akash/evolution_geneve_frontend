@@ -35,7 +35,7 @@ export default function Loader({ onFinish }) {
 
       // 3. Ensure loader is visible at least 2 seconds
       const elapsed = Date.now() - startTime;
-      const remaining = Math.max(2000 - elapsed, 0); // 2s minimum
+      const remaining = Math.max(4000 - elapsed, 0); // 2s minimum
 
       setTimeout(() => {
         setIsVisible(false);
