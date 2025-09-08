@@ -50,17 +50,17 @@ export default function useScrollOverlap() {
       });
 
       // Smooth snap between sections
-      ScrollTrigger.create({
-        trigger: document.body,
-        start: 0,
-        end: "max",
-        snap: {
-          snapTo: 1 / (sections.length - 1), // snap to nearest section
-          duration: 1.2, // always glide 1.2s to the next section
-          delay: 0.1, // wait a bit before snapping
-          ease: "power2.inOut",
-        },
-      });
+      // ScrollTrigger.create({
+      //   trigger: document.body,
+      //   start: 0,
+      //   end: "max",
+      //   snap: {
+      //     snapTo: 1 / (sections.length - 1), // snap to nearest section
+      //     duration: 1.2, // always glide 1.2s to the next section
+      //     delay: 0.1, // wait a bit before snapping
+      //     ease: "power2.inOut",
+      //   },
+      // });
 
       ScrollTrigger.refresh();
     });
