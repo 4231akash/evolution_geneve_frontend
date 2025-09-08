@@ -1,24 +1,25 @@
 // app/layout.js
-import { Inter, Playfair_Display } from 'next/font/google'
-import './globals.css'
-import ViewportHeightFix from '../components/ViewPortHeightFix'
+import { Inter, Playfair_Display } from "next/font/google";
+import "./globals.css";
+import ViewportHeightFix from "../components/ViewPortHeightFix";
+import SmoothScrollProvider from "../hooks/smoothScrollProvider";
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap'
-})
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap'
-})
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const metadata = {
-  title: 'Evolution of Timekeeping',
-  description: 'Explore the evolution of timekeeping through history',
-}
+  title: "Evolution of Timekeeping",
+  description: "Explore the evolution of timekeeping through history",
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -30,9 +31,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <ViewportHeightFix /> {/* ✅ Runs on client and sets --vh */}
-        {children}
+        <ViewportHeightFix />
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
-  )
+  );
 }
