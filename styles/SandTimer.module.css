@@ -89,7 +89,7 @@
   justify-content: center;
   align-items: center;
   width: 500px;
-  height: 90vh;
+  height: 95vh;
 }
 
 .scrollImage {
@@ -100,7 +100,7 @@
 
 .watchImage {
   max-width: 350px;
-  height: 90vh;
+  height: 95vh;
   filter: opacity(80%);
 }
 
@@ -244,7 +244,7 @@
   }
   .watchImage {
     width: 440px;
-    height: 90vh;
+    height: 95vh;
     filter: opacity(80%);
   }
   .textOverlay {
@@ -262,11 +262,11 @@
 @media (min-width: 1280px) and (max-width: 1535px) {
   .scrollImageWrapper {
     width: 500px;
-    height: 90vh;
+    height: 95vh;
   }
   .watchImage {
     max-width: 540px;
-    height: 90vh;
+    height: 95vh;
     filter: opacity(80%);
   }
   .textOverlay {
@@ -285,7 +285,7 @@
   }
   .watchImage {
     max-width: 540px;
-    height: 90vh;
+    height: 95vh;
     filter: opacity(80%);
   }
   .textOverlay {
@@ -307,7 +307,7 @@
   }
   .watchImage {
     max-width: 540px;
-    height: 90vh;
+    height: 95vh;
     filter: opacity(80%);
   }
   .textOverlay {

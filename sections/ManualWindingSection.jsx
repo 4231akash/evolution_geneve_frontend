@@ -19,32 +19,42 @@ const ManualWindingSection = () => {
     "Mechanical watches evolved in Europe in the 17th century from spring powered clocks, which appeared in the 15th century. A manual winding mechanical watch is driven by a mainspring which must be wound periodically by hand. Its force is transmitted through a series of gears to power the balance wheel, a weighted wheel which oscillates back and forth at a constant rate. A device called an escapement releases the watch's wheels to move forward a small amount with each swing of the balance wheel, moving the watch's hands forward at a constant rate.";
 
   // Scroll handler (RAF-based)
+  const lerp = (start, end, amt) => start + (end - start) * amt;
+
   useEffect(() => {
+    let current = 0; // smooth scroll progress
+    let target = 0; // instant scroll value
+    let rafId;
+
+    const update = () => {
+      current = lerp(current, target, 0.08); // smaller = more delay/smoothness
+      setScrollProgress(current);
+
+      if (Math.abs(current - target) > 0.001) {
+        rafId = requestAnimationFrame(update);
+      }
+    };
+
     const onScroll = () => {
       if (!sectionRef.current) return;
-      if (tickingRef.current) return;
-      tickingRef.current = true;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowH =
+        window.innerHeight || document.documentElement.clientHeight;
 
-      rafRef.current = requestAnimationFrame(() => {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowH = window.innerHeight || document.documentElement.clientHeight;
+      let raw = 1 - rect.top / windowH;
+      raw = clamp(raw, 0, 1);
+      target = easeInOutCubic(raw);
 
-        let raw = 1 - rect.top / windowH;
-        raw = clamp(raw, 0, 1);
-
-        const eased = easeInOutCubic(raw);
-        setScrollProgress(eased);
-
-        tickingRef.current = false;
-      });
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // run once on mount
+    onScroll();
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -57,7 +67,8 @@ const ManualWindingSection = () => {
       typingTimeoutRef.current = setTimeout(() => {
         typingIntervalRef.current = setInterval(() => {
           setDisplayedText((prev) => {
-            if (prev.length < fullText.length) return fullText.slice(0, prev.length + 1);
+            if (prev.length < fullText.length)
+              return fullText.slice(0, prev.length + 1);
             clearInterval(typingIntervalRef.current);
             typingIntervalRef.current = null;
             return prev;
@@ -105,9 +116,10 @@ const ManualWindingSection = () => {
               <h2>The Manual Winding</h2>
               <p>
                 {displayedText}
-                {scrollProgress >= 0.95 && displayedText.length < fullText.length && (
-                  <span className={styles.typingCursor}>|</span>
-                )}
+                {scrollProgress >= 0.95 &&
+                  displayedText.length < fullText.length && (
+                    <span className={styles.typingCursor}>|</span>
+                  )}
               </p>
             </div>
           </div>

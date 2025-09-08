@@ -1,14 +1,14 @@
-  import { useState, useEffect, useRef } from "react";
-  import Image from "next/image";
-  import styles from "../styles/SandTimer.module.css";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import styles from "../styles/SandTimer.module.css";
 
-  import scrollImage from "../public/images/right_note.svg";
-  import watchBackImage from "../public/images/self_winding_watch.svg";
+import scrollImage from "../public/images/right_note.svg";
+import watchBackImage from "../public/images/self_winding_watch.svg";
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
-  const SelfWindingSection = () => {
+const SelfWindingSection = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef(null);
@@ -17,28 +17,38 @@ const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
   const typingIntervalRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
-    const fullText =
-      "The early 20th century marked a turning point with the invention of the rotor system harnessed the motion of the wearer's wrist to power the winding mechanism. This pivotal innovation laid the foundation for what would become the automatic watch we know today. An automatic watch, also known as a self-winding watch or simply an automatic, is a mechanical watch where the natural motion of the wearer provides energy to wind the mainspring, making manual winding unnecessary if worn enough.";
+  const fullText =
+    "The early 20th century marked a turning point with the invention of the rotor system harnessed the motion of the wearer's wrist to power the winding mechanism. This pivotal innovation laid the foundation for what would become the automatic watch we know today. An automatic watch, also known as a self-winding watch or simply an automatic, is a mechanical watch where the natural motion of the wearer provides energy to wind the mainspring, making manual winding unnecessary if worn enough.";
 
-     // Scroll handler
+  // Scroll handler
+  const lerp = (start, end, amt) => start + (end - start) * amt;
+
   useEffect(() => {
+    let current = 0; // smooth scroll progress
+    let target = 0; // instant scroll value
+    let rafId;
+
+    const update = () => {
+      current = lerp(current, target, 0.08); // smaller = more delay/smoothness
+      setScrollProgress(current);
+
+      if (Math.abs(current - target) > 0.001) {
+        rafId = requestAnimationFrame(update);
+      }
+    };
+
     const onScroll = () => {
       if (!sectionRef.current) return;
-      if (tickingRef.current) return;
-      tickingRef.current = true;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowH =
+        window.innerHeight || document.documentElement.clientHeight;
 
-      rafRef.current = requestAnimationFrame(() => {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowH = window.innerHeight || document.documentElement.clientHeight;
+      let raw = 1 - rect.top / windowH;
+      raw = clamp(raw, 0, 1);
+      target = easeInOutCubic(raw);
 
-        let raw = 1 - rect.top / windowH;
-        raw = clamp(raw, 0, 1);
-
-        const eased = easeInOutCubic(raw);
-        setScrollProgress(eased);
-
-        tickingRef.current = false;
-      });
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -46,7 +56,7 @@ const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -59,7 +69,8 @@ const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
       typingTimeoutRef.current = setTimeout(() => {
         typingIntervalRef.current = setInterval(() => {
           setDisplayedText((prev) => {
-            if (prev.length < fullText.length) return fullText.slice(0, prev.length + 1);
+            if (prev.length < fullText.length)
+              return fullText.slice(0, prev.length + 1);
             clearInterval(typingIntervalRef.current);
             typingIntervalRef.current = null;
             return prev;
@@ -130,12 +141,13 @@ const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
             </div>
 
             <div className={styles.textOverlay}>
-              <h2>The Sand Timer</h2>
+              <h2>The Self Winding</h2>
               <p>
                 {displayedText}
-                {scrollProgress >= 0.95 && displayedText.length < fullText.length && (
-                  <span className={styles.typingCursor}>|</span>
-                )}
+                {scrollProgress >= 0.95 &&
+                  displayedText.length < fullText.length && (
+                    <span className={styles.typingCursor}>|</span>
+                  )}
               </p>
             </div>
           </div>
@@ -143,6 +155,6 @@ const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
       </div>
     </section>
   );
-  };
+};
 
-  export default SelfWindingSection;
+export default SelfWindingSection;

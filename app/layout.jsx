@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <ViewportHeightFix />
+        {/* <ViewportHeightFix /> */}
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

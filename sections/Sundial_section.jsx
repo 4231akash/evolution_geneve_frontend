@@ -19,34 +19,44 @@ const SundialSection = () => {
     "In the history of sundials, the oldest sundial devices came from the ancient Egyptian shadow clock built around 1500BCE. The obelisks shadow clocks were created in an L shape and placed east to west amongst the cardinal points. This ancient form of time-telling was still used in rural parts of Egypt up until very recently, proving these sundals to be incredibly effective devices.";
 
   // Scroll handler (RAF-based)
-  useEffect(() => {
-    const onScroll = () => {
-      if (!sectionRef.current) return;
-      if (tickingRef.current) return;
-      tickingRef.current = true;
+const lerp = (start, end, amt) => start + (end - start) * amt;
 
-      rafRef.current = requestAnimationFrame(() => {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowH = window.innerHeight || document.documentElement.clientHeight;
+useEffect(() => {
+  let current = 0; // smooth scroll progress
+  let target = 0; // instant scroll value
+  let rafId;
 
-        let raw = 1 - rect.top / windowH;
-        raw = clamp(raw, 0, 1);
+  const update = () => {
+    current = lerp(current, target, 0.08); // smaller = more delay/smoothness
+    setScrollProgress(current);
 
-        const eased = easeInOutCubic(raw);
-        setScrollProgress(eased);
+    if (Math.abs(current - target) > 0.001) {
+      rafId = requestAnimationFrame(update);
+    }
+  };
 
-        tickingRef.current = false;
-      });
-    };
+  const onScroll = () => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const windowH = window.innerHeight || document.documentElement.clientHeight;
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // run once on mount
+    let raw = 1 - rect.top / windowH;
+    raw = clamp(raw, 0, 1);
+    target = easeInOutCubic(raw);
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(update);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  return () => {
+    window.removeEventListener("scroll", onScroll);
+    cancelAnimationFrame(rafId);
+  };
+}, []);
+
 
   // Typing handler (trigger when scrollProgress ~1)
   useEffect(() => {

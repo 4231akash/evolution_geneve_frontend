@@ -22,34 +22,44 @@ const SandTimerSection = () => {
     "An hourglass (or sandglass, sand timer, or sand clock) is known to have existed in Babylon and Egypt as early as the 16th century BCE. It is a device used to measure the passage of time. It comprises two glass bulbs connected vertically by a narrow neck that allows a regulated flow of a substance (historically sand) from the upper bulb to the lower one by gravity. Typically, the upper and lower bulbs are symmetric so that the hourglass will measure the same duration regardless of orientation.";
 
   // Scroll handler
-  useEffect(() => {
-    const onScroll = () => {
-      if (!sectionRef.current) return;
-      if (tickingRef.current) return;
-      tickingRef.current = true;
+const lerp = (start, end, amt) => start + (end - start) * amt;
 
-      rafRef.current = requestAnimationFrame(() => {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowH = window.innerHeight || document.documentElement.clientHeight;
+useEffect(() => {
+  let current = 0; // smooth scroll progress
+  let target = 0; // instant scroll value
+  let rafId;
 
-        let raw = 1 - rect.top / windowH;
-        raw = clamp(raw, 0, 1);
+  const update = () => {
+    current = lerp(current, target, 0.08); // smaller = more delay/smoothness
+    setScrollProgress(current);
 
-        const eased = easeInOutCubic(raw);
-        setScrollProgress(eased);
+    if (Math.abs(current - target) > 0.001) {
+      rafId = requestAnimationFrame(update);
+    }
+  };
 
-        tickingRef.current = false;
-      });
-    };
+  const onScroll = () => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const windowH = window.innerHeight || document.documentElement.clientHeight;
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    let raw = 1 - rect.top / windowH;
+    raw = clamp(raw, 0, 1);
+    target = easeInOutCubic(raw);
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(update);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  return () => {
+    window.removeEventListener("scroll", onScroll);
+    cancelAnimationFrame(rafId);
+  };
+}, []);
+
 
   // Typing logic
   useEffect(() => {
