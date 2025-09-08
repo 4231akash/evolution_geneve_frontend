@@ -13,7 +13,7 @@
   background-size: cover;
   background-attachment: scroll;
   opacity: 0.85;
-
+  /* background-color: black !important; */
   filter: contrast(120%) brightness(100%);
 }
 
@@ -80,7 +80,6 @@
   max-width: 90%;
   height: auto;
   pointer-events: none;
-
 }
 
 .textTop {
@@ -100,7 +99,7 @@
 }
 /* --- Breakpoint Fine-tuning --- */
 @media (max-width: 475px) {
- .textTop {
+  .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
   .textBottom {
@@ -109,7 +108,7 @@
 }
 
 @media (min-width: 640px) {
- .textTop {
+  .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
   .textBottom {
@@ -118,7 +117,7 @@
 }
 
 @media (min-width: 1024px) {
- .textTop {
+  .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
   .textBottom {
@@ -148,7 +147,7 @@
   /* .content {
     max-width: 1800px;
   } */
-   .textTop {
+  .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
   .textBottom {

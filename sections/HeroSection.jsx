@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState, useRef } from "react";
 import { Abril_Fatface } from "next/font/google";
 import styles from "../styles/HeroSection.module.css";
@@ -8,24 +9,31 @@ const abrilFatface = Abril_Fatface({
 });
 
 const HeroSection = () => {
+  const [bgLoaded, setBgLoaded] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const [imageVisible, setImageVisible] = useState(false);
   const heroRef = useRef(null);
 
+  // Preload the background image
   useEffect(() => {
+    const img = new Image();
+    img.src = "/images/banner_main.svg";
+    img.onload = () => setBgLoaded(true);
+  }, []);
+
+  // IntersectionObserver only triggers after background is loaded
+  useEffect(() => {
+    if (!bgLoaded) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Trigger animations only if not already shown
             if (!textVisible) {
               setTextVisible(true);
-              setTimeout(() => {
-                setImageVisible(true);
-              }, 1200); // Delay for text animation
+              setTimeout(() => setImageVisible(true), 1200); // delay watch image animation
             }
           }
-          // ❌ Remove reset logic — let it animate only once
         });
       },
       { threshold: 0.5 }
@@ -35,7 +43,7 @@ const HeroSection = () => {
     return () => {
       if (heroRef.current) observer.unobserve(heroRef.current);
     };
-  }, [textVisible]);
+  }, [bgLoaded, textVisible]);
 
   return (
     <section
@@ -44,8 +52,11 @@ const HeroSection = () => {
       ref={heroRef}
       data-bg="/images/banner_main.svg"
       style={{
-        background: 'url("/images/banner_main.svg") no-repeat center center',
-        backgroundColor: "#D9D9D9B0",
+        backgroundColor: bgLoaded ? "#D9D9D9B0" : "black",
+        backgroundImage: bgLoaded ? 'url("/images/banner_main.svg")' : "none",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        backgroundSize: "cover",
       }}
     >
       <div className={styles.content}>
