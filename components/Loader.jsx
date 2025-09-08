@@ -6,6 +6,8 @@ export default function Loader({ onFinish }) {
 
   useEffect(() => {
     const waitForAssets = async () => {
+      const startTime = Date.now();
+
       // 1. Wait for all <img> tags
       const imgs = Array.from(document.querySelectorAll("img"));
       await Promise.all(
@@ -31,11 +33,14 @@ export default function Loader({ onFinish }) {
         )
       );
 
-      // 3. Keep loader for at least 2s for branding
+      // 3. Ensure loader is visible at least 2 seconds
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(2000 - elapsed, 0); // 2s minimum
+
       setTimeout(() => {
         setIsVisible(false);
         onFinish?.();
-      }, 2000);
+      }, remaining);
     };
 
     if (document.readyState === "complete") waitForAssets();
