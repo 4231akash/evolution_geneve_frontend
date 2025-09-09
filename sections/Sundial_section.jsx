@@ -238,7 +238,7 @@ const SundialSection = () => {
           }}
         >
           <img
-            src="/images/sundial_watch.svg"
+            src="/images/sundial_watch.png"
             alt="Back case of the Evolution Geneve watch"
             className={styles.watchImage}
           />

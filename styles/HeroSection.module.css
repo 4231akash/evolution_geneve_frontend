@@ -14,7 +14,7 @@
   background-attachment: scroll;
   opacity: 0.85;
   /* background-color: black !important; */
-  /* filter: contrast(120%) brightness(100%); */
+  filter: contrast(100%) brightness(120%);
 }
 
 .content {

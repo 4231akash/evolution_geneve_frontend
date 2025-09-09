@@ -234,7 +234,8 @@ const ManualWindingSection = () => {
           <div className={styles.scrollImageWrapper}>
             <div className={styles.textOverlay}>
               <h2>The Manual Winding</h2>
-              <p>{visible ? fullText : ""}</p>
+              {/* <p>{visible ? fullText : ""}</p> */}
+              <p>{ fullText}</p>
             </div>
           </div>
         </div>

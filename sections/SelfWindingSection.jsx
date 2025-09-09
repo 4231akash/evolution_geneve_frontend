@@ -164,7 +164,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "../styles/SandTimer.module.css";
 
-import scrollImage from "../public/images/right_note.svg";
+import scrollImage from "../public/images/right_note.png";
 
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -248,7 +248,7 @@ const SelfWindingSection = () => {
           }}
         >
           <img
-            src={"/images/self_winding_watch.svg"}
+            src={"/images/self_winding_watch.png"}
             alt="Self Winding Watch"
             className={styles.watchImage}
           />
@@ -276,7 +276,8 @@ const SelfWindingSection = () => {
 
             <div className={styles.textOverlay}>
               <h2>The Self Winding</h2>
-              <p>{visible ? fullText : ""}</p>
+              {/* <p>{visible ? fullText : ""}</p> */}
+              <p>{ fullText}</p>
             </div>
           </div>
         </div>

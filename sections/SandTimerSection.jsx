@@ -161,7 +161,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "../styles/SandTimer.module.css";
 
-import scrollImage from "../public/images/right_note.svg";
+import scrollImage from "../public/images/right_note.png";
 
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -234,7 +234,7 @@ const SandTimerSection = () => {
           }}
         >
           <img
-            src={"/images/sand_timer_watch.svg"}
+            src={"/images/sand_timer_watch.png"}
             alt="Sand Timer Watch"
             className={styles.watchImage}
           />

@@ -50,7 +50,7 @@ const HeroSection = () => {
       id="hero"
       className={styles.hero}
       ref={heroRef}
-      data-bg="/images/banner_main.svg"
+      data-bg="/images/banner_main.png"
       style={{
         backgroundColor: bgLoaded ? "#D9D9D9B0" : "black",
         backgroundImage: bgLoaded ? 'url("/images/banner_main.svg")' : "none",
@@ -68,7 +68,7 @@ const HeroSection = () => {
             }`}
           >
             <img
-              src="/images/watch_main.svg"
+              src="/images/watch_main.png"
               alt="Evolution Geneve Luxury Watch"
               className={styles.watchImagePlain}
               width="500"

@@ -88,8 +88,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
-  height: 95vh;
+  width: 550px;
+  height: 98vh;
 }
 
 .scrollImage {
@@ -254,7 +254,7 @@
     font-size: 36px;
   }
   .textOverlay p {
-    font-size: 21px;
+    font-size: 1.3rem;
   }
 }
 
@@ -275,13 +275,16 @@
   .textOverlay h2 {
     font-size: 40px;
   }
+    .textOverlay p {
+    font-size: 1.3rem;
+  }
 }
 
-/* 2XL: ≥1536px */
-@media (min-width: 1536px) {
+/* XL: large desktops (≥1280px) */
+@media (min-width: 1280px) and (max-width: 1535px) {
   .scrollImageWrapper {
     width: 650px;
-    height: 700px;
+    height: 95vh;
   }
   .watchImage {
     max-width: 540px;
@@ -292,32 +295,35 @@
     max-width: 400px;
   }
   .textOverlay h2 {
-    font-size: 44px;
+    font-size: 40px;
+    /* line-height: 100px; */
   }
   .textOverlay p {
-    font-size: 24px;
+    font-size: 1.3rem;
   }
 }
 
-/* Ultra-wide: ≥2000px */
-@media (min-width: 2000px) {
+/* 2XL: very large screens (≥1536px) */
+@media (min-width: 1536px) and (max-width: 2000px) {
   .scrollImageWrapper {
-    width: 600px;
-    height: 750px;
+    width: 650px;
+    height: 95vh;
+  }
+  .textOverlay {
+    max-width: 450px;
+  }
+  .textOverlay h2 {
+    font-size: 44px;
+  }
+  .textOverlay p {
+    font-size: 1.5rem;
   }
   .watchImage {
     max-width: 540px;
     height: 95vh;
     filter: opacity(80%);
   }
-  .textOverlay {
-    max-width: 450px;
-  }
-  .textOverlay h2 {
-    font-size: 48px;
-  }
-  .textOverlay p {
-    font-size: 26px;
-    line-height: 130%;
-  }
 }
+
+/* Ultra-wide screens (≥2000px) */
+
