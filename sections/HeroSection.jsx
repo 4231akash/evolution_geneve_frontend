@@ -13,6 +13,7 @@ const HeroSection = () => {
   const [imageVisible, setImageVisible] = useState(false);
   const [showBg, setShowBg] = useState(false);
   const heroRef = useRef(null);
+  const watchRef = useRef(null);
 
   // Fade in background after hydration
   useEffect(() => {
@@ -20,14 +21,20 @@ const HeroSection = () => {
     return () => clearTimeout(t);
   }, []);
 
-  // Intersection observer for text + watch
+  // Intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !textVisible) {
             setTextVisible(true);
-            setImageVisible(true); // no delay here → CSS handles stagger
+
+            // Wait until watch image is fully loaded
+            if (watchRef.current?.complete) {
+              setImageVisible(true);
+            } else {
+              watchRef.current.onload = () => setImageVisible(true);
+            }
           }
         });
       },
@@ -56,6 +63,7 @@ const HeroSection = () => {
             }`}
           >
             <img
+              ref={watchRef}
               src="/images/watch_main.svg"
               alt="Evolution Geneve Luxury Watch"
               className={styles.watchImagePlain}
