@@ -41,14 +41,15 @@
   z-index: 10;
   display: flex;
   width: 100%;
-  max-width: 1400px; /* keeps content centered on large screens */
-  height: 100vh;
+  max-width: 1400px;
+  height: 100%;          /* ✅ allow children to define height */
+  min-height: 100vh;      /* ✅ ensure at least 100vh */
   align-items: center;
-  justify-content: center; /* perfectly center left & right content */
+  justify-content: center;
   gap: 6rem;
-  /* padding: 0 1rem; small horizontal padding for smaller screens */
   box-sizing: border-box;
 }
+
 
 /* --- Left & Right Content Animations --- */
 /* Replace the previous block that included "transition: transform ..." */
@@ -84,8 +85,9 @@
 
 .scrollImageWrapper {
   position: relative;
-  width: 500px;
-  height: 90vh;
+  height: 100vh;           /* ✅ take 96% of viewport height */
+  width: auto;            /* ✅ scale with height */
+  max-width: 600px;       /* ✅ prevent oversizing */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,11 +96,12 @@
 }
 
 .watchImage {
-  width: 540px;
-  height: 90vh;
+  height: 100vh;           /* ✅ always respect 100vh */
+  width: auto;            /* ✅ keep aspect ratio */
+  max-width: 100%;        /* ✅ don’t overflow parent */
   filter: opacity(80%);
+  object-fit: contain;    /* ✅ ensure proportional fit */
 }
-
 .textOverlay {
   position: absolute;
   top: 50%;
@@ -264,22 +267,22 @@
 /* XL: large desktops (≥1280px) */
 @media (min-width: 1280px) and (max-width: 1535px) {
   .scrollImageWrapper {
-    width: 500px;
-    height: 90vh;
+    width: 550px;
+    height: 100vh;
   }
   .textOverlay {
-    max-width: 380px;
+    max-width: 400px;
   }
   .textOverlay h2 {
     font-size: 40px;
     /* line-height: 100px; */
   }
   .textOverlay p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .watchImage {
     max-width: 540px;
-    height: 90vh;
+    height: 98vh;
     filter: opacity(80%);
   }
 }
