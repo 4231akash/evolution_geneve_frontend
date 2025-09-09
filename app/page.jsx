@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
 import HeroSection from "../sections/HeroSection";
@@ -12,12 +12,32 @@ import SelfWindingSection from "../sections/SelfWindingSection";
 import useScrollOverlap from "../hooks/useScrollOverlap";
 
 export default function Home() {
-  const [loadingDone, setLoadingDone] = useState(false);
+  const [loaderDone, setLoaderDone] = useState(false);
+  const [bgDone, setBgDone] = useState(false);
+
+  // Preload hero background while loader plays (avoids circular mount dependency)
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/images/banner_main.svg";
+
+    if (img.complete) {
+      setBgDone(true);
+      return;
+    }
+
+    img.onload = () => setBgDone(true);
+    img.onerror = (err) => {
+      console.warn("Hero background failed to load:", err);
+      setBgDone(true); // allow site to proceed even if bg fails
+    };
+  }, []);
+
+  const ready = loaderDone && bgDone;
 
   return (
     <>
-      {!loadingDone && <Loader onFinish={() => setLoadingDone(true)} />}
-      {loadingDone && (
+      {!ready && <Loader onFinish={() => setLoaderDone(true)} />}
+      {ready && (
         <>
           <Header />
           <MainContent />
@@ -27,9 +47,8 @@ export default function Home() {
   );
 }
 
-// Separate component for main content
 function MainContent() {
-  useScrollOverlap(); // ✅ initialize only after loader finishes
+  useScrollOverlap();
 
   return (
     <main>
@@ -38,8 +57,7 @@ function MainContent() {
       <SundialSection />
       <SandTimerSection />
       <ManualWindingSection />
-     <SelfWindingSection />
+      <SelfWindingSection />
     </main>
   );
 }
-

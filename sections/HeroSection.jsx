@@ -9,30 +9,25 @@ const abrilFatface = Abril_Fatface({
 });
 
 const HeroSection = () => {
-  const [bgLoaded, setBgLoaded] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const [imageVisible, setImageVisible] = useState(false);
+  const [showBg, setShowBg] = useState(false);
   const heroRef = useRef(null);
 
-  // Preload the background image
+  // Background can be faded in immediately on mount (image already preloaded in Home)
   useEffect(() => {
-    const img = new Image();
-    img.src = "/images/banner_main.svg";
-    img.onload = () => setBgLoaded(true);
+    // ensure the class toggles after initial paint for smooth transition
+    requestAnimationFrame(() => setShowBg(true));
   }, []);
 
-  // IntersectionObserver only triggers after background is loaded
+  // Intersection observer for text/watch reveal
   useEffect(() => {
-    if (!bgLoaded) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (!textVisible) {
-              setTextVisible(true);
-              setTimeout(() => setImageVisible(true), 1200); // delay watch image animation
-            }
+          if (entry.isIntersecting && !textVisible) {
+            setTextVisible(true);
+            setTimeout(() => setImageVisible(true), 1200); // stagger watch reveal
           }
         });
       },
@@ -43,25 +38,17 @@ const HeroSection = () => {
     return () => {
       if (heroRef.current) observer.unobserve(heroRef.current);
     };
-  }, [bgLoaded, textVisible]);
+  }, [textVisible]);
 
   return (
     <section
       id="hero"
-      className={styles.hero}
       ref={heroRef}
-      data-bg="/images/banner_main.svg"
-      style={{
-        backgroundColor: bgLoaded ? "#D9D9D9B0" : "black",
-        backgroundImage: bgLoaded ? 'url("/images/banner_main.svg")' : "none",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        backgroundSize: "cover",
-      }}
+      className={`${styles.hero} ${showBg ? styles.bgVisible : ""}`}
+      aria-label="Hero"
     >
       <div className={styles.content}>
         <div className={styles.heroContent}>
-          {/* Watch Image */}
           <div
             className={`${styles.watchContainer} ${
               imageVisible ? styles.visible : ""
@@ -71,13 +58,12 @@ const HeroSection = () => {
               src="/images/watch_main.svg"
               alt="Evolution Geneve Luxury Watch"
               className={styles.watchImagePlain}
-              width="500"
-              height="500"
+              width="1200"
+              height="1200"
               draggable="false"
             />
           </div>
 
-          {/* Image-based Text */}
           <div className={`${styles.textContainer} ${abrilFatface.className}`}>
             <img
               src="/images/inspires.svg"
