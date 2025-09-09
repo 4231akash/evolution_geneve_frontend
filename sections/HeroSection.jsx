@@ -14,24 +14,24 @@ const HeroSection = () => {
   const [showBg, setShowBg] = useState(false);
   const heroRef = useRef(null);
 
-  // ✅ Fix: delay background activation slightly after hydration
+  // Fade in background after hydration
   useEffect(() => {
-    const t = setTimeout(() => setShowBg(true), 100); // small delay prevents hydration glitch
+    const t = setTimeout(() => setShowBg(true), 100);
     return () => clearTimeout(t);
   }, []);
 
-  // Intersection observer for text + watch animations
+  // Intersection observer for text + watch
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !textVisible) {
             setTextVisible(true);
-            setTimeout(() => setImageVisible(true), 1200); // stagger watch reveal
+            setImageVisible(true); // no delay here → CSS handles stagger
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.8 }
     );
 
     if (heroRef.current) observer.observe(heroRef.current);
@@ -49,7 +49,7 @@ const HeroSection = () => {
     >
       <div className={styles.content}>
         <div className={styles.heroContent}>
-          {/* Watch Image */}
+          {/* Watch */}
           <div
             className={`${styles.watchContainer} ${
               imageVisible ? styles.visible : ""
@@ -65,7 +65,7 @@ const HeroSection = () => {
             />
           </div>
 
-          {/* Text Images */}
+          {/* Text */}
           <div className={`${styles.textContainer} ${abrilFatface.className}`}>
             <img
               src="/images/inspires.svg"
