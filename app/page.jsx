@@ -38,7 +38,7 @@ function MainContent() {
       <SundialSection />
       <SandTimerSection />
       <ManualWindingSection />
-      <SelfWindingSection />
+      {/* // <SelfWindingSection /> */}
     </main>
   );
 }

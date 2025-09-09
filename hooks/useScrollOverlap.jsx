@@ -14,23 +14,29 @@ export default function useScrollOverlap() {
       sections.forEach((section, i) => {
         if (i === sections.length - 1) return;
 
-        // Timeline per section
+        const next = sections[i + 1];
+
+        // add manual spacing below current section
+        // (so next section doesn’t jump immediately)
+        gsap.set(next, { marginTop: 200 });
+
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: () => `+=${window.innerHeight}`, // exactly 100vh scroll space
+            end: () => `+=${window.innerHeight + 200}`,
             pin: true,
             pinSpacing: false,
-            scrub: 0.05, // << much smaller scrub for slower response
-            anticipatePin: 1, // prevents jumpiness
+            scrub: 0.5,
+            anticipatePin: 1,
+            fastScrollEnd: true, // ✅ helps prevent stutter at fast swipes
+            invalidateOnRefresh: true,
           },
         });
 
-        // The section animation (could be fade, scale, etc.)
         tl.to(section, {
           opacity: 1,
-          duration: 2.5, // enforce some time per section
+          duration: 2.5,
           ease: "power2.out",
         });
       });
@@ -45,23 +51,10 @@ export default function useScrollOverlap() {
             start: "top bottom",
             end: "bottom top",
             scrub: true,
+            invalidateOnRefresh: true,
           },
         });
       });
-
-      // Smooth snap between sections
-      
-      // ScrollTrigger.create({
-      //   trigger: document.body,
-      //   start: 0,
-      //   end: "max",
-      //   snap: {
-      //     snapTo: 1 / (sections.length - 1), // snap to nearest section
-      //     duration: 1.2, // always glide 1.2s to the next section
-      //     delay: 0.1, // wait a bit before snapping
-      //     ease: "power2.inOut",
-      //   },
-      // });
 
       ScrollTrigger.refresh();
     });

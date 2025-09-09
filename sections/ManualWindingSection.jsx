@@ -102,7 +102,6 @@ const ManualWindingSection = () => {
       <div className={styles.backgroundGif2}></div>
 
       <div className={styles.contentWrapper}>
-        {/* Left Content */}
         <div
           className={styles.leftContent}
           style={{
@@ -125,7 +124,6 @@ const ManualWindingSection = () => {
           </div>
         </div>
 
-        {/* Right Content */}
         <div
           className={styles.rightContent}
           style={{

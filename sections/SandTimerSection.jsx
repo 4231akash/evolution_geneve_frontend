@@ -104,7 +104,6 @@ useEffect(() => {
       <div className={styles.backgroundGif}></div>
 
       <div className={styles.contentWrapper}>
-        {/* Left Content - Image */}
         <div
           className={styles.leftContent}
           style={{
@@ -119,8 +118,6 @@ useEffect(() => {
             className={styles.watchImage}
           />
         </div>
-
-        {/* Right Content - Scroll + Text */}
         <div
           className={styles.rightContent}
           style={{
