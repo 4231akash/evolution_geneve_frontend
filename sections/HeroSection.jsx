@@ -12,6 +12,7 @@ const HeroSection = () => {
   const [textVisible, setTextVisible] = useState(false);
   const [imageVisible, setImageVisible] = useState(false);
   const [showBg, setShowBg] = useState(false);
+
   const heroRef = useRef(null);
   const watchRef = useRef(null);
 
@@ -21,20 +22,13 @@ const HeroSection = () => {
     return () => clearTimeout(t);
   }, []);
 
-  // Intersection observer
+  // Intersection observer for text
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !textVisible) {
             setTextVisible(true);
-
-            // Wait until watch image is fully loaded
-            if (watchRef.current?.complete) {
-              setImageVisible(true);
-            } else {
-              watchRef.current.onload = () => setImageVisible(true);
-            }
           }
         });
       },
@@ -46,6 +40,20 @@ const HeroSection = () => {
       if (heroRef.current) observer.unobserve(heroRef.current);
     };
   }, [textVisible]);
+
+  // Ensure watch animates only after fully decoded
+  useEffect(() => {
+    if (!watchRef.current) return;
+
+    const img = watchRef.current;
+    if (img.complete) {
+      img.decode().then(() => setImageVisible(true));
+    } else {
+      img.onload = () => {
+        img.decode().then(() => setImageVisible(true));
+      };
+    }
+  }, []);
 
   return (
     <section
