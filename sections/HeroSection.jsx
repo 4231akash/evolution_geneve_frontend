@@ -31,7 +31,7 @@ const HeroSection = () => {
           }
         });
       },
-      { threshold: 0.8 }
+      { threshold: 0.2 }
     );
 
     if (heroRef.current) observer.observe(heroRef.current);
