@@ -29,6 +29,22 @@ const HeroSection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !textVisible) {
             setTextVisible(true);
+
+            // Trigger watch animation after text finishes (~700ms)
+            setTimeout(() => {
+              if (watchRef.current) {
+                // If image is loaded → animate
+                if (watchRef.current.complete) {
+                  setImageVisible(true);
+                } else {
+                  // Wait until decode OR fallback to force animation
+                  watchRef.current.onload = () => {
+                    watchRef.current.decode().then(() => setImageVisible(true));
+                  };
+                  setTimeout(() => setImageVisible(true), 1200); // fallback
+                }
+              }
+            }, 700);
           }
         });
       },
@@ -40,20 +56,6 @@ const HeroSection = () => {
       if (heroRef.current) observer.unobserve(heroRef.current);
     };
   }, [textVisible]);
-
-  // Ensure watch animates only after fully decoded
-  useEffect(() => {
-    if (!watchRef.current) return;
-
-    const img = watchRef.current;
-    if (img.complete) {
-      img.decode().then(() => setImageVisible(true));
-    } else {
-      img.onload = () => {
-        img.decode().then(() => setImageVisible(true));
-      };
-    }
-  }, []);
 
   return (
     <section
