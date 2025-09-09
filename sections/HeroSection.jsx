@@ -14,13 +14,13 @@ const HeroSection = () => {
   const [showBg, setShowBg] = useState(false);
   const heroRef = useRef(null);
 
-  // Background can be faded in immediately on mount (image already preloaded in Home)
+  // ✅ Fix: delay background activation slightly after hydration
   useEffect(() => {
-    // ensure the class toggles after initial paint for smooth transition
-    requestAnimationFrame(() => setShowBg(true));
+    const t = setTimeout(() => setShowBg(true), 100); // small delay prevents hydration glitch
+    return () => clearTimeout(t);
   }, []);
 
-  // Intersection observer for text/watch reveal
+  // Intersection observer for text + watch animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -49,6 +49,7 @@ const HeroSection = () => {
     >
       <div className={styles.content}>
         <div className={styles.heroContent}>
+          {/* Watch Image */}
           <div
             className={`${styles.watchContainer} ${
               imageVisible ? styles.visible : ""
@@ -64,6 +65,7 @@ const HeroSection = () => {
             />
           </div>
 
+          {/* Text Images */}
           <div className={`${styles.textContainer} ${abrilFatface.className}`}>
             <img
               src="/images/inspires.svg"
