@@ -74,12 +74,9 @@ const HeroSection = () => {
           >
             <img
               ref={watchRef}
-              src="/images/watch_main.svg"
+              src="/images/front-brown.png"
               alt="Evolution Geneve Luxury Watch"
-              className={styles.watchImagePlain}
-              width="1200"
-              height="1200"
-              draggable="false"
+              className={styles.watchImagePlain}          
             />
           </div>
 
