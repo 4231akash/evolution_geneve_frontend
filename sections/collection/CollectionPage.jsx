@@ -80,7 +80,7 @@ const watchVariants = [
     model: "EV001 X",
     material: "STAINLESS STEEL",
     strapColor: "Orange",
-    image: "/images/front-brown.png",
+    image: "/images/orange_main.png",
     swatch: "/images/orange_swatch.png",
     details: [
       {
@@ -149,6 +149,7 @@ export default function CollectionsPage() {
   const [selectedVariant, setSelectedVariant] = useState(watchVariants[0]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isDetailView, setIsDetailView] = useState(false);
+  const [hideInfo, setHideInfo] = useState(false); // 👈 boolean handle
 
   useEffect(() => {
     if (isAnimating) {
@@ -173,25 +174,35 @@ export default function CollectionsPage() {
       <div className={styles.heroContent}>
         <p className={styles.brandTitle}>EVOLUTION GENÈVE</p>
         <div
-          className={`${styles.watchImageWrapper} ${
-            isAnimating ? styles.imagePop : ""
-          }`}
+          className={styles.watchImageWrapper}
           onClick={() => setIsDetailView(true)}
-          style={{ cursor: "pointer" }}
+          onMouseEnter={() => setHideInfo(true)} // 👈 hide on hover
+          onMouseLeave={() => setHideInfo(false)} // 👈 show back
         >
           <img
             key={selectedVariant.id}
             src={selectedVariant.image}
             alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
+            className={styles.watchImage}
           />
+
+          <div className={styles.watchInfo2}>
+            <h2>{selectedVariant.name}</h2>
+            <p>{selectedVariant.model}</p>
+            <p>{selectedVariant.material}</p>
+            <span>Limited to 600 pieces</span>
+          </div>
         </div>
 
-        <div className={styles.watchInfo}>
-          <h2>{selectedVariant.name}</h2>
-          <p>{selectedVariant.model}</p>
-          <p>{selectedVariant.material}</p>
-          <span>Limited to 600 pieces</span>
-        </div>
+        {/* Conditionally render / hide this block */}
+        {!hideInfo && (
+          <div className={styles.watchInfo}>
+            <h2>{selectedVariant.name}</h2>
+            <p>{selectedVariant.model}</p>
+            <p>{selectedVariant.material}</p>
+            <span>Limited to 600 pieces</span>
+          </div>
+        )}
 
         <div className={styles.swatchContainer}>
           {watchVariants.map((variant) => (

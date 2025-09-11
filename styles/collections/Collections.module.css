@@ -63,39 +63,36 @@
   margin-bottom: 1rem;
 }
 
+/* Watch Image Wrapper */
 .watchImageWrapper {
-  max-width: 400px;
-  margin-bottom: 1rem;
-  transition: transform 0.3s ease-in-out; /* Smooth transition for the transform */
+  width: 400px;
+  height: 400px;
+  position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
-.watchImageWrapper:hover {
-  transform: scale(1.05); /* Enlarge the image slightly on hover */
+.watchImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* Show on hover */
+.watchImageWrapper:hover .watchInfo2 {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .watchImageWrapper img {
-  width: 100%;
-  height: 50vh;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
 }
-@keyframes pulseAnimation {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02); /* The peak of the "pulse" */
-  }
-  100% {
-    transform: scale(1);
-  }
+.watchImageWrapper:hover {
+  transform: scale(1.05);
 }
 
-/* 2. Create a class to apply the animation */
-.pulse {
-  animation-name: pulseAnimation;
-  animation-duration: 5s; /* The total time for one cycle */
-  animation-timing-function: ease-in-out; /* Makes the animation smooth */
-  animation-iteration-count: infinite; /* This makes the animation loop forever */
-}
 /* Animation for the watch image pop */
 @keyframes imagePop {
   0% {
@@ -114,6 +111,38 @@
 
 .imagePop {
   animation: imagePop 0.3s ease-in-out;
+}
+/* Hide by default */
+.watchInfo2 {
+  position: absolute;
+  bottom: 0px;
+  left: 90px;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.watchInfo2 h2 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.watchInfo2 p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.watchInfo2 span {
+  font-size: 0.9rem;
+  color: #c5b69c;
+  display: block;
+  margin-top: 0.5rem;
 }
 
 .watchInfo h2 {
