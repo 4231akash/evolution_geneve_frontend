@@ -1,0 +1,315 @@
+.journey {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4rem;
+  /* padding: 6rem  10rem 2rem 2rem; */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 1;
+}
+/* container for the full page/main wrapper (if used) */
+.journeyMain {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("/images/journey_bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  padding: 6rem 3rem 3rem 3rem;
+}
+.journeyMain::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1e1e1e;
+  opacity: 0.92;
+  z-index: 0;
+}
+.journeyMain > * {
+  position: relative;
+  z-index: 1;
+}
+.journeyReverse {
+  flex-direction: row-reverse;
+}
+
+.textContainer {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.textBlock {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: white;
+  opacity: 0;
+  transform: translateX(var(--tx, -40px));
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.textBlock.inViewText {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.textBlock p {
+  margin: 0;
+}
+
+.imageContainer {
+  flex: 0 0 420px;
+  width: 420px;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.stickyWrapper {
+  text-align: center;
+  width: 100%;
+}
+
+.profileImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  transform: scale(0.95) translateY(30px);
+}
+
+.inViewImage {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.profileImage:hover {
+  transform: scale(1.02);
+}
+
+.caption {
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: #ccc;
+}
+
+.captionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 0.3rem;
+  color: #fff;
+}
+
+.journeyTitle {
+  padding-top: 4rem;
+  text-align: center;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.journeyTitle h1 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-size: 4rem;
+  line-height: 1;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+.journeyTitle h1 span {
+  color: #eacd83;
+}
+
+.journeyTitle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -35px;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 30px;
+  background: radial-gradient(
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.4) 30%,
+      transparent 60%
+    ),
+    linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.7) 50%,
+      transparent 100%
+    );
+  background-size: 60px 30px, 100% 2px;
+  background-repeat: no-repeat;
+  background-position: center, center;
+  filter: blur(1px);
+  opacity: 0.9;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* ✅ Extra Small (XS): small phones (<475px) */
+@media (max-width: 474px) {
+  .journey {
+    padding-top: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 1.5rem 4%; */
+    gap: 1rem;
+  }
+  .textContainer,
+  .imageContainer {
+    width: 100%;
+    max-width: 100%;
+  }
+  .textContainer {
+    order: 2;
+  }
+  .imageContainer {
+    order: 1;
+    /* margin-bottom: 1.5rem; */
+  }
+  .textBlock {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .caption,
+  .captionTitle {
+    font-size: 0.9rem;
+  }
+  .journeyTitle h1 {
+    font-size: 40px;
+  }
+  .journeyTitle::after {
+    width: 180px;
+  }
+}
+
+/* ✅ Small (SM): large phones / small tablets (≥475px and <640px) */
+@media (min-width: 475px) and (max-width: 639px) {
+  .journey {
+    flex-direction: column;
+    /* padding: 1rem 5%; */
+    gap: 1rem;
+  }
+  .textContainer,
+  .imageContainer {
+    width: 100%;
+    max-width: 100%;
+  }
+  .textContainer {
+    order: 2;
+  }
+  .imageContainer {
+    order: 1;
+    margin-bottom: 2rem;
+  }
+  .textBlock {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .caption,
+  .captionTitle {
+    font-size: 0.95rem;
+  }
+  .journeyTitle h1 {
+    font-size: 48px;
+  }
+  .journeyTitle::after {
+    width: 200px;
+  }
+}
+
+/* ✅ Medium (MD): tablets (≥640px and <1024px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .journey {
+    flex-direction: column;
+    padding: 2.5rem 6%;
+    gap: 2rem;
+  }
+  .textContainer,
+  .imageContainer {
+    width: 100%;
+    max-width: 100%;
+  }
+  .textContainer {
+    order: 2;
+  }
+  .imageContainer {
+    order: 1;
+    margin-bottom: 2rem;
+  }
+  .textBlock {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  .caption,
+  .captionTitle {
+    font-size: 1rem;
+  }
+  .journeyTitle h1 {
+    font-size: 55px;
+  }
+  .journeyTitle::after {
+    width: 250px;
+  }
+}
+
+/* ✅ Large (LG): laptops (≥1024px and <1280px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .journey {
+    gap: 2.5rem;
+    padding: 3rem 5%;
+  }
+  .textBlock {
+    font-size: 1.2rem;
+  }
+  .caption,
+  .captionTitle {
+    font-size: 1rem;
+  }
+  .journeyTitle h1 {
+    font-size: 60px;
+  }
+}
+
+/* ✅ Extra Large (XL): desktops (≥1280px and <1536px) */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .journey {
+    gap: 3rem;
+    padding: 4rem 6%;
+  }
+}
+
+/* ✅ 2XL: very large screens (≥1536px and <2000px) */
+@media (min-width: 1536px) and (max-width: 1999px) {
+  .journey {
+    gap: 3.5rem;
+    padding: 4rem 8%;
+  }
+}
+
+/* ✅ Ultra-wide: monitors ≥2000px */
+@media (min-width: 2000px) {
+  .journey {
+    gap: 4rem;
+    padding: 4rem 10%;
+  }
+}

@@ -1,0 +1,340 @@
+/* Main Page Wrapper & Background */
+.pageWrapper {
+  position: relative; /* Required for overlay */
+  min-height: 100vh; /* Use min-height so content can scroll */
+  background: url("/images/collection_bg_1.jpg") center center / cover no-repeat;
+  color: #e0d6c7;
+}
+
+/* Overlay effect */
+.pageWrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* shorthand for top/right/bottom/left = 0 */
+  background: rgba(30, 30, 30, 0.92);
+  z-index: 0;
+}
+
+.pageWrapper > * {
+  position: relative;
+  z-index: 1; /* Content above overlay */
+}
+
+/* Hero Section (Top) */
+.heroSection {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* background-image: url("/images/journey_bg.jpg"); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  padding: 6rem 1rem 2rem 1rem;
+}
+.heroSection:hover::before {
+  opacity: 1;
+}
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative; /* Needed to place this content above the overlay */
+  z-index: 2; /* Ensure content is on top of the ::before overlay */
+}
+.heroContent2 {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  gap: 1rem;
+}
+
+.brandTitle {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: #c5b69c;
+  margin-bottom: 1rem;
+}
+
+.watchImageWrapper {
+  max-width: 400px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease-in-out; /* Smooth transition for the transform */
+  cursor: pointer;
+}
+.watchImageWrapper:hover {
+  transform: scale(1.05); /* Enlarge the image slightly on hover */
+}
+
+.watchImageWrapper img {
+  width: 100%;
+  height: 50vh;
+}
+@keyframes pulseAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02); /* The peak of the "pulse" */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 2. Create a class to apply the animation */
+.pulse {
+  animation-name: pulseAnimation;
+  animation-duration: 5s; /* The total time for one cycle */
+  animation-timing-function: ease-in-out; /* Makes the animation smooth */
+  animation-iteration-count: infinite; /* This makes the animation loop forever */
+}
+/* Animation for the watch image pop */
+@keyframes imagePop {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.imagePop {
+  animation: imagePop 0.3s ease-in-out;
+}
+
+.watchInfo h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.watchInfo p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.watchInfo span {
+  font-size: 0.9rem;
+  color: #c5b69c;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* Color Swatches */
+.swatchContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.swatch {
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 3px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.swatch:hover {
+  border-color: #a89f90;
+}
+
+.activeSwatch {
+  border-color: #ffffff;
+}
+
+.swatch img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+}
+
+/* Details Section (Bottom) */
+.detailsSection {
+  position: relative;
+  padding: 4rem 3rem;
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+
+  background: url("/images/collection_bg_2.jpg") center center / cover no-repeat;
+}
+
+/* Overlay */
+.detailsSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.92);
+  z-index: 0;
+}
+
+.detailsSection > * {
+  position: relative;
+  z-index: 1;
+}
+
+.specsContainer {
+  flex: 1.2;
+}
+
+.stickyImageContainer {
+  flex: 1;
+}
+
+.stickyWrapper {
+  position: sticky;
+  top: 120px;
+}
+
+.stickyWrapper img {
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+}
+
+.specList {
+  list-style: none;
+}
+
+.specList li {
+  margin-bottom: 2.5rem;
+}
+
+.specList h4 {
+  font-size: 1.3rem;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.specList p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #d1c7b8;
+}
+
+.specList p:not(:first-of-type) {
+  margin-top: 1rem;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .detailsSection {
+    flex-direction: column;
+    padding: 3rem 1.5rem;
+  }
+
+  .stickyImageContainer {
+    order: -1; /* Move image to the top */
+    margin-bottom: 3rem;
+  }
+
+  .stickyWrapper {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .watchImageWrapper {
+    max-width: 300px;
+  }
+
+  .watchInfo h2 {
+    font-size: 1.5rem;
+  }
+
+  .watchInfo p {
+    font-size: 1rem;
+  }
+}
+
+/* (Keep all your existing CSS above this line) */
+
+/* ... existing styles ... */
+
+/* New Styles for Detail View and Back Button */
+.detailsContentWrapper {
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px; /* Or your preferred max-width */
+  margin: 0 auto;
+}
+
+.backButton {
+  background: none;
+  border: 1px solid #c5b69c;
+  color: #c5b69c;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 3rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.backButton:hover {
+  background-color: #c5b69c;
+  color: #3d3832;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .detailsSection {
+    flex-direction: column;
+    padding: 3rem 1.5rem;
+  }
+
+  /* Updated for the new wrapper */
+  .detailsContentWrapper {
+    flex-direction: column;
+  }
+
+  .stickyImageContainer {
+    order: -1; /* Move image to the top */
+    margin-bottom: 3rem;
+  }
+
+  .stickyWrapper {
+    position: relative;
+    top: auto;
+  }
+
+  /* Center the back button on mobile */
+  .backButton {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .watchImageWrapper {
+    max-width: 300px;
+  }
+
+  .watchInfo h2 {
+    font-size: 1.5rem;
+  }
+
+  .watchInfo p {
+    font-size: 1rem;
+  }
+}

@@ -24,13 +24,15 @@
 }
 
 body {
-  height: 100vh;
+  margin: 0;
+  padding: 0;
   font-family: var(--font-inter);
   color: var(--text-color);
-  background-color: var(--background-dark);
+  background-color: black; /* instead of red */
   overflow-x: hidden;
   line-height: 1.6;
 }
+
 
 h1,
 h2,
@@ -84,6 +86,7 @@ h4 {
   transform: translateY(50px);
   transition: all 0.8s ease;
 }
+
 
 .parallax-item.visible,
 .section-content.visible {

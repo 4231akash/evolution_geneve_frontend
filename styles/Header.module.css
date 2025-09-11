@@ -108,6 +108,117 @@
   letter-spacing: 2px;
   font-family: var(--font-playfair);
 }
+/* ✅ Fullscreen overlay menu */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* ✅ Menu list */
+.overlayMenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.overlayMenu li {
+  margin: 20px 0;
+}
+
+.overlayMenu a {
+  font-size: 3rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: gray;
+  transition: color 0.2s;
+}
+
+.overlayMenu a:hover {
+  color: white;
+}
+
+/* ✅ Close button */
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 3rem;
+  color: gray;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* -------------------------
+   📱 RESPONSIVE BREAKPOINTS
+------------------------- */
+
+/* ✅ Extra Small (XS): small phones (<475px) */
+@media (max-width: 474px) {
+  .overlayMenu a {
+    font-size: 1.8rem; /* smaller text */
+  }
+  .closeBtn {
+    font-size: 2.2rem;
+    top: 15px;
+    right: 20px;
+  }
+}
+
+/* ✅ Small (SM): large phones / small tablets (≥475px and <640px) */
+@media (min-width: 475px) and (max-width: 639px) {
+  .overlayMenu a {
+    font-size: 2.2rem;
+  }
+}
+
+/* ✅ Medium (MD): tablets (≥640px and <1024px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .overlayMenu a {
+    font-size: 2.5rem;
+  }
+}
+
+/* ✅ Large (LG): laptops (≥1024px and <1280px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .overlayMenu a {
+    font-size: 2.8rem;
+  }
+}
+
+/* ✅ Extra Large (XL): desktops (≥1280px and <1536px) */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .overlayMenu a {
+    font-size: 3rem;
+  }
+}
+
+/* ✅ 2XL: very large screens (≥1536px and <2000px) */
+@media (min-width: 1536px) and (max-width: 1999px) {
+  .overlayMenu a {
+    font-size: 3.5rem;
+  }
+}
+
+/* ✅ Ultra-wide: monitors ≥2000px */
+@media (min-width: 2000px) {
+  .overlayMenu a {
+    font-size: 4rem;
+  }
+}
 
 @media (max-width: 768px) {
   .header {
