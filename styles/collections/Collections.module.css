@@ -6,24 +6,98 @@
 .pageWrapper {
   position: relative;
   min-height: 100vh;
+  /* background: url("/images/collection_bg_1.jpg") center center / cover no-repeat; */
+  color: #e0d6c7;
+}
+.heroSection {
+  position: relative;
+  min-height: 100vh;
   background: url("/images/collection_bg_1.jpg") center center / cover no-repeat;
   color: #e0d6c7;
 }
+.overall {
+  position: relative;
+  min-height: 100%;
+  background: url("/images/collection_bg_main.jpg") center top / cover no-repeat;
 
+  color: #e0d6c7;
+}
+.overall::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(37, 34, 25, 0) 0%, #252219 60.57%);
+  opacity: 0.8;
+  z-index: 0; /* lowest overlay */
+}
+
+/* top layer */
+.overall::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(37, 34, 25, 0.95) 0%,
+    rgba(37, 34, 25, 0) 100%
+  );
+  opacity: 0.75;
+  z-index: 1; /* sits above ::before, below content */
+}
 /* Overlay effect */
-.pageWrapper::before {
+/* .pageWrapper::before {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(30, 30, 30, 0.92);
   z-index: 0;
-}
+} */
 
-.pageWrapper > * {
+/* .pageWrapper > * {
   position: relative;
   z-index: 1;
+} */
+
+.heroSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(37, 34, 25, 0) 0%, #252219 60.57%);
+  opacity: 0.8;
+  z-index: 0; /* lowest overlay */
 }
 
+/* top layer */
+.heroSection::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(37, 34, 25, 0.95) 0%,
+    rgba(37, 34, 25, 0) 100%
+  );
+  opacity: 0.75;
+  z-index: 1; /* sits above ::before, below content */
+}
+
+/* ensure actual content sits above overlays */
+.enquiryPage > * {
+  position: relative;
+  z-index: 2;
+}
 /* Hero Section */
 .heroSection {
   height: 100vh;
@@ -62,10 +136,6 @@
   flex-direction: column;
 }
 
-.heroSection:hover::before {
-  opacity: 1;
-}
-
 .heroContent {
   display: flex;
   flex-direction: column;
@@ -80,16 +150,18 @@
   display: flex;
   /* flex-direction: column; */
   align-items: center;
+  justify-content: space-around;
   gap: 1rem;
   position: relative;
   z-index: 2;
+  max-width: 1400px;
   /* width: 100%; */
 }
 
 .heroContent2 {
   justify-content: center;
   align-items: center;
-  max-width: 1400px;
+  /* max-width: 1400px; */
   gap: 1rem;
   /* flex-direction: column; */
 }
@@ -199,6 +271,7 @@
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
+  z-index: 5;
 }
 
 .swatch {
@@ -233,27 +306,29 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background: url("/images/collection_bg_2.jpg") center center / cover no-repeat;
+  /* background: url("/images/collection_bg_main.jpg") center center / cover */
+  /* no-repeat; */
   width: 100vw;
 }
 
-.detailsSection::before {
+/* .detailsSection::before {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(30, 30, 30, 0.92);
   z-index: 0;
-}
+} */
 
 .detailsSection > * {
   position: relative;
-  z-index: 1;
+  z-index: 5;
 }
 
 .specsContainer {
   transform: translateX(0);
   opacity: 1;
   transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+
 }
 
 .stickyImageContainer {
@@ -359,7 +434,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 4rem;
+    /* gap: 4rem; */
   }
   .watchImageWrapper2 {
     height: 55vh;
@@ -386,7 +461,7 @@
     font-size: 1.3rem;
   }
   .heroContent2 {
-    gap: 5rem;
+    /* gap: 5rem; */
   }
   .detailsContentWrapper {
     gap: 5rem;
@@ -411,10 +486,10 @@
   .watchInfoMain h2,
   .watchInfoMain p,
   .watchInfoMain span {
-    font-size: 1.5rem;
+    font-size: clamp(18px, 2vw, 32px);
   }
   .heroContent2 {
-    gap: 6rem;
+    /* gap: 6rem; */
   }
   .detailsContentWrapper {
     gap: 6rem;
@@ -442,18 +517,18 @@
 /* xl ≥ 1280px */
 @media (min-width: 1280px) {
   .brandTitle {
-    font-size: 1.5rem;
+    font-size: clamp(18px, 2vw, 32px);
   }
   .heroContent2 {
-    gap: 10rem;
+    gap: 5rem;
   }
   .watchInfoMain h2,
   .watchInfoMain p,
   .watchInfoMain span {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   .watchImageWrapper2 {
-    height: 90vh;
+    height: 100vh;
   }
   .withPadInfo {
     padding-left: 19rem !important; /* your original */
@@ -474,6 +549,11 @@
 
 /* 2xl ≥ 1536px */
 @media (min-width: 1536px) {
+  .watchInfoMain h2,
+  .watchInfoMain p,
+  .watchInfoMain span {
+    font-size: clamp(18px, 2vw, 32px);
+  }
   .brandTitle {
     font-size: 1.5rem;
   }
@@ -514,6 +594,6 @@
   .watchInfoMain h2,
   .watchInfoMain p,
   .watchInfoMain span {
-    font-size: 2.2rem;
+    font-size: clamp(18px, 2vw, 32px);
   }
 }

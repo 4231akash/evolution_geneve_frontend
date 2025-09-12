@@ -273,40 +273,40 @@ export default function CollectionsPage() {
           </div>
           {/* Conditionally render / hide this block */}
         </div>
-          <div className={styles.swatchAngle}>
-            {!hideInfo && (
-              <div className={`${styles.watchInfo} ${styles.withPadInfo}`}>
-                <h2>{selectedVariant.name}</h2>
-                <p>{selectedVariant.model}</p>
-                <p>{selectedVariant.material}</p>
-                <span>Limited to 600 pieces</span>
-              </div>
-            )}
-
-            <div
-              className={`${styles.swatchContainer} ${
-                hideInfo ? styles.noPad : styles.withPad
-              }`}
-            >
-              {watchVariants.map((variant) => (
-                <button
-                  key={variant.id}
-                  className={`${styles.swatch} ${
-                    selectedVariant.id === variant.id ? styles.activeSwatch : ""
-                  }`}
-                  onClick={() => handleVariantSelect(variant)}
-                  aria-label={`Select ${variant.strapColor} strap`}
-                >
-                  <img
-                    src={variant.swatch}
-                    alt={`${variant.strapColor} swatch`}
-                    width={50}
-                    height={50}
-                  />
-                </button>
-              ))}
+        <div className={styles.swatchAngle}>
+          {!hideInfo && (
+            <div className={`${styles.watchInfo} ${styles.withPadInfo}`}>
+              <h2>{selectedVariant.name}</h2>
+              <p>{selectedVariant.model}</p>
+              <p>{selectedVariant.material}</p>
+              <span>Limited to 600 pieces</span>
             </div>
+          )}
+
+          <div
+            className={`${styles.swatchContainer} ${
+              hideInfo ? styles.noPad : styles.withPad
+            }`}
+          >
+            {watchVariants.map((variant) => (
+              <button
+                key={variant.id}
+                className={`${styles.swatch} ${
+                  selectedVariant.id === variant.id ? styles.activeSwatch : ""
+                }`}
+                onClick={() => handleVariantSelect(variant)}
+                aria-label={`Select ${variant.strapColor} strap`}
+              >
+                <img
+                  src={variant.swatch}
+                  alt={`${variant.strapColor} swatch`}
+                  width={50}
+                  height={50}
+                />
+              </button>
+            ))}
           </div>
+        </div>
       </div>
     </section>
   );
@@ -356,7 +356,7 @@ export default function CollectionsPage() {
     </section>
   );
   const renderDetailView = () => (
-    <div>
+    <div className={styles.overall}>
       {renderHeroViewMain()}
 
       <section className={styles.detailsSection} ref={sectionRef}>
