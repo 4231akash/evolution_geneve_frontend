@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../../styles/collections/Collections.module.css";
 
 // Data for our watch variants
@@ -77,7 +77,7 @@ const watchVariants = [
   {
     id: "orange",
     name: "FIRST EVOLUTION",
-    model: "EV001 X",
+    model: "EV001",
     material: "STAINLESS STEEL",
     strapColor: "Orange",
     image: "/images/orange_main.png",
@@ -150,6 +150,36 @@ export default function CollectionsPage() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isDetailView, setIsDetailView] = useState(false);
   const [hideInfo, setHideInfo] = useState(false); // 👈 boolean handle
+  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
+  const stickyRef = useRef(null);
+  const [slideInSpecs, setSlideInSpecs] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+      const triggerStart = window.innerHeight * 0.8; // start animation
+      const triggerEnd = 100; // animation stops when scrolled past
+
+      if (sectionRect.top < triggerStart && sectionRect.bottom > triggerEnd) {
+        setSlideInSpecs(true);
+      } else {
+        setSlideInSpecs(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+
+    handleScroll(); // check on mount
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (isAnimating) {
@@ -168,11 +198,60 @@ export default function CollectionsPage() {
   const handleBackToOverview = () => {
     setIsDetailView(false);
   };
+  useEffect(() => {
+    const updatePin = () => {
+      if (!sectionRef.current || !containerRef.current || !stickyRef.current)
+        return;
+
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const stickyEl = stickyRef.current;
+      const stickyHeight = stickyEl.offsetHeight;
+      const topOffset = 80; // header height if needed
+      const isDesktop = window.innerWidth >= 479;
+
+      const shouldPin =
+        isDesktop &&
+        sectionRect.top <= topOffset &&
+        sectionRect.bottom > topOffset + stickyHeight;
+
+      if (shouldPin) {
+        containerRef.current.style.minHeight = `${stickyHeight}px`;
+        stickyEl.style.position = "fixed";
+        stickyEl.style.top = `${topOffset}px`;
+        stickyEl.style.left = `${containerRect.left}px`;
+        stickyEl.style.width = `${containerRect.width}px`;
+      } else if (sectionRect.bottom <= topOffset + stickyHeight) {
+        // --- stick at bottom ---
+        containerRef.current.style.minHeight = "";
+        stickyEl.style.position = "absolute";
+        stickyEl.style.top = "auto";
+        stickyEl.style.bottom = "0";
+        stickyEl.style.left = `${containerRect.left}px`; // ✅ FIXED
+        stickyEl.style.width = `${containerRect.width}px`; // ✅ FIXED
+      } else {
+        // --- before pin ---
+        containerRef.current.style.minHeight = "";
+        stickyEl.style.position = "relative";
+        stickyEl.style.top = "";
+        stickyEl.style.bottom = "";
+        stickyEl.style.left = "0";
+        stickyEl.style.width = "100%";
+      }
+    };
+
+    window.addEventListener("scroll", updatePin);
+    window.addEventListener("resize", updatePin);
+    return () => {
+      window.removeEventListener("scroll", updatePin);
+      window.removeEventListener("resize", updatePin);
+    };
+  }, []);
 
   const renderHeroView = () => (
     <section className={styles.heroSection}>
+      <p className={styles.brandTitle}>EVOLUTION GENÈVE</p>
       <div className={styles.heroContent}>
-        <p className={styles.brandTitle}>EVOLUTION GENÈVE</p>
         <div
           className={styles.watchImageWrapper}
           onClick={() => setIsDetailView(true)}
@@ -192,51 +271,56 @@ export default function CollectionsPage() {
             <p>{selectedVariant.material}</p>
             <span>Limited to 600 pieces</span>
           </div>
+          {/* Conditionally render / hide this block */}
         </div>
+          <div className={styles.swatchAngle}>
+            {!hideInfo && (
+              <div className={`${styles.watchInfo} ${styles.withPadInfo}`}>
+                <h2>{selectedVariant.name}</h2>
+                <p>{selectedVariant.model}</p>
+                <p>{selectedVariant.material}</p>
+                <span>Limited to 600 pieces</span>
+              </div>
+            )}
 
-        {/* Conditionally render / hide this block */}
-        {!hideInfo && (
-          <div className={styles.watchInfo}>
-            <h2>{selectedVariant.name}</h2>
-            <p>{selectedVariant.model}</p>
-            <p>{selectedVariant.material}</p>
-            <span>Limited to 600 pieces</span>
-          </div>
-        )}
-
-        <div className={styles.swatchContainer}>
-          {watchVariants.map((variant) => (
-            <button
-              key={variant.id}
-              className={`${styles.swatch} ${
-                selectedVariant.id === variant.id ? styles.activeSwatch : ""
+            <div
+              className={`${styles.swatchContainer} ${
+                hideInfo ? styles.noPad : styles.withPad
               }`}
-              onClick={() => handleVariantSelect(variant)}
-              aria-label={`Select ${variant.strapColor} strap`}
             >
-              <img
-                src={variant.swatch}
-                alt={`${variant.strapColor} swatch`}
-                width={50}
-                height={50}
-              />
-            </button>
-          ))}
-        </div>
+              {watchVariants.map((variant) => (
+                <button
+                  key={variant.id}
+                  className={`${styles.swatch} ${
+                    selectedVariant.id === variant.id ? styles.activeSwatch : ""
+                  }`}
+                  onClick={() => handleVariantSelect(variant)}
+                  aria-label={`Select ${variant.strapColor} strap`}
+                >
+                  <img
+                    src={variant.swatch}
+                    alt={`${variant.strapColor} swatch`}
+                    width={50}
+                    height={50}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
       </div>
     </section>
   );
   const renderHeroViewMain = () => (
-    <section className={styles.heroSection}>
+    <section className={styles.heroSection2}>
       <div className={styles.heroContent2}>
-        <div className={styles.watchInfo}>
-          <h2>{selectedVariant.name}</h2>
+        <div className={styles.watchInfoMain}>
+          <p>{selectedVariant.name}</p>
           <p>{selectedVariant.model}</p>
           <p>{selectedVariant.material}</p>
-          <span>Limited to 600 pieces</span>
+          <p>Limited to 600 pieces</p>
         </div>
         <div
-          className={`${styles.watchImageWrapper} ${
+          className={`${styles.watchImageWrapper2} ${
             isAnimating ? styles.imagePop : ""
           }`}
           onClick={() => setIsDetailView(true)}
@@ -246,6 +330,7 @@ export default function CollectionsPage() {
             key={selectedVariant.id}
             src={selectedVariant.image}
             alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
+            className={styles.watchImage}
           />
         </div>
       </div>
@@ -274,9 +359,13 @@ export default function CollectionsPage() {
     <div>
       {renderHeroViewMain()}
 
-      <section className={styles.detailsSection}>
+      <section className={styles.detailsSection} ref={sectionRef}>
         <div className={styles.detailsContentWrapper}>
-          <div className={styles.specsContainer}>
+          <div
+            className={`${styles.specsContainer} ${
+              slideInSpecs ? styles.slideIn : ""
+            }`}
+          >
             <button
               onClick={handleBackToOverview}
               className={styles.backButton}
@@ -296,8 +385,8 @@ export default function CollectionsPage() {
             </ul>
           </div>
 
-          <div className={styles.stickyImageContainer}>
-            <div className={styles.stickyWrapper}>
+          <div className={styles.stickyImageContainer} ref={containerRef}>
+            <div className={styles.stickyWrapper} ref={stickyRef}>
               <img
                 key={`${selectedVariant.id}-sticky`}
                 src={selectedVariant.image}

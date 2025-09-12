@@ -34,7 +34,6 @@
   color: var(--secondary-color);
   letter-spacing: 2px;
   font-family: var(--font-playfair);
-
 }
 
 .nav {
@@ -88,18 +87,16 @@
   cursor: pointer;
 }
 .logoWrapper {
-  
 }
 .logoContainer {
   position: relative;
-  width: 200px;  
+  width: 200px;
   height: 180px;
 }
 
 .logo {
   object-fit: contain; /* prevents image from being cropped */
 }
-
 
 .logoText {
   font-size: 28px;
@@ -136,6 +133,18 @@
 .overlayMenu li {
   margin: 20px 0;
 }
+/* Overlay menu list items */
+.overlayMenu li a {
+  display: inline-block;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.overlayMenu li a:hover {
+  transform: scale(1.1); /* Increase size */
+  color: white;        /* Optional: change text color */
+}
+
 
 .overlayMenu a {
   font-size: 3rem;
@@ -161,13 +170,17 @@
   cursor: pointer;
 }
 
-
 /* -------------------------
    📱 RESPONSIVE BREAKPOINTS
 ------------------------- */
 
 /* ✅ Extra Small (XS): small phones (<475px) */
 @media (max-width: 474px) {
+  .logoContainer {
+    position: relative;
+    width: 150px;
+    height: 120px;
+  }
   .overlayMenu a {
     font-size: 1.8rem; /* smaller text */
   }
@@ -180,6 +193,11 @@
 
 /* ✅ Small (SM): large phones / small tablets (≥475px and <640px) */
 @media (min-width: 475px) and (max-width: 639px) {
+  .logoContainer {
+    position: relative;
+    width: 150px;
+    height: 120px;
+  }
   .overlayMenu a {
     font-size: 2.2rem;
   }
@@ -187,6 +205,12 @@
 
 /* ✅ Medium (MD): tablets (≥640px and <1024px) */
 @media (min-width: 640px) and (max-width: 1023px) {
+  .logoContainer {
+    position: relative;
+    width: 150px;
+    height: 120px;
+  }
+
   .overlayMenu a {
     font-size: 2.5rem;
   }
