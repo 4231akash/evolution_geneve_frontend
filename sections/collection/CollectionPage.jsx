@@ -360,7 +360,7 @@ export default function CollectionsPage() {
             />
           </button>
         ))}
-      </div>
+      </div> 
     </section>
   );
   const renderDetailView = () => (
