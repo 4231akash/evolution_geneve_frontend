@@ -74,10 +74,10 @@ const SundialSection = () => {
           }}
         >
           <div className={styles.scrollImageWrapper}>
-            <div className={styles.textOverlay}>
+            {/* <div className={styles.textOverlay}>
               <h2>The Sundial</h2>
               <p>{fullText}</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

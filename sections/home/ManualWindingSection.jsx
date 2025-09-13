@@ -351,11 +351,11 @@ const ManualWindingSection = () => {
             willChange: "transform, opacity",
           }}
         >
-          <div className={styles.scrollImageWrapper}>
-            <div className={styles.textOverlay}>
+          <div className={styles.scrollImageWrapper3}>
+            {/* <div className={styles.textOverlay}>
               <h2>The Manual Winding</h2>
               <p>{fullText}</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

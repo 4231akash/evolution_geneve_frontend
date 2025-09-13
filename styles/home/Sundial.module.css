@@ -110,7 +110,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("/images/left_note.webp") no-repeat center center;
+  background: url("/images/sundial_write.webp") no-repeat center center;
   background-size: contain;
 }
 .scrollImageWrapper2 {
@@ -120,7 +120,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("/images/right_note.webp") no-repeat center center;
+  background: url("/images/sand_timer_write.webp") no-repeat center center;
+  background-size: contain;
+}
+.scrollImageWrapper3 {
+  position: relative;
+  width: 650px;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/images/manual_winding_write.webp") no-repeat center center;
+  background-size: contain;
+}
+.scrollImageWrapper4 {
+  position: relative;
+  width: 650px;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/images/self_winding_write.webp") no-repeat center center;
   background-size: contain;
 }
 
@@ -129,7 +149,7 @@
   width: auto; /* maintain aspect ratio */
   max-width: 100%;
   object-fit: contain;
-  filter: opacity(80%);
+  /* filter: opacity(80%); */
 }
 
 .textOverlay {
@@ -217,6 +237,24 @@
     align-items: flex-start; /* align text to left */
     padding: 1rem;
   }
+  .scrollImageWrapper3 {
+    width: 300px;
+    height: 380px;
+    display: flex;
+    flex-direction: column; /* stack h2 + p vertically */
+    justify-content: flex-start; /* start from top */
+    align-items: flex-start; /* align text to left */
+    padding: 1rem;
+  }
+  .scrollImageWrapper4 {
+    width: 300px;
+    height: 380px;
+    display: flex;
+    flex-direction: column; /* stack h2 + p vertically */
+    justify-content: flex-start; /* start from top */
+    align-items: flex-start; /* align text to left */
+    padding: 1rem;
+  }
   .watchImage {
     max-width: 200px;
   }
@@ -254,6 +292,14 @@
     width: 340px;
     height: 420px;
   }
+  .scrollImageWrapper3{
+    width: 340px;
+    height: 420px;
+  }
+  .scrollImageWrapper4{
+    width: 340px;
+    height: 420px;
+  }
   .textOverlay {
     padding: 0;
     margin-top: 0;
@@ -281,6 +327,14 @@
     height: 570px;
   }
   .scrollImageWrapper2 {
+    width: 350px;
+    height: 570px;
+  }
+  .scrollImageWrapper3{
+    width: 350px;
+    height: 570px;
+  }
+  .scrollImageWrapper4{
     width: 350px;
     height: 570px;
   }
@@ -324,6 +378,14 @@
     width: 650px;
     height: 92vh;
   }
+  .scrollImageWrapper3 {
+    width: 650px;
+    height: 92vh;
+  }
+  .scrollImageWrapper4 {
+    width: 650px;
+    height: 92vh;
+  }
   .watchImage {
     max-width: 400px;
     height: 92vh;
@@ -360,10 +422,18 @@
     width: 650px;
     height: 95vh;
   }
+  .scrollImageWrapper3 {
+    width: 650px;
+    height: 95vh;
+  }
+  .scrollImageWrapper4 {
+    width: 650px;
+    height: 95vh;
+  }
   .watchImage {
     max-width: 540px;
     height: 95vh;
-    filter: opacity(80%);
+    /* filter: opacity(80%); */
   }
   .textOverlay {
     padding: 0;
@@ -392,10 +462,18 @@
     width: 650px;
     height: 95vh;
   }
+  .scrollImageWrapper3 {
+    width: 650px;
+    height: 95vh;
+  }
+  .scrollImageWrapper4{
+    width: 650px;
+    height: 95vh;
+  }
   .watchImage {
     max-width: 540px;
     height: 95vh;
-    filter: opacity(80%);
+    /* filter: opacity(80%); */
   }
   .textOverlay {
     max-width: 400px;
@@ -420,10 +498,18 @@
     width: 650px;
     height: 95vh;
   }
+  .scrollImageWrapper3{
+    width: 650px;
+    height: 95vh;
+  }
+  .scrollImageWrapper4 {
+    width: 650px;
+    height: 95vh;
+  }
   .watchImage {
     max-width: 540px;
     height: 95vh;
-    filter: opacity(80%);
+    /* filter: opacity(80%); */
   }
   .textOverlay {
     max-width: 400px;

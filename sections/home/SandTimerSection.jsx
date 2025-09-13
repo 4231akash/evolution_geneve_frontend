@@ -105,10 +105,10 @@ const SandTimerSection = () => {
           }}
         >
           <div className={styles.scrollImageWrapper2}>
-            <div className={styles.textOverlay}>
+            {/* <div className={styles.textOverlay}>
               <h2>The Sand Timer</h2>
               <p>{fullText}</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

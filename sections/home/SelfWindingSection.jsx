@@ -392,11 +392,11 @@ const SelfWindingSection = () => {
             willChange: "transform, opacity",
           }}
         >
-          <div className={styles.scrollImageWrapper2}>
-            <div className={styles.textOverlay}>
+          <div className={styles.scrollImageWrapper4}>
+            {/* <div className={styles.textOverlay}>
                <h2>The Self Winding</h2>
               <p>{fullText}</p>
-            </div>
+            </div> */}
           </div>
           {/* <div className={styles.scrollImageContainer}>
             <div className={styles.scrollImageWrapper}>
