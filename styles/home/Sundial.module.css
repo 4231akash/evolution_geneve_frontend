@@ -36,16 +36,28 @@
   z-index: 1;
 }
 .backgroundGif3 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-image: url("/videos/bg_sand_timer_video.gif");
-  background-size: cover;
-  filter: brightness(0.3);
+  position: fixed;
+  inset: 0;
   z-index: 1;
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("/videos/bg_sand_timer_video.gif");
+  background-repeat: no-repeat;
+
+  /* controls */
+  --bg-pos-x: left;      /* align to left side */
+  --bg-pos-y: center;    /* vertical center */
+  --bg-size: 150% 100%;  /* zoom/stretch wider than screen */
+
+  background-position: var(--bg-pos-x) var(--bg-pos-y);
+  background-size: var(--bg-size);
+  filter: brightness(0.3);
+
+  pointer-events: none;
 }
+
+
 .backgroundGif4 {
   position: absolute;
   top: 0;

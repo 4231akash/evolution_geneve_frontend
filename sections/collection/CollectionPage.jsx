@@ -334,11 +334,13 @@ export default function CollectionsPage() {
           onClick={() => setIsDetailView(true)}
           style={{ cursor: "pointer" }}
         >
-          <img
+          <Image
             key={selectedVariant.id}
             src={selectedVariant.image}
             alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
             className={styles.watchImage}
+            fill
+            priority
           />
         </div>
       </div>
