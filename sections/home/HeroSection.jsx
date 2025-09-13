@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Abril_Fatface } from "next/font/google";
 import styles from "../../styles/home/HeroSection.module.css";
+import Image from "next/image";
 
 const abrilFatface = Abril_Fatface({
   weight: "400",
@@ -67,16 +68,20 @@ const HeroSection = () => {
       <div className={styles.content}>
         <div className={styles.heroContent}>
           {/* Watch */}
+          {/* Watch */}
           <div
             className={`${styles.watchContainer} ${
               imageVisible ? styles.visible : ""
             }`}
+            ref={watchRef} // attach ref here instead of Image
           >
-            <img
-              ref={watchRef}
-              src="/images/front-brown.png"
+            <Image
+              src="/images/front-brown.webp"
               alt="Evolution Geneve Luxury Watch"
-              className={styles.watchImagePlain}          
+              className={styles.watchImagePlain}
+              fill
+              priority
+              onLoadingComplete={() => setImageVisible(true)} // built-in next/image callback
             />
           </div>
 
