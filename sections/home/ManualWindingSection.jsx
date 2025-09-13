@@ -266,7 +266,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image"; // ✅ Import Next.js Image
 import styles from "../../styles/home/Sundial.module.css";
 
-import manualWatch from "../../public/images/manual_winding_watch.svg"; // ✅ Import for Next Image
+import manualWatch from "../../public/images/manual_winding_watch.webp"; // ✅ Import for Next Image
 
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
