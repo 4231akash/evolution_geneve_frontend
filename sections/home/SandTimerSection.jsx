@@ -275,8 +275,6 @@
 // export default SandTimerSection;
 
 
-
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -295,22 +293,30 @@ const lerp = (start, end, amt) => start + (end - start) * amt;
 const SandTimerSection = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef(null);
-  const currentRef = useRef(0); // store current value without re-rendering every frame
+  const currentRef = useRef(0); // store current animation value
+  const rafIdRef = useRef(null); // track RAF id
 
   const fullText =
     "An hourglass (or sandglass, sand timer, or sand clock) is known to have existed in Babylon and Egypt as early as the 16th century BCE. It is a device used to measure the passage of time. It comprises two glass bulbs connected vertically by a narrow neck that allows a regulated flow of a substance (historically sand) from the upper bulb to the lower one by gravity. Typically, the upper and lower bulbs are symmetric so that the hourglass will measure the same duration regardless of orientation.";
 
   useEffect(() => {
     let target = 0;
-    let rafId;
 
     const update = () => {
       const current = lerp(currentRef.current, target, 0.08);
 
       if (Math.abs(current - currentRef.current) > 0.0001) {
         currentRef.current = current;
-        setScrollProgress(current);
-        rafId = requestAnimationFrame(update);
+
+        // ✅ Only update state when visibly different
+        setScrollProgress((prev) => {
+          if (Math.abs(prev - current) > 0.001) {
+            return current;
+          }
+          return prev;
+        });
+
+        rafIdRef.current = requestAnimationFrame(update);
       }
     };
 
@@ -322,22 +328,22 @@ const SandTimerSection = () => {
       raw = clamp(raw, 0, 1);
       target = easeInOutCubic(raw);
 
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(update);
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = requestAnimationFrame(update);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // initialize
+    onScroll(); // initialize once
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(rafId);
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
   }, []);
 
   // Derived transforms
-  const leftTranslatePct = -110 + scrollProgress * 110; // image slides in from left
-  const rightTranslatePct = 110 - scrollProgress * 110; // text slides in from right
+  const leftTranslatePct = -110 + scrollProgress * 110;
+  const rightTranslatePct = 110 - scrollProgress * 110;
   const visibleOpacity = clamp((scrollProgress - 0.05) / 0.45, 0, 1);
 
   return (
@@ -358,8 +364,8 @@ const SandTimerSection = () => {
             src={watchImage}
             alt="Sand Timer Watch"
             className={styles.watchImage}
-            width={540} // approximate
-            height={900} // approximate
+            width={540}
+            height={900}
             priority
           />
         </div>

@@ -118,8 +118,8 @@
   align-items: flex-start; /* left-aligned */
   text-align: center;
   color: #3a2e1d;
-  padding: 5rem;
-  margin-top: 15rem;
+  /* padding: 5rem;
+  margin-top: 15rem; */
   /* padding around content */
   box-sizing: border-box;
   width: 100%;
@@ -369,6 +369,32 @@
   }
   .textOverlay p {
     font-size: 1.3rem;
+  }
+}
+@media (min-width: 2001px) and (max-width: 4000px) {
+  .scrollImageWrapper {
+    width: 650px;
+    height: 95vh;
+  }
+  .scrollImageWrapper2 {
+    width: 650px;
+    height: 95vh;
+  }
+  .watchImage {
+    max-width: 540px;
+    height: 95vh;
+    filter: opacity(80%);
+  }
+  .textOverlay {
+    max-width: 400px;
+  }
+  .textOverlay h2 {
+    font-size: 40px;
+    margin-top: 20rem;
+    /* line-height: 100px; */
+  }
+  .textOverlay p {
+    font-size: 1.6rem;
   }
 }
 
