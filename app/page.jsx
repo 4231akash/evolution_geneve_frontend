@@ -52,8 +52,8 @@ function MainContent() {
 
   return (
     <main>
-      {/* <HeroSection /> */}
-      {/* <TechnicalSpecsSection /> */}
+      <HeroSection />
+      <TechnicalSpecsSection />
       <SundialSection />
       <SandTimerSection />
       <ManualWindingSection />
