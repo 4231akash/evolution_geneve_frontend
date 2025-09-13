@@ -67,7 +67,7 @@
   transition: transform 0.8s ease-out, opacity 0.8s ease-out;
   max-width: 90%;
   height: auto !important; /* override next/image inline height */
-  width: auto !important;  /* reset inline width so clamp works */
+  /* width: auto !important;  reset inline width so clamp works */
   pointer-events: none;
 }
 
