@@ -319,13 +319,15 @@ export default function CollectionsPage() {
     <section className={styles.heroSection2}>
       <div className={styles.heroContent2}>
         <div className={styles.watchInfoMain}>
-          <p>{selectedVariant.name}</p>
-          <p>{selectedVariant.model}</p>
-          <p>{selectedVariant.material}</p>
-          <p>Limited to 600 pieces</p>
+          <div>
+            <p>{selectedVariant.name}</p>
+            <p>{selectedVariant.model}</p>
+            <p>{selectedVariant.material}</p>
+            <p>Limited to 600 pieces</p>
+          </div>
         </div>
         <div
-          className={`${styles.watchImageWrapper2} ${
+          className={`${styles.watchImageWrapper10} ${
             isAnimating ? styles.imagePop : ""
           }`}
           onClick={() => setIsDetailView(true)}
@@ -339,7 +341,7 @@ export default function CollectionsPage() {
           />
         </div>
       </div>
-      <div className={styles.swatchContainer}>
+      <div className={styles.swatchContainer2}>
         {watchVariants.map((variant) => (
           <button
             key={variant.id}
@@ -362,7 +364,6 @@ export default function CollectionsPage() {
   );
   const renderDetailView = () => (
     <div className={styles.overall}>
-
       {renderHeroViewMain()}
       <section className={styles.detailsSection} ref={sectionRef}>
         <div className={styles.detailsContentWrapper}>
