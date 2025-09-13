@@ -48,7 +48,7 @@
   /* controls */
   --bg-pos-x: left;      /* align to left side */
   --bg-pos-y: center;    /* vertical center */
-  --bg-size: 150% 100%;  /* zoom/stretch wider than screen */
+  --bg-size: 150% 120%;  /* zoom/stretch wider than screen */
 
   background-position: var(--bg-pos-x) var(--bg-pos-y);
   background-size: var(--bg-size);
