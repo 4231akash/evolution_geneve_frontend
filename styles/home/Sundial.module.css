@@ -83,13 +83,22 @@
 
 .scrollImageWrapper {
   position: relative;
-  height: 100%; /* Fill parent height instead of fixed 98vh */
-  width: auto;
-  max-width: 600px;
+  width: 650px;
+  height: 95vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("/images/left_note.png") no-repeat center center;
+  background: url("/images/left_note.webp") no-repeat center center;
+  background-size: contain;
+}
+.scrollImageWrapper2 {
+  position: relative;
+  width: 650px;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/images/right_note.webp") no-repeat center center;
   background-size: contain;
 }
 
@@ -102,24 +111,20 @@
 }
 
 .textOverlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%);
+  position: relative; /* no longer absolute */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center; /* center text horizontally */
+  justify-content: flex-start; /* top-aligned */
+  align-items: flex-start; /* left-aligned */
   text-align: center;
   color: #3a2e1d;
-  padding: 1rem; /* padding inside scroll image */
+  padding: 5rem;
+  margin-top: 15rem;
+  /* padding around content */
   box-sizing: border-box;
   width: 100%;
-  max-width: 800px;
-  height: auto;
-  max-height: 90%;
-  overflow-y: auto;
-  /* ✅ Hide scrollbar */
+  height: 100%; /* take full height of wrapper */
+  overflow-y: auto; /* scroll if content exceeds wrapper height */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
 }
@@ -133,8 +138,10 @@
   font-weight: 400;
   font-size: 40px;
   line-height: 50px;
-  font-variant: small-caps;
+  /* font-variant: small-caps; */
   margin-bottom: 1rem;
+  margin-top: 6rem;
+  align-self: center; /* keep heading left-aligned */
 }
 
 .textOverlay p {
@@ -143,7 +150,7 @@
   font-size: 22.5px;
   line-height: 140%;
   word-wrap: break-word;
-  min-height: 200px;
+  min-height: auto;
 }
 
 .typingCursor {
@@ -173,21 +180,45 @@
   .scrollImageWrapper {
     width: 300px;
     height: 380px;
+    display: flex;
+    flex-direction: column; /* stack h2 + p vertically */
+    justify-content: flex-start; /* start from top */
+    align-items: flex-start; /* align text to left */
+    padding: 1rem;
   }
-  .textOverlay {
-    max-width: 250px;
+  .scrollImageWrapper2 {
+    width: 300px;
+    height: 380px;
+    display: flex;
+    flex-direction: column; /* stack h2 + p vertically */
+    justify-content: flex-start; /* start from top */
+    align-items: flex-start; /* align text to left */
+    padding: 1rem;
   }
   .watchImage {
     max-width: 200px;
   }
+  .textOverlay {
+    padding: 0;
+    margin-top: 0;
+    max-width: 100%;
+    align-items: flex-start; /* ensure text is left-aligned */
+    text-align: center; /* left-align heading and paragraph */
+  }
+
   .textOverlay h2 {
     font-size: 1rem;
     line-height: 1.2rem;
+    margin-top: 2rem;
+    align-self: center;
+    text-align: center;
   }
+
   .textOverlay p {
-    font-size: 0.7rem;
-    line-height: 120%;
-    min-height: auto;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
@@ -197,7 +228,13 @@
     width: 340px;
     height: 420px;
   }
+  .scrollImageWrapper2 {
+    width: 340px;
+    height: 420px;
+  }
   .textOverlay {
+    padding: 0;
+    margin-top: 0;
     max-width: 250px;
   }
   .textOverlay h2 {
@@ -205,7 +242,9 @@
     line-height: 1.8rem;
   }
   .textOverlay p {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
   }
   .watchImage {
     max-width: 220px;
@@ -215,16 +254,23 @@
 /* MD: tablets (≥640px) */
 @media (min-width: 640px) and (max-width: 1023px) {
   .scrollImageWrapper {
-    width: 380px;
-    height: 470px;
+    width: 350px;
+    height: 570px;
+  }
+  .scrollImageWrapper2 {
+    width: 350px;
+    height: 570px;
   }
   .watchImage {
-    max-width: 250px;
+    max-width: 300px;
+    /* height: 80vh; */
   }
   .contentWrapper {
     gap: 2rem;
   }
   .textOverlay {
+    padding: 0;
+    margin-top: 0;
     max-width: 300px;
   }
   .textOverlay h2 {
@@ -232,7 +278,9 @@
     line-height: 2rem;
   }
   .textOverlay p {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
   }
 }
 
@@ -243,6 +291,39 @@
   }
   .scrollImageWrapper {
     width: 650px;
+    height: 92vh;
+  }
+  .scrollImageWrapper2 {
+    width: 650px;
+    height: 92vh;
+  }
+  .watchImage {
+    max-width: 400px;
+    height: 92vh;
+    filter: opacity(80%);
+  }
+  .textOverlay {
+    padding: 0;
+    margin-top: 0;
+    max-width: 400px;
+  }
+
+  .textOverlay h2 {
+    font-size: 36px;
+  }
+  .textOverlay p {
+    font-size: 1.4rem;
+  }
+}
+
+/* XL: large desktops (≥1280px) */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .scrollImageWrapper {
+    width: 650px;
+    height: 95vh;
+  }
+  .scrollImageWrapper2 {
+    width: 650px;
     height: 95vh;
   }
   .watchImage {
@@ -251,20 +332,26 @@
     filter: opacity(80%);
   }
   .textOverlay {
-    max-width: 300px;
+    padding: 0;
+    margin-top: 0;
+    max-width: 400px;
   }
-
   .textOverlay h2 {
-    font-size: 36px;
+    font-size: 40px;
+    /* line-height: 100px; */
   }
   .textOverlay p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 }
 
-/* XL: large desktops (≥1280px) */
-@media (min-width: 1280px) and (max-width: 1535px) {
+/* 2XL: very large screens (≥1536px) */
+@media (min-width: 1536px) and (max-width: 2000px) {
   .scrollImageWrapper {
+    width: 650px;
+    height: 95vh;
+  }
+  .scrollImageWrapper2 {
     width: 650px;
     height: 95vh;
   }
@@ -285,27 +372,4 @@
   }
 }
 
-/* 2XL: very large screens (≥1536px) */
-@media (min-width: 1536px) and (max-width: 2000px) {
-  .scrollImageWrapper {
-    width: 650px;
-    height: 95vh;
-  }
-  .textOverlay {
-    max-width: 450px;
-  }
-  .textOverlay h2 {
-    font-size: 44px;
-  }
-  .textOverlay p {
-    font-size: 1.5rem;
-  }
-  .watchImage {
-    max-width: 540px;
-    height: 95vh;
-    filter: opacity(80%);
-  }
-}
-
 /* Ultra-wide screens (≥2000px) */
-

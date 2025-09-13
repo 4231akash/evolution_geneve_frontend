@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -8,36 +8,40 @@ import logo from "../public/images/evolution_logo.svg";
 
 const Header = () => {
   const [isHidden, setIsHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0); // ✅ ref instead of state
   const [menuOpen, setMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  // ✅ Scroll hide/show header
+  // Scroll hide/show header
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 200) {
+      const currentY = window.scrollY;
+
+      if (currentY > lastScrollY.current && currentY > 200 && !isHidden) {
         setIsHidden(true);
-      } else {
+      } else if (currentY < lastScrollY.current && isHidden) {
         setIsHidden(false);
       }
-      setLastScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
 
-  // ✅ Link click: close menu immediately + show loader
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHidden]); // ✅ only depends on isHidden
+
+  // Link click: close menu immediately + show loader
   const handleLinkClick = (e, path) => {
     e.preventDefault();
-    setMenuOpen(false);     // close instantly (no delay)
-    setLoading(true);       // show loader
-    window.scrollTo(0, 0);  
-    router.push(path);      // trigger navigation
+    setMenuOpen(false);
+    setLoading(true);
+    window.scrollTo(0, 0);
+    router.push(path);
   };
 
-  // ✅ Once route actually changes, hide loader
+  // Hide loader when pathname changes
   useEffect(() => {
     setLoading(false);
   }, [pathname]);
@@ -57,18 +61,10 @@ const Header = () => {
           <div className={styles.overlay}>
             <button className={styles.closeBtn} onClick={() => setMenuOpen(false)}>×</button>
             <ul className={styles.overlayMenu}>
-              <li>
-                <Link href="/" prefetch onClick={(e) => handleLinkClick(e, "/")}>Home</Link>
-              </li>
-              <li>
-                <Link href="/journey" prefetch onClick={(e) => handleLinkClick(e, "/journey")}>Journey</Link>
-              </li>
-              <li>
-                <Link href="/collections" prefetch onClick={(e) => handleLinkClick(e, "/collections")}>Collections</Link>
-              </li>
-              <li>
-                <Link href="/enquiry" prefetch onClick={(e) => handleLinkClick(e, "/enquiry")}>Enquiry</Link>
-              </li>
+              <li><Link href="/" prefetch onClick={(e) => handleLinkClick(e, "/")}>Home</Link></li>
+              <li><Link href="/journey" prefetch onClick={(e) => handleLinkClick(e, "/journey")}>Journey</Link></li>
+              <li><Link href="/collections" prefetch onClick={(e) => handleLinkClick(e, "/collections")}>Collections</Link></li>
+              <li><Link href="/enquiry" prefetch onClick={(e) => handleLinkClick(e, "/enquiry")}>Enquiry</Link></li>
             </ul>
           </div>
         )}
