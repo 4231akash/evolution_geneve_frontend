@@ -70,7 +70,7 @@ function MainContent() {
       </div>
       {/* Section 1: Founder */}
       <JourneySection
-        imageSrc="/images/founder_watch.png"
+        imageSrc="/images/founder_watch.webp"
         imageAlt="Founder Hady Makhoul"
         caption="Hady Makhoul"
         captionTitle="Founder and Designer"
@@ -79,7 +79,7 @@ function MainContent() {
 
       {/* Section 2: Watch */}
       <JourneySection
-        imageSrc="/images/leather_watch.png"
+        imageSrc="/images/leather_watch.webp"
         imageAlt="Evolution Geneve Watch"
         textBlocks={watchTextBlocks}
         reverseLayout={true}

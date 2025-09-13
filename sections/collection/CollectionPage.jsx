@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import styles from "../../styles/collections/Collections.module.css";
+import Image from "next/image";
 
 // Data for our watch variants
 const watchVariants = [
@@ -80,7 +81,7 @@ const watchVariants = [
     model: "EV001",
     material: "STAINLESS STEEL",
     strapColor: "Orange",
-    image: "/images/orange_main.png",
+    image: "/images/orange_main.webp",
     swatch: "/images/orange_swatch.png",
     details: [
       {
@@ -258,12 +259,16 @@ export default function CollectionsPage() {
           onMouseEnter={() => setHideInfo(true)} // 👈 hide on hover
           onMouseLeave={() => setHideInfo(false)} // 👈 show back
         >
-          <img
-            key={selectedVariant.id}
-            src={selectedVariant.image}
-            alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
-            className={styles.watchImage}
-          />
+          <div className={styles.watchImageWrapper2}>
+            <Image
+              key={selectedVariant.id}
+              src={selectedVariant.image}
+              alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
+              fill
+              className={styles.watchImage}
+              priority
+            />
+          </div>
 
           <div className={styles.watchInfo2}>
             <h2>{selectedVariant.name}</h2>
@@ -357,8 +362,8 @@ export default function CollectionsPage() {
   );
   const renderDetailView = () => (
     <div className={styles.overall}>
-      {renderHeroViewMain()}
 
+      {renderHeroViewMain()}
       <section className={styles.detailsSection} ref={sectionRef}>
         <div className={styles.detailsContentWrapper}>
           <div

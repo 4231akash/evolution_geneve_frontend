@@ -348,7 +348,7 @@ const SandTimerSection = () => {
 
   return (
     <section ref={sectionRef} className={styles.historySection}>
-      <div className={styles.backgroundGif}></div>
+      <div className={styles.backgroundGif3}></div>
 
       <div className={styles.contentWrapper}>
         {/* Left Content - Watch Image */}

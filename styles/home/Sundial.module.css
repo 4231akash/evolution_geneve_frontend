@@ -35,6 +35,28 @@
   filter: brightness(0.3);
   z-index: 1;
 }
+.backgroundGif3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+ background-image: url("/videos/bg_sand_timer_video.gif");
+  background-size: cover;
+  filter: brightness(0.3);
+  z-index: 1;
+}
+.backgroundGif4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("/videos/bg_self_winding_video.gif");
+  background-size: cover;
+  filter: brightness(0.3);
+  z-index: 1;
+}
 
 .contentWrapper {
   position: relative;
