@@ -320,10 +320,11 @@ export default function CollectionsPage() {
       <div className={styles.heroContent2}>
         <div className={styles.watchInfoMain}>
           <div>
-            <p>{selectedVariant.name}</p>
-            <p>{selectedVariant.model}</p>
-            <p>{selectedVariant.material}</p>
-            <p>Limited to 600 pieces</p>
+
+          <p>{selectedVariant.name}</p>
+          <p>{selectedVariant.model}</p>
+          <p>{selectedVariant.material}</p>
+          <p>Limited to 600 pieces</p>
           </div>
         </div>
         <div
@@ -364,6 +365,7 @@ export default function CollectionsPage() {
   );
   const renderDetailView = () => (
     <div className={styles.overall}>
+
       {renderHeroViewMain()}
       <section className={styles.detailsSection} ref={sectionRef}>
         <div className={styles.detailsContentWrapper}>

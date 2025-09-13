@@ -22,6 +22,7 @@
   background: url("/images/collection_bg_main.webp") center top / cover
     no-repeat;
   color: #e0d6c7;
+
 }
 .overall::before {
   content: "";
@@ -273,6 +274,7 @@
   /* flex-direction: column; */
   /* gap: 2rem; */
   width: 100%;
+    padding-top: 5rem;
 }
 .detailsSection > * {
   position: relative;
@@ -482,7 +484,7 @@
   .specsContainer {
     flex-direction: row;
     gap: 4rem;
-    padding-left: 8rem;
+    padding-left: 6rem;
   }
   .brandTitle {
     font-size: 1.5rem;
