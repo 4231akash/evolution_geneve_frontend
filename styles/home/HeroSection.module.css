@@ -66,10 +66,19 @@
   opacity: 0;
   transition: transform 0.8s ease-out, opacity 0.8s ease-out;
   max-width: 90%;
-  height: auto;
+  height: auto !important; /* override next/image inline height */
+  width: auto !important;  /* reset inline width so clamp works */
   pointer-events: none;
 }
 
+.textTop img,
+.textBottom img {
+  width: 100% !important;   /* make Next.js <Image /> respect parent clamp */
+  height: auto !important;
+  object-fit: contain;
+}
+
+/* keep your existing animations */
 .textTop {
   transform: translateX(-100%);
   transition-delay: 0s;
@@ -91,7 +100,7 @@
   transform: translateY(0);
   transition-delay: 0.6s;
 }
-
+/* Responsive sizing stays same */
 @media (max-width: 475px) {
   .textTop {
     width: clamp(800px, 85vw, 1400px);
