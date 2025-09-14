@@ -12,13 +12,13 @@ const watchVariants = [
     model: "EV001",
     material: "STAINLESS STEEL",
     strapColor: "Burgundy",
-    image: "/images/watch_main.png",
+    image: "/images/geneve_watch.webp",
     swatch: "/images/brown_swatch.png",
     details: [
       {
         title: "CASE",
         content: [
-          "Stainless steel case polished / brushed",
+          "Stainless steel case polished / brushed", 
           "Diameter 41mm",
           "Thickness 9mm",
         ],
