@@ -127,7 +127,7 @@ const HeroSection = () => {
             }`}
           >
             <Image
-              src="/images/front-brown.webp"
+              src="/images/main_watch_brown.webp"
               alt="Evolution Geneve Luxury Watch"
               className={styles.watchImagePlain}
               fill

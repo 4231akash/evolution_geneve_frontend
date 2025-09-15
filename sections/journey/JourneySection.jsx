@@ -14,6 +14,7 @@ const JourneySection = ({
 }) => {
   const sectionRef = useRef(null);
   const textRefs = useRef([]);
+  const textContainerRef = useRef(null); // ✅ new
   const imageRef = useRef(null);
   const containerRef = useRef(null);
   const stickyRef = useRef(null);
@@ -21,18 +22,15 @@ const JourneySection = ({
   useEffect(() => {
     textRefs.current = textRefs.current.slice(0, textBlocks.length);
 
-    // ------------------- Text blocks animation -------------------
+    // --- Text animation observer ---
     const textObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.inViewText);
-          }
+          if (entry.isIntersecting) entry.target.classList.add(styles.inViewText);
         });
       },
       { threshold: 0.15, rootMargin: "0px 0px -15% 0px" }
     );
-
     textRefs.current.forEach((el, i) => {
       if (el) {
         el.style.setProperty("--tx", reverseLayout ? "40px" : "-40px");
@@ -40,64 +38,52 @@ const JourneySection = ({
       }
     });
 
-    // ------------------- Image animation -------------------
+    // --- Image observer ---
     const imageObserver = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            imageRef.current?.classList.add(styles.inViewImage);
-          }
-        });
+        if (entries.some((e) => e.isIntersecting)) {
+          imageRef.current?.classList.add(styles.inViewImage);
+        }
       },
       { threshold: 0.25, rootMargin: "0px 0px -25% 0px" }
     );
-
     if (sectionRef.current) imageObserver.observe(sectionRef.current);
 
-    // ------------------- Sticky pin/unpin logic -------------------
+    // --- Sticky logic ---
     let ticking = false;
 
-    // inside your useEffect (once, before listeners), ensure container is positioned:
     if (containerRef.current) {
-      // only set if not already positioned, so we don't override CSS the user might set
       const cs = window.getComputedStyle(containerRef.current);
-      if (cs.position === "static")
-        containerRef.current.style.position = "relative";
+      if (cs.position === "static") containerRef.current.style.position = "relative";
     }
 
-    // Replace your updatePin with this:
     const updatePin = () => {
       if (
         !sectionRef.current ||
         !containerRef.current ||
         !stickyRef.current ||
-        !imageRef.current
+        !imageRef.current ||
+        !textContainerRef.current
       )
         return;
 
-      // make sure container is positioned relative so absolute inside it works
-      if (getComputedStyle(containerRef.current).position === "static") {
-        containerRef.current.style.position = "relative";
-      }
-
       const sectionRect = sectionRef.current.getBoundingClientRect();
       const containerRect = containerRef.current.getBoundingClientRect();
+      const textRect = textContainerRef.current.getBoundingClientRect(); // ✅ text side height
       const stickyEl = stickyRef.current;
       const stickyHeight = stickyEl.offsetHeight;
       const topOffset = headerOffset;
 
       const isDesktop = window.innerWidth >= 769;
 
-      // states
-      const atTop = sectionRect.top > topOffset; // haven't hit the pin point yet
+      const atTop = sectionRect.top > topOffset;
       const inMiddle =
         isDesktop &&
         sectionRect.top <= topOffset &&
-        sectionRect.bottom > topOffset + stickyHeight;
-      const atBottom = sectionRect.bottom <= topOffset + stickyHeight; // fully scrolled past
+        textRect.bottom > topOffset + stickyHeight; // ✅ stop at text bottom
+      const atBottom = textRect.bottom <= topOffset + stickyHeight; // ✅ based on text end
 
       if (!isDesktop) {
-        // clean up on small screens
         containerRef.current.style.minHeight = "";
         stickyEl.style.position = "";
         stickyEl.style.top = "";
@@ -110,35 +96,24 @@ const JourneySection = ({
       }
 
       if (inMiddle) {
-        // --- PIN MODE (fixed to viewport) ---
         containerRef.current.style.minHeight = `${stickyHeight}px`;
         stickyEl.style.position = "fixed";
         stickyEl.style.top = `${topOffset}px`;
-        // align to container on the viewport
         stickyEl.style.left = `${containerRect.left}px`;
-        stickyEl.style.right = "";
-        stickyEl.style.bottom = "";
         stickyEl.style.width = `${containerRect.width}px`;
         stickyEl.classList.add(styles.pinned);
       } else if (atBottom) {
-        // --- SECTION SCROLLED PAST: freeze at section bottom ---
         containerRef.current.style.minHeight = "";
-        stickyEl.style.position = "fixed";
-        // Lock it at the point where the section bottom meets viewport
-        stickyEl.style.top = `${sectionRect.bottom - stickyHeight}px`;
-        stickyEl.style.left = `${containerRect.left}px`;
-        stickyEl.style.width = `${containerRect.width}px`;
-        stickyEl.style.bottom = "";
-        stickyEl.style.right = "";
+        stickyEl.style.position = "absolute"; // ✅ freeze inside container
+        stickyEl.style.top = `${textContainerRef.current.offsetHeight - stickyHeight}px`;
+        stickyEl.style.left = "0";
+        stickyEl.style.width = "100%";
         stickyEl.classList.remove(styles.pinned);
       } else if (atTop) {
-        // --- BEFORE PIN START: normal flow inside container ---
         containerRef.current.style.minHeight = "";
         stickyEl.style.position = "relative";
         stickyEl.style.top = "";
-        stickyEl.style.bottom = "";
         stickyEl.style.left = "";
-        stickyEl.style.right = "";
         stickyEl.style.width = "100%";
         stickyEl.classList.remove(styles.pinned);
       }
@@ -181,20 +156,18 @@ const JourneySection = ({
     };
   }, [textBlocks.length, reverseLayout, headerOffset]);
 
-  const sectionClasses = `${styles.journey} ${
-    reverseLayout ? styles.journeyReverse : ""
-  }`;
+  const sectionClasses = `${styles.journey} ${reverseLayout ? styles.journeyReverse : ""}`;
 
   return (
     <section className={sectionClasses} ref={sectionRef}>
       {/* TEXT SIDE */}
-      <div className={styles.textContainer}>
+      <div className={styles.textContainer} ref={textContainerRef}>
         {textBlocks.map((text, i) => (
           <div
             key={i}
             className={styles.textBlock}
             ref={(el) => (textRefs.current[i] = el)}
-            style={{ transitionDelay: `${i * 0.2}s` }} // stagger
+            style={{ transitionDelay: `${i * 0.2}s` }}
           >
             <p>{text}</p>
           </div>
