@@ -12,13 +12,13 @@ const watchVariants = [
     model: "EV001",
     material: "STAINLESS STEEL",
     strapColor: "Burgundy",
-    image: "/images/geneve_watch.webp",
+    image: "/images/main_watch_brown.webp",
     swatch: "/images/brown_swatch.png",
     details: [
       {
         title: "CASE",
         content: [
-          "Stainless steel case polished / brushed", 
+          "Stainless steel case polished / brushed",
           "Diameter 41mm",
           "Thickness 9mm",
         ],
@@ -157,6 +157,7 @@ export default function CollectionsPage() {
   const [slideInSpecs, setSlideInSpecs] = useState(false);
 
   useEffect(() => {
+ 
     const handleScroll = () => {
       if (!sectionRef.current) return;
 
@@ -198,6 +199,7 @@ export default function CollectionsPage() {
 
   const handleBackToOverview = () => {
     setIsDetailView(false);
+       setHideInfo(false);
   };
   useEffect(() => {
     const updatePin = () => {
@@ -248,18 +250,23 @@ export default function CollectionsPage() {
       window.removeEventListener("resize", updatePin);
     };
   }, []);
+  const [hovered, setHovered] = useState(false);
 
   const renderHeroView = () => (
     <section className={styles.heroSection}>
-      <p className={styles.brandTitle}>EVOLUTION GENÈVE</p>
+      {/* <p className={styles.brandTitle}>EVOLUTION GENÈVE</p> */}
       <div className={styles.heroContent}>
         <div
           className={styles.watchImageWrapper}
-          onClick={() => setIsDetailView(true)}
+          
+          onClick={() => setIsDetailView(true)}  
           onMouseEnter={() => setHideInfo(true)} // 👈 hide on hover
           onMouseLeave={() => setHideInfo(false)} // 👈 show back
         >
-          <div className={styles.watchImageWrapper2}>
+          <div
+            className={styles.watchImageWrapper2}
+
+          >
             <Image
               key={selectedVariant.id}
               src={selectedVariant.image}
@@ -287,10 +294,42 @@ export default function CollectionsPage() {
               <span>Limited to 600 pieces</span>
             </div>
           )}
-
-          <div
-            className={`${styles.swatchContainer}`}
-          >
+          {!hideInfo && (
+            <div className={`${styles.swatchContainer}`}>
+              {watchVariants.map((variant) => (
+                <button
+                  key={variant.id}
+                  className={`${styles.swatch} ${
+                    selectedVariant.id === variant.id ? styles.activeSwatch : ""
+                  }`}
+                  onClick={() => handleVariantSelect(variant)}
+                  aria-label={`Select ${variant.strapColor} strap`}
+                >
+                  <img
+                    src={variant.swatch}
+                    alt={`${variant.strapColor} swatch`}
+                    width={50}
+                    height={50}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+  const renderHeroViewMain = () => (
+    <section className={styles.heroSection2}>
+      <div className={styles.heroContent2}>
+        <div className={styles.watchInfoMain}>
+          <div>
+            <p>{selectedVariant.name}</p>
+            <p>{selectedVariant.model}</p>
+            <p>{selectedVariant.material}</p>
+            <p>Limited to 600 pieces</p>
+          </div>
+          <div className={styles.swatchContainer2}>
             {watchVariants.map((variant) => (
               <button
                 key={variant.id}
@@ -309,40 +348,6 @@ export default function CollectionsPage() {
               </button>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  );
-  const renderHeroViewMain = () => (
-    <section className={styles.heroSection2}>
-      <div className={styles.heroContent2}>
-        <div className={styles.watchInfoMain}>
-          <div>
-
-          <p>{selectedVariant.name}</p>
-          <p>{selectedVariant.model}</p>
-          <p>{selectedVariant.material}</p>
-          <p>Limited to 600 pieces</p>
-          </div>
-                <div className={styles.swatchContainer2}>
-        {watchVariants.map((variant) => (
-          <button
-            key={variant.id}
-            className={`${styles.swatch} ${
-              selectedVariant.id === variant.id ? styles.activeSwatch : ""
-            }`}
-            onClick={() => handleVariantSelect(variant)}
-            aria-label={`Select ${variant.strapColor} strap`}
-          >
-            <img
-              src={variant.swatch}
-              alt={`${variant.strapColor} swatch`}
-              width={50}
-              height={50}
-            />
-          </button>
-        ))}
-      </div> 
         </div>
         <div
           className={`${styles.watchImageWrapper10} ${
@@ -379,12 +384,11 @@ export default function CollectionsPage() {
             />
           </button>
         ))}
-      </div> 
+      </div>
     </section>
   );
   const renderDetailView = () => (
     <div className={styles.overall}>
-
       {renderHeroViewMain()}
       <section className={styles.detailsSection} ref={sectionRef}>
         <div className={styles.detailsContentWrapper}>

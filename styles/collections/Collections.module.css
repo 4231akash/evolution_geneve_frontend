@@ -100,6 +100,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .swatchAngle {
   display: flex;
@@ -114,7 +116,8 @@
   align-items: center;
   position: relative;
   z-index: 2;
-  /* height: 70vh; */
+  height: 100vh;
+  justify-content: center;
 }
 .heroContent2 {
   display: flex;
@@ -122,17 +125,22 @@
   align-items: center;
   position: relative;
   z-index: 2;
-  min-height: 90vh;
+  min-height: 100vh;
   width: 100%;
+  max-width: 1400px;
+  position: relative;
   /* max-width: 1400px; */
-  gap: 1rem;
 }
 .swatchContainer2 {
-  z-index: 5;
+  /* z-index: 30; */
   display: flex;
   justify-content: center;
   width: 100%;
   gap: 1rem;
+  position: sticky;
+  z-index: 10;
+  bottom: 50;
+  right: 50;
 }
 
 /* Brand Title */
@@ -150,17 +158,17 @@
 
 /* Watch Image Wrapper */
 .watchImageWrapper {
-  width: 350px;
-  max-height: 350px;
+  width: 380px;
+  /* max-height: 350px; */
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
 }
 .watchImageWrapper2 {
   /* width: 50%; */
-  height: 60vw;
-  max-height: 100%;
+  height: 60vh;
+  /* max-height: 100%; */
   position: relative;
   cursor: pointer;
   overflow: hidden;
@@ -169,17 +177,27 @@
 .watchImageWrapper10 {
   width: 50%;
   /* flex: 1; */
-  height: 60vw;
-  max-height: 100%;
+  /* height: 90vh; */
+  height: 90%;
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  margin: 2rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  /* margin: 2rem 2rem; */
+  /* padding: 20rem; */
 }
-.watchImage,
-.watchImageMain {
+.watchImage {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+}
+.watchImageMain {
+  width: 100%;
+  height: 90%;
   object-fit: contain;
   transition: transform 0.3s ease-in-out;
 }
@@ -193,15 +211,18 @@
 }
 /* when hovering anywhere in the hero content (including the image),
    put the swatches back into normal flow */
-.heroContent:hover .swatchContainer {
-  position: static !important;
-  right: auto;
+.watchImageWrapper2:hover ~ .swatchContainer {
+  display: none;
+}
+
+.watchImageWrapper2:hover ~ .swatchContainerMain {
+  display: flex;
 }
 /* Watch Info */
 .watchInfo2 {
   position: absolute;
   bottom: 0;
-  left: 22%;
+  /* left: 22%; */
   background: rgba(0, 0, 0, 0.65);
   color: white;
   padding: 12px 16px;
@@ -210,18 +231,24 @@
   transform: translateY(20px);
   transition: all 0.3s ease-in-out;
   pointer-events: none;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .watchInfo2 h2 {
-  font-size: 1rem;
+  font-size: clamp(1rem, 3vw, 1.8rem);
   font-weight: 500;
   color: #fff;
 }
 .watchInfo2 p {
-  font-size: 1rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
   line-height: 1.5;
 }
 .watchInfo2 span {
-  font-size: 0.9rem;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
   color: #c5b69c;
   display: block;
   margin-top: 0.5rem;
@@ -237,7 +264,7 @@
   /* text-align: start; */
 }
 .watchInfoMain p {
-  font-size: clamp(1rem, 3vw, 3rem);
+  font-size: clamp(1rem, 3vw, 2rem);
   line-height: 1.5;
   color: #fff;
   font-weight: 700;
@@ -252,7 +279,7 @@
   margin-top: 1.5rem;
   z-index: 5;
   position: absolute;
-  right:-150;
+  right: -150;
 }
 .swatch {
   background: none;
@@ -314,7 +341,7 @@
 
 .stickyWrapper img {
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
   height: auto;
   display: block; /* removes inline spacing issues */
   margin: 0 auto;
@@ -352,13 +379,13 @@
 }
 .specList h4 {
   font-size: 1.3rem;
-  color: #ffffff;
+  color: #eacd83;
   margin-bottom: 0.75rem;
   font-weight: 600;
 }
 .specList p {
   font-size: 1.1rem;
-  color: #d1c7b8;
+  color: white;
 }
 .specList p:not(:first-of-type) {
   margin-top: 1rem;
@@ -381,18 +408,19 @@
   .heroContent2 {
     flex-direction: column-reverse;
     min-height: 100vh;
+    gap: 2rem;
   }
-  .heroContent{
+  .heroContent {
     /* height: 100%; */
   }
   .watchImageWrapper2 {
-    /* height: 60vw; */
+    height: 50vh;
   }
   .watchImageWrapper10 {
     width: 100%;
     /* flex: 1; */
     /* height: 60vw;/ */
-    min-height: 50vh;
+    height: 50%;
     position: relative;
     cursor: pointer;
     overflow: hidden;
@@ -432,7 +460,7 @@
   .heroSection2 > .swatchContainer2 {
     display: none; /* hide second one */
   }
-    .swatchContainer{
+  .swatchContainer {
     position: static;
   }
 }
@@ -447,7 +475,7 @@
   }
 
   .watchImageWrapper2 {
-    height: 50vw;
+    /* height: 50vh; */
   }
   .detailsContentWrapper {
     gap: 3rem;
@@ -456,7 +484,7 @@
   .swatchAngle {
     flex-direction: column !important;
   }
-    .swatchContainer{
+  .swatchContainer {
     position: static;
   }
 }
@@ -472,7 +500,7 @@
     align-items: center;
   }
   .watchImageWrapper2 {
-    height: 55vh;
+    /* height: 55vh; */
   }
   .detailsContentWrapper {
     flex-direction: row;
@@ -482,7 +510,7 @@
   .swatchAngle {
     flex-direction: column;
   }
-  .swatchContainer{
+  .swatchContainer {
     position: static;
   }
 }
@@ -504,9 +532,8 @@
   }
 
   .watchImageWrapper2 {
-    height: 65vh;
+    /* height: 100vh; */
   }
-
 }
 
 /* 1280px ≤ width ≤ 1535px */
@@ -525,7 +552,7 @@
     padding-left: 8rem;
   }
   .watchImageWrapper2 {
-    height: 100vh;
+    /* height: 100vh; */
   }
   .noPad {
     padding-left: 0;
@@ -553,8 +580,6 @@
   .specList p {
     font-size: 1.2rem;
   }
-
-
 }
 
 /* 2001px ≤ width ≤ 4000px */
@@ -564,7 +589,15 @@
     gap: 4rem;
     padding-left: 10rem;
   }
-
+  .watchImageWrapper2 {
+    /* width: 50%; */
+    height: 60vh;
+    /* max-height: 100%; */
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
   /* .detailsContentWrapper {
     max-width: 1600px;
   } */

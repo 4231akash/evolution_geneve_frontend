@@ -84,7 +84,7 @@ const update = () => {
 
   return (
     <section ref={sectionRef} className={styles.historySection}>
-      <div className={styles.backgroundGif4}></div>
+      <div className={styles.backgroundGif_4}></div>
 
       <div className={styles.contentWrapper}>
         {/* Left Content - Image */}
