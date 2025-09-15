@@ -13,9 +13,8 @@
 .backgroundGif {
   position: absolute;
   inset: 0;
-  background: url("/videos/bg_main_2_video.gif") no-repeat center center;
+  background: url("/videos/scroll_map.gif") no-repeat center center;
   background-size: cover;
-  filter: brightness(0.28);
   z-index: 1;
 }
 
@@ -33,46 +32,32 @@
   padding: 20px;
 }
 
-/* --- Wrapper ensures proper centering of rotated element --- */
+/* --- Hide image wrapper by default (desktop/larger screens) --- */
 .scrollImageWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  overflow: visible; /* allow rotated bounding box to be visible and centered */
+  display: none;
 }
 
-/* --- The image (default desktop behaviour: horizontal) --- */
-.scrollImage {
-  width: 90vw;
-  height: 90vh; /* desktop: scale by height */
-  max-width: none;
-  object-fit: contain;
-  /* user-select: none; */
-  pointer-events: none;
-  transition: transform 0.45s ease, width 0.3s ease, height 0.3s ease;
-  transform-origin: center center;
-}
-
-/* ===== ROTATE ON TABLET & MOBILE =====
-   We rotate the image 90deg (or -90deg) and set its width to a vh-based value
-   so the rotated result fits vertically in the viewport. */
-
-/* Tablet & below (adjust breakpoint as you prefer) */
+/* --- Show only on tablet & mobile --- */
 @media (max-width: 1024px) {
   .scrollContainer {
     width: 95%;
     padding: 12px;
   }
 
-  /* rotate 90deg clockwise and size by viewport height so visual height <= 90vh */
+  .scrollImageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
   .scrollImage {
-    width: 90vw; /* IMPORTANT: width (un-rotated) becomes the visual height after rotate */
+    width: 90vw;
     height: 90vh;
   }
 
-  /* Optional: slight tweak for smaller phones */
+  /* Extra tweak for small phones */
   @media (max-width: 475px) {
     .scrollImage {
       width: 92vw;
@@ -82,19 +67,16 @@
   }
 }
 
-/* If you prefer counter-clockwise rotation, use rotate(-90deg) instead:
-   transform: rotate(-90deg); */
-
-/* Larger screens keep horizontal layout */
+/* --- Desktop layout (≥1025px) --- */
 @media (min-width: 1025px) {
   .scrollImage {
     transform: none;
     height: 90vh;
-     width: 92vw;
+    width: 92vw;
   }
 }
 
-/* Optional: ultra-wide adjustments */
+/* --- Ultra-wide adjustments --- */
 @media (min-width: 1536px) {
   .scrollContainer {
     max-width: 1600px;

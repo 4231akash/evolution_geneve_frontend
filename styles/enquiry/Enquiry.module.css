@@ -1,6 +1,6 @@
 .enquiryPage {
   position: relative;
-  background: url("/images/journey_bg.webp") center center / cover no-repeat;
+  background: url("/images/inquiry backround.webp") center center / cover no-repeat;
   min-height: 100vh; /* always cover full viewport */
   padding: 10rem 2rem 2rem 2rem;
   display: flex;

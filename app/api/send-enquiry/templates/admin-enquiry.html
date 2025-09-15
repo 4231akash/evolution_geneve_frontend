@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      /* Email clients often strip external CSS — keep small & inline-friendly */
+      body { margin:0; padding:0; font-family: Arial, sans-serif; background:#f4f6f8; color:#0f1724; }
+      .container { width:100%; max-width:600px; margin:20px auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(12,20,30,0.08); }
+      .header { padding:20px; display:flex; align-items:center; gap:12px; background:linear-gradient(90deg,#0ea5a3,#2563eb); color:white; }
+      .logo { width:48px; height:48px; border-radius:8px; background:white; display:inline-block; }
+      .title { font-size:18px; font-weight:700; }
+      .body { padding:22px; }
+      .meta { background:#f1f5f9; padding:12px; border-radius:8px; margin-bottom:12px; font-size:13px; }
+      .field { margin-bottom:8px; }
+      .label { font-weight:700; color:#0f1724; }
+      .value { display:block; margin-top:4px; color:#334155; }
+      .message { white-space:pre-wrap; padding:12px; border-radius:8px; color:#0f1724; }
+      .footer { padding:18px; font-size:13px; color:#64748b; text-align:center; }
+      .btn { display:inline-block; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:700; margin-top:12px; }
+      .btn-primary { background:#2563eb; color:white; }
+      .btn-ghost { background:transparent; border:1px solid #e2e8f0; color:#0f1724; }
+      @media (max-width:420px){ .header{ padding:14px } .body{ padding:16px } .title{ font-size:16px } }
+    </style>
+  </head>
+  <body>
+    <div class="container" role="article" aria-label="New enquiry received">
+      <div class="header">
+
+        <div>
+          <div class="title">New Enquiry Received</div>
+          <div style="font-size:12px; opacity:0.9">From: {{name}} • {{email}}</div>
+        </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="meta">
+          <div style="font-size:13px; font-weight:700">Summary</div>
+          <div style="margin-top:6px; color:#334155">{{subject}}</div>
+        </div>
+
+        <div class="field">
+          <div class="label">Name</div>
+          <div class="value">{{name}}</div>
+        </div>
+
+        <div class="field">
+          <div class="label">Email</div>
+          <div class="value">{{email}}</div>
+        </div>
+
+        <div class="field">
+          <div class="label">Phone</div>
+          <div class="value">{{phone}}</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="label">Message</div>
+          <div class="message">{{message}}</div>
+        </div>
+
+        <div style="margin-top:18px; display:flex; gap:80px; flex-wrap:wrap">
+          <a class="btn btn-primary" href="{{admin_dashboard_link}}">Keep On touch</a>
+          <a class="btn btn-ghost" href="mailto:{{email}}">Reply to Sender</a>
+        </div>
+      </div>
+
+      <div class="footer">
+        Evolution Genève • You received this email because a visitor submitted an enquiry on your site.
+      </div>
+    </div>
+  </body>
+</html>

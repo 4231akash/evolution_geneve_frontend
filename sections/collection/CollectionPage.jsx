@@ -12,7 +12,7 @@ const watchVariants = [
     model: "EV001",
     material: "STAINLESS STEEL",
     strapColor: "Burgundy",
-    image: "/images/main_watch_brown.webp",
+    image: "/images/brown_front.webp",
     swatch: "/images/brown_swatch.png",
     details: [
       {
@@ -47,8 +47,8 @@ const watchVariants = [
         title: "DIAL",
         content: [
           "Background set with natural walnut wood.",
-          "Off-white subdial with roman numbers and golden retro pattern (17th century).",
-          "Off-white subdial with western arabic index (20th century).",
+          "Off-white subdial with roman numbers and golden retro pattern symbolizing the 17th century.",
+          "Off-white subdial with western arabic index symbolizing the 20th century.",
           "Sand-timer with natural sand (~10 seconds), symbolizing the 16th century BCE.",
         ],
       },
@@ -155,15 +155,15 @@ export default function CollectionsPage() {
   const containerRef = useRef(null);
   const stickyRef = useRef(null);
   const [slideInSpecs, setSlideInSpecs] = useState(false);
+  
 
   useEffect(() => {
- 
     const handleScroll = () => {
       if (!sectionRef.current) return;
 
       const sectionRect = sectionRef.current.getBoundingClientRect();
       const triggerStart = window.innerHeight * 0.8; // start animation
-      const triggerEnd = 100; // animation stops when scrolled past
+      const triggerEnd = 300; // animation stops when scrolled past
 
       if (sectionRect.top < triggerStart && sectionRect.bottom > triggerEnd) {
         setSlideInSpecs(true);
@@ -199,24 +199,86 @@ export default function CollectionsPage() {
 
   const handleBackToOverview = () => {
     setIsDetailView(false);
-       setHideInfo(false);
+    setHideInfo(false);
   };
+
+//   useEffect(() => {
+//   const updatePin = () => {
+//     if (!sectionRef.current || !containerRef.current || !stickyRef.current)
+//       return;
+
+//     const containerRect = containerRef.current.getBoundingClientRect();
+//     const wrapperRect =
+//       containerRef.current.parentElement.getBoundingClientRect();
+//     const stickyEl = stickyRef.current;
+//     const stickyHeight = stickyEl.offsetHeight;
+//     const topOffset = 80; // adjust for header height if needed
+//     const isDesktop = window.innerWidth >= 1; // breakpoint if needed
+
+//     // dynamic gap (20% of viewport height)
+//     const viewportGap = window.innerHeight * 0.2;
+
+//     const shouldPin =
+//       isDesktop &&
+//       wrapperRect.top <= topOffset &&
+//       wrapperRect.bottom > topOffset + stickyHeight + viewportGap;
+
+//     if (shouldPin) {
+//       // --- stick while scrolling ---
+//       containerRef.current.style.minHeight = `${stickyHeight}px`;
+//       stickyEl.style.position = "fixed";
+//       stickyEl.style.top = `${topOffset}px`;
+//       stickyEl.style.left = `${containerRect.left}px`;
+//       stickyEl.style.width = `${containerRect.width}px`;
+//     } else if (wrapperRect.bottom <= topOffset + stickyHeight + viewportGap) {
+//       // --- release earlier with dynamic gap ---
+//       containerRef.current.style.minHeight = "";
+//       stickyEl.style.position = "absolute";
+//       stickyEl.style.top = `${
+//         containerRef.current.offsetHeight - stickyHeight - viewportGap
+//       }px`;
+//       stickyEl.style.left = "0";
+//       stickyEl.style.width = "100%";
+//     } else {
+//       // --- before sticky kicks in ---
+//       containerRef.current.style.minHeight = "";
+//       stickyEl.style.position = "relative";
+//       stickyEl.style.top = "";
+//       stickyEl.style.bottom = "";
+//       stickyEl.style.left = "0";
+//       stickyEl.style.width = "100%";
+//     }
+//   };
+
+//   window.addEventListener("scroll", updatePin);
+//   window.addEventListener("resize", updatePin);
+
+//   // run once on mount
+//   updatePin();
+
+//   return () => {
+//     window.removeEventListener("scroll", updatePin);
+//     window.removeEventListener("resize", updatePin);
+//   };
+// }, []);
+
   useEffect(() => {
     const updatePin = () => {
       if (!sectionRef.current || !containerRef.current || !stickyRef.current)
         return;
 
-      const sectionRect = sectionRef.current.getBoundingClientRect();
       const containerRect = containerRef.current.getBoundingClientRect();
+      const wrapperRect =
+        containerRef.current.parentElement.getBoundingClientRect();
       const stickyEl = stickyRef.current;
       const stickyHeight = stickyEl.offsetHeight;
       const topOffset = 80; // header height if needed
-      const isDesktop = window.innerWidth >= 1;
+      const isDesktop = window.innerWidth >= 1; // adjust breakpoint
 
       const shouldPin =
         isDesktop &&
-        sectionRect.top <= topOffset &&
-        sectionRect.bottom > topOffset + stickyHeight;
+        wrapperRect.top <= topOffset &&
+        wrapperRect.bottom > topOffset + stickyHeight;
 
       if (shouldPin) {
         containerRef.current.style.minHeight = `${stickyHeight}px`;
@@ -224,20 +286,20 @@ export default function CollectionsPage() {
         stickyEl.style.top = `${topOffset}px`;
         stickyEl.style.left = `${containerRect.left}px`;
         stickyEl.style.width = `${containerRect.width}px`;
-      } else if (sectionRect.bottom <= topOffset + stickyHeight) {
-        // --- stick at bottom ---
+      } else if (wrapperRect.bottom <= topOffset + stickyHeight) {
+        // --- stick at bottom of wrapper ---
         containerRef.current.style.minHeight = "";
         stickyEl.style.position = "absolute";
         stickyEl.style.top = "auto";
         stickyEl.style.bottom = "0";
-        stickyEl.style.left = `${containerRect.left}px`; // ✅ FIXED
-        stickyEl.style.width = `${containerRect.width}px`; // ✅ FIXED
+        stickyEl.style.left = "0"; // relative inside container
+        stickyEl.style.width = "100%";
       } else {
         // --- before pin ---
         containerRef.current.style.minHeight = "";
         stickyEl.style.position = "relative";
         stickyEl.style.top = "";
-        stickyEl.style.bottom = "";
+        stickyEl.style.bottom = "-10px";
         stickyEl.style.left = "0";
         stickyEl.style.width = "100%";
       }
@@ -258,15 +320,11 @@ export default function CollectionsPage() {
       <div className={styles.heroContent}>
         <div
           className={styles.watchImageWrapper}
-          
-          onClick={() => setIsDetailView(true)}  
+          onClick={() => setIsDetailView(true)}
           onMouseEnter={() => setHideInfo(true)} // 👈 hide on hover
           onMouseLeave={() => setHideInfo(false)} // 👈 show back
         >
-          <div
-            className={styles.watchImageWrapper2}
-
-          >
+          <div className={styles.watchImageWrapper2}>
             <Image
               key={selectedVariant.id}
               src={selectedVariant.image}

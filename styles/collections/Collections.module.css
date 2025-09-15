@@ -19,7 +19,7 @@
 .overall {
   position: relative;
   min-height: 100%;
-  background: url("/images/collection_bg_main.webp") center top / cover
+  background: url("/images/collection specification backround_5.webp") center top / cover
     no-repeat;
   color: #e0d6c7;
 }
@@ -341,7 +341,7 @@
 
 .stickyWrapper img {
   width: 100%;
-  max-width: 300px;
+  max-width: 350px;
   height: auto;
   display: block; /* removes inline spacing issues */
   margin: 0 auto;

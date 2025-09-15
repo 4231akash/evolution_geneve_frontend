@@ -1,18 +1,3 @@
-// npm install nodemailer```
-
-// ### Step 3: Create the Frontend "Enquiry" Page
-
-// We will create a new page at the `/enquiry` route.
-
-// 1.  Inside the `app` folder, create a new folder named `enquiry`.
-// 2.  Inside this new `app/enquiry` folder, create a file named `page.js`.
-// 3.  Inside the `app/styles` folder, create a new CSS Module file named `Enquiry.module.css`.
-
-// #### `app/enquiry/page.js`
-
-// This file contains the React component for the contact form. It manages the form's state and sends the data to our backend API route.
-
-// ```javascript
 "use client";
 
 import { useState } from "react";
@@ -28,6 +13,7 @@ export default function EnquiryPage() {
     message: "",
   });
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ new state for disabling button
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +26,7 @@ export default function EnquiryPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
+    setLoading(true); // ✅ disable button
 
     try {
       const response = await fetch("/api/send-enquiry", {
@@ -68,6 +55,8 @@ export default function EnquiryPage() {
     } catch (error) {
       console.error("Submission error:", error);
       setStatus("Error: Could not send message.");
+    } finally {
+      setLoading(false); // ✅ re-enable button
     }
   };
 
@@ -196,8 +185,12 @@ export default function EnquiryPage() {
                 onChange={handleChange}
               ></textarea>
             </div>
-            <button type="submit" className={styles.sendButton}>
-              SEND
+            <button
+              type="submit"
+              className={styles.sendButton}
+              disabled={loading} // ✅ disable while sending
+            >
+              {loading ? "Sending..." : "SEND"}
             </button>
           </form>
           {status && <p className={styles.statusMessage}>{status}</p>}

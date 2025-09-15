@@ -88,7 +88,7 @@
 /* Replace the previous block that included "transition: transform ..." */
 .leftContent,
 .rightContent {
-  opacity: 0;
+  /* opacity: 0; */
   transition: opacity 220ms ease-out; /* keep opacity smoothing only */
   will-change: transform, opacity;
   display: flex;
@@ -162,7 +162,7 @@
   max-width: 100%;
   object-fit: contain;
   z-index: 3;
-  /* filter: opacity(80%); */
+  /* filter: Contrast(150%); */
 }
 
 .textOverlay {
