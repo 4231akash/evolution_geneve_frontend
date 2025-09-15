@@ -22,7 +22,6 @@
   background: url("/images/collection_bg_main.webp") center top / cover
     no-repeat;
   color: #e0d6c7;
-
 }
 .overall::before {
   content: "";
@@ -106,6 +105,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  position: relative;
+  width: 100%;
 }
 .heroContent {
   display: flex;
@@ -113,7 +114,7 @@
   align-items: center;
   position: relative;
   z-index: 2;
-  height: 70vh;
+  /* height: 70vh; */
 }
 .heroContent2 {
   display: flex;
@@ -121,7 +122,7 @@
   align-items: center;
   position: relative;
   z-index: 2;
-  height: 90vh;
+  min-height: 90vh;
   width: 100%;
   /* max-width: 1400px; */
   gap: 1rem;
@@ -190,7 +191,12 @@
   transform: translateY(0);
   pointer-events: auto;
 }
-
+/* when hovering anywhere in the hero content (including the image),
+   put the swatches back into normal flow */
+.heroContent:hover .swatchContainer {
+  position: static !important;
+  right: auto;
+}
 /* Watch Info */
 .watchInfo2 {
   position: absolute;
@@ -231,7 +237,7 @@
   /* text-align: start; */
 }
 .watchInfoMain p {
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(1rem, 3vw, 3rem);
   line-height: 1.5;
   color: #fff;
   font-weight: 700;
@@ -240,10 +246,13 @@
 
 /* Color Swatches */
 .swatchContainer {
+  /* pos */
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
   z-index: 5;
+  position: absolute;
+  right:-150;
 }
 .swatch {
   background: none;
@@ -274,7 +283,7 @@
   /* flex-direction: column; */
   /* gap: 2rem; */
   width: 100%;
-    padding-top: 5rem;
+  padding-top: 5rem;
 }
 .detailsSection > * {
   position: relative;
@@ -354,7 +363,15 @@
 .specList p:not(:first-of-type) {
   margin-top: 1rem;
 }
+/* default hide the first swatchContainer2 (inside) */
+.watchInfoMain .swatchContainer2 {
+  display: none;
+}
 
+/* default show the second one (outside) */
+.heroSection2 > .swatchContainer2 {
+  display: flex;
+}
 /* ============================= */
 /* Responsive Breakpoints (Full Ranges) */
 /* ============================= */
@@ -362,10 +379,61 @@
 /* max-width: 474px */
 @media (max-width: 474px) {
   .heroContent2 {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    min-height: 100vh;
+  }
+  .heroContent{
+    /* height: 100%; */
   }
   .watchImageWrapper2 {
-    height: 60vw;
+    /* height: 60vw; */
+  }
+  .watchImageWrapper10 {
+    width: 100%;
+    /* flex: 1; */
+    /* height: 60vw;/ */
+    min-height: 50vh;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    /* margin: 2rem 2rem; */
+  }
+  .watchInfoMain {
+    gap: 2rem;
+  }
+  .watchInfoMain p {
+    font-size: clamp(1rem, 3vw, 3rem);
+
+    text-align: center;
+  }
+  .detailsContentWrapper {
+    flex-direction: column; /* specs on top, image below */
+    padding: 1rem;
+  }
+
+  .specsContainer {
+    width: 100% !important;
+    position: relative;
+    z-index: 5;
+  }
+
+  .stickyImageContainer {
+    width: 100% !important;
+    position: relative;
+    z-index: 4;
+  }
+  .specList p {
+    font-size: 1.1rem;
+    color: white;
+  }
+  .watchInfoMain .swatchContainer2 {
+    display: flex; /* show first inside one */
+  }
+  .heroSection2 > .swatchContainer2 {
+    display: none; /* hide second one */
+  }
+    .swatchContainer{
+    position: static;
   }
 }
 
@@ -377,6 +445,7 @@
     align-items: center;
     gap: 1rem;
   }
+
   .watchImageWrapper2 {
     height: 50vw;
   }
@@ -386,6 +455,9 @@
   }
   .swatchAngle {
     flex-direction: column !important;
+  }
+    .swatchContainer{
+    position: static;
   }
 }
 
@@ -410,6 +482,9 @@
   .swatchAngle {
     flex-direction: column;
   }
+  .swatchContainer{
+    position: static;
+  }
 }
 
 /* 1024px ≤ width ≤ 1279px */
@@ -431,15 +506,7 @@
   .watchImageWrapper2 {
     height: 65vh;
   }
-  .withPadInfo {
-    padding-left: 20rem !important;
-  }
-  .withPad {
-    padding-left: 24rem;
-  }
-  .swatchAngle {
-    flex-direction: row !important;
-  }
+
 }
 
 /* 1280px ≤ width ≤ 1535px */
@@ -460,17 +527,8 @@
   .watchImageWrapper2 {
     height: 100vh;
   }
-  .withPadInfo {
-   padding-left: 24rem;
-  }
-  .withPad {
-    padding-left: 16rem;
-  }
   .noPad {
     padding-left: 0;
-  }
-  .swatchAngle {
-    flex-direction: row !important;
   }
 }
 
@@ -496,18 +554,7 @@
     font-size: 1.2rem;
   }
 
-  .withPadInfo {
-    padding-left: 24rem;
-  }
-  .withPad {
-    padding-left: 16rem;
-  }
-  .noPad {
-    padding-left: 0;
-  }
-  .swatchAngle {
-    flex-direction: row !important;
-  }
+
 }
 
 /* 2001px ≤ width ≤ 4000px */

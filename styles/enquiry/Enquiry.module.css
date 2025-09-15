@@ -1,7 +1,7 @@
 .enquiryPage {
   position: relative;
   background: url("/images/journey_bg.webp") center center / cover no-repeat;
-  min-height: 100%;
+  min-height: 100vh; /* always cover full viewport */
   padding: 10rem 2rem 2rem 2rem;
   display: flex;
   align-items: center;
@@ -19,13 +19,9 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(37, 34, 25, 0) 0%,
-    #252219 60.57%
-  );
-  opacity: 0.80;
+  height: 100%; /* match parent */
+  background: linear-gradient(180deg, rgba(37, 34, 25, 0) 0%, #252219 60.57%);
+  opacity: 0.8;
   z-index: 0; /* lowest overlay */
 }
 
@@ -36,7 +32,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%; /* match parent */
   background: linear-gradient(
     180deg,
     rgba(37, 34, 25, 0.95) 0%,
@@ -51,17 +47,18 @@
   position: relative;
   z-index: 2;
 }
-.formCheck{
-    display: flex;
-    /* flex-direction: column; */
-    gap: 1rem;
+
+.formCheck {
+  display: flex;
+  gap: 1rem;
 }
 
 .container {
   display: flex;
+  justify-content: center;
+  height: 100%;
+  max-width: 1400px;
   width: 100%;
-  max-width: 1200px;
-  /* gap: 4rem; */
 }
 
 .contactInfo,
@@ -131,11 +128,6 @@
   color: #eceae6;
   margin-bottom: 2.5rem;
 }
-
-/* .contactForm form {
-  display: flex;
-  gap: 2rem;
-} */
 
 .formLeft,
 .formRight {
@@ -227,14 +219,172 @@
   color: #c5b69c;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
+/* ----------------------------- */
+/* Small mobile: up to 474px     */
+/* ----------------------------- */
+@media (max-width: 474px) {
+  .enquiryPage {
+    padding: 4rem 1rem 2rem 1rem;
+  }
+
   .container {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: start;
+    gap: 5rem;
+
+    padding-top: 5rem;
+  }
+
+  .contactInfo {
+    width: 100%;
+  }
+  .privacy {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+
+  .formCheck {
     flex-direction: column;
+    gap: 1rem;
+  }
+
+  .inputGroup input,
+  .inputGroup textarea {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  .sendButton {
+    width: 100%;
+    padding: 0.8rem;
+  }
+}
+
+/* ----------------------------- */
+/* Larger mobile: 475px – 639px  */
+/* ----------------------------- */
+@media (min-width: 475px) and (max-width: 639px) {
+  .enquiryPage {
+    padding: 5rem 1.5rem 2rem 1.5rem;
+  }
+
+  .container {
+    flex-direction: column-reverse;
+    gap: 5rem;
+  }
+
+  .formCheck {
+    flex-direction: column;
+  }
+
+  .sendButton {
+    align-self: center;
+    width: 80%;
+  }
+}
+
+/* ----------------------------- */
+/* Tablets: 640px – 1023px       */
+/* ----------------------------- */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .enquiryPage {
+    padding: 8rem 2rem 3rem 2rem;
+  }
+
+  .container {
+    flex-direction: column-reverse;
+    gap: 5rem;
+  }
+
+  .formCheck {
+    flex-direction: row;
+  }
+
+  .sendButton {
+    align-self: flex-end;
+  }
+}
+
+/* ----------------------------- */
+/* Small desktops: 1024px – 1279px */
+/* ----------------------------- */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .container {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .contactInfo {
+    flex: 0.9;
+  }
+
+  .contactForm {
+    flex: 1.1;
+  }
+}
+
+/* ----------------------------- */
+/* Medium desktops: 1280px – 1535px */
+/* ----------------------------- */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .container {
     gap: 3rem;
   }
-  .contactForm form {
-    flex-direction: column;
-    gap: 0;
+
+  .contactForm h3 {
+    font-size: 2rem;
+  }
+
+  .inputGroup input,
+  .inputGroup textarea {
+    font-size: 1.05rem;
+  }
+}
+
+/* ----------------------------- */
+/* Large desktops: 1536px – 2000px */
+/* ----------------------------- */
+@media (min-width: 1536px) and (max-width: 2000px) {
+  .container {
+    max-width: 1400px;
+    gap: 4rem;
+  }
+
+  .contactInfo h2 {
+    font-size: 1.8rem;
+  }
+
+  .contactForm h3 {
+    font-size: 2.2rem;
+  }
+}
+
+/* ----------------------------- */
+/* Ultra-wide: 2001px – 4000px   */
+/* ----------------------------- */
+@media (min-width: 2001px) and (max-width: 4000px) {
+  .container {
+    max-width: 1800px;
+    gap: 5rem;
+  }
+
+  .contactInfo h2 {
+    font-size: 2rem;
+  }
+
+  .contactForm h3 {
+    font-size: 2.4rem;
+  }
+
+  .inputGroup input,
+  .inputGroup textarea {
+    font-size: 1.1rem;
+    padding: 1rem 1.2rem;
+  }
+
+  .sendButton {
+    font-size: 1rem;
+    padding: 0.8rem 2.5rem;
   }
 }

@@ -19,7 +19,7 @@
   max-width: 1400px;
   width: 100%;
   height: 100vh;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 .heroContent {
@@ -32,22 +32,23 @@
 }
 
 .watchContainer {
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  height: 125vh;
-  transform: translate(-50%, -50%) scale(0.3);
+  width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 125vh; */
+  /* transform: translate(-50%, -50%) scale(0.3); */
   opacity: 0;
-  transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1),
-              opacity 2s ease;  /* slower fade/scale */
-  z-index: 5;
+  transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 2s ease; /* slower fade/scale */
+  /* z-index: 5; */
 }
-
 
 .watchContainer.visible {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  /* transform: translate(-50%, -50%) scale(1); */
 }
 
 .watchImagePlain {
@@ -55,63 +56,148 @@
 }
 
 .textContainer {
-  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(0.25rem, 1vw, 0.75rem);
-  filter: contrast(200%) brightness(100%);
+  gap: 0.5rem;
+  width: 100%;
 }
+
 .textTop,
 .textBottom {
-  opacity: 0;
-  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-  max-width: 90%;
-  height: auto !important; /* override next/image inline height */
-  /* width: auto !important;  reset inline width so clamp works */
-  pointer-events: none;
+  width: 90%; /* fill screen width safely */
+  max-width: 320px; /* prevent overflow */
+  transform: none; /* avoid weird translate issues */
+  text-align: center;
 }
 
 .textTop img,
 .textBottom img {
-  width: 100% !important;   /* make Next.js <Image /> respect parent clamp */
+  width: 100% !important;
   height: auto !important;
-  object-fit: contain;
 }
 
-/* keep your existing animations */
-.textTop {
-  transform: translateX(-100%);
-  transition-delay: 0s;
-}
-
-.textBottom {
-  transform: translateX(100%);
-  transition-delay: 0.4s;
-}
-
-.textTop.visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.3s;
-}
-
-.textBottom.visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.6s;
-}
 /* Responsive sizing stays same */
 @media (max-width: 475px) {
-  .textTop {
-    width: clamp(800px, 85vw, 1400px);
+   .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh; /* use min-height instead of fixed height */
   }
+
+  .heroContent {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertical center */
+    align-items: center;
+    height: 100vh;
+  }
+
+
+
+  .watchContainer {
+    position: static !important; /* remove absolute positioning */
+    transform: none !important;  /* no translate/scale on mobile */
+
+    opacity: 1; /* keep visible when loaded */
+    /* z-index: 2; */
+  }
+
+  .watchImagePlain {
+
+    object-fit: contain;
+     position: static !important;
+  }
+
+  .textContainer {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 320px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+      /* z-index: 2; */
+  }
+
+  .textTop,
   .textBottom {
-    width: clamp(800px, 85vw, 1400px);
+    width: 100%;
+    max-width: 300px;
+    transform: none !important; /* disable side animations */
+    opacity: 1 !important; /* make sure they show */
+    text-align: center;
   }
 }
 
+
 @media (min-width: 640px) {
+  .watchContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 125vh;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 2s ease; /* slower fade/scale */
+    z-index: 5;
+  }
+
+  .watchContainer.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .textContainer {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, 0.75rem);
+    filter: contrast(200%) brightness(100%);
+  }
+  .textTop,
+  .textBottom {
+    opacity: 0;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    max-width: 90%;
+    height: auto !important; /* override next/image inline height */
+    width: auto !important;
+    pointer-events: none;
+  }
+
+  .textTop img,
+  .textBottom img {
+    width: 100% !important; /* make Next.js <Image /> respect parent clamp */
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  /* keep your existing animations */
+  .textTop {
+    transform: translateX(-100%);
+    transition-delay: 0s;
+  }
+
+  .textBottom {
+    transform: translateX(100%);
+    transition-delay: 0.4s;
+  }
+
+  .textTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .textBottom.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.6s;
+  }
   .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
@@ -121,6 +207,71 @@
 }
 
 @media (min-width: 1024px) {
+  .watchContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 125vh;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 2s ease; /* slower fade/scale */
+    z-index: 5;
+  }
+
+  .watchContainer.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .textContainer {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, 0.75rem);
+    filter: contrast(200%) brightness(100%);
+  }
+  .textTop,
+  .textBottom {
+    opacity: 0;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    max-width: 90%;
+    height: auto !important; /* override next/image inline height */
+    width: auto !important;
+    pointer-events: none;
+  }
+
+  .textTop img,
+  .textBottom img {
+    width: 100% !important; /* make Next.js <Image /> respect parent clamp */
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  /* keep your existing animations */
+  .textTop {
+    transform: translateX(-100%);
+    transition-delay: 0s;
+  }
+
+  .textBottom {
+    transform: translateX(100%);
+    transition-delay: 0.4s;
+  }
+
+  .textTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .textBottom.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.6s;
+  }
+
   .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
@@ -130,6 +281,70 @@
 }
 
 @media (min-width: 1280px) {
+  .watchContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 125vh;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 2s ease; /* slower fade/scale */
+    z-index: 5;
+  }
+
+  .watchContainer.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .textContainer {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, 0.75rem);
+    filter: contrast(200%) brightness(100%);
+  }
+  .textTop,
+  .textBottom {
+    opacity: 0;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    max-width: 90%;
+    height: auto !important; /* override next/image inline height */
+    width: auto !important;
+    pointer-events: none;
+  }
+
+  .textTop img,
+  .textBottom img {
+    width: 100% !important; /* make Next.js <Image /> respect parent clamp */
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  /* keep your existing animations */
+  .textTop {
+    transform: translateX(-100%);
+    transition-delay: 0s;
+  }
+
+  .textBottom {
+    transform: translateX(100%);
+    transition-delay: 0.4s;
+  }
+
+  .textTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .textBottom.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.6s;
+  }
   .textTop {
     width: clamp(800px, 85vw, 1400px);
   }
@@ -139,6 +354,71 @@
 }
 
 @media (min-width: 1536px) {
+  .watchContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 125vh;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 2s ease; /* slower fade/scale */
+    z-index: 5;
+  }
+
+  .textContainer {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, 0.75rem);
+    filter: contrast(200%) brightness(100%);
+  }
+  .textTop,
+  .textBottom {
+    opacity: 0;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    max-width: 90%;
+    height: auto !important; /* override next/image inline height */
+    width: auto !important;
+    pointer-events: none;
+  }
+
+  .textTop img,
+  .textBottom img {
+    width: 100% !important; /* make Next.js <Image /> respect parent clamp */
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  /* keep your existing animations */
+  .textTop {
+    transform: translateX(-100%);
+    transition-delay: 0s;
+  }
+
+  .textBottom {
+    transform: translateX(100%);
+    transition-delay: 0.4s;
+  }
+
+  .textTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .textBottom.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.6s;
+  }
+
+  .watchContainer.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
   .textTop {
     width: clamp(800px, 80vw, 1400px);
   }
@@ -148,6 +428,71 @@
 }
 
 @media (min-width: 2000px) {
+  .watchContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 125vh;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    transition: transform 2.5s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 2s ease; /* slower fade/scale */
+    z-index: 5;
+  }
+
+  .watchContainer.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .textContainer {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, 0.75rem);
+    filter: contrast(200%) brightness(100%);
+  }
+  .textTop,
+  .textBottom {
+    opacity: 0;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    max-width: 90%;
+    height: auto !important; /* override next/image inline height */
+    width: auto !important;
+    pointer-events: none;
+  }
+
+  .textTop img,
+  .textBottom img {
+    width: 100% !important; /* make Next.js <Image /> respect parent clamp */
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  /* keep your existing animations */
+  .textTop {
+    transform: translateX(-100%);
+    transition-delay: 0s;
+  }
+
+  .textBottom {
+    transform: translateX(100%);
+    transition-delay: 0.4s;
+  }
+
+  .textTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .textBottom.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.6s;
+  }
+
   .textTop {
     width: clamp(800px, 85vw, 1400px);
   }

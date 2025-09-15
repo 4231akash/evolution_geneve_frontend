@@ -209,7 +209,7 @@ export default function CollectionsPage() {
       const stickyEl = stickyRef.current;
       const stickyHeight = stickyEl.offsetHeight;
       const topOffset = 80; // header height if needed
-      const isDesktop = window.innerWidth >= 479;
+      const isDesktop = window.innerWidth >= 1;
 
       const shouldPin =
         isDesktop &&
@@ -280,7 +280,7 @@ export default function CollectionsPage() {
         </div>
         <div className={styles.swatchAngle}>
           {!hideInfo && (
-            <div className={`${styles.watchInfo} ${styles.withPadInfo}`}>
+            <div className={`${styles.watchInfo}`}>
               <h2>{selectedVariant.name}</h2>
               <p>{selectedVariant.model}</p>
               <p>{selectedVariant.material}</p>
@@ -289,9 +289,7 @@ export default function CollectionsPage() {
           )}
 
           <div
-            className={`${styles.swatchContainer} ${
-              hideInfo ? styles.noPad : styles.withPad
-            }`}
+            className={`${styles.swatchContainer}`}
           >
             {watchVariants.map((variant) => (
               <button
@@ -326,6 +324,25 @@ export default function CollectionsPage() {
           <p>{selectedVariant.material}</p>
           <p>Limited to 600 pieces</p>
           </div>
+                <div className={styles.swatchContainer2}>
+        {watchVariants.map((variant) => (
+          <button
+            key={variant.id}
+            className={`${styles.swatch} ${
+              selectedVariant.id === variant.id ? styles.activeSwatch : ""
+            }`}
+            onClick={() => handleVariantSelect(variant)}
+            aria-label={`Select ${variant.strapColor} strap`}
+          >
+            <img
+              src={variant.swatch}
+              alt={`${variant.strapColor} swatch`}
+              width={50}
+              height={50}
+            />
+          </button>
+        ))}
+      </div> 
         </div>
         <div
           className={`${styles.watchImageWrapper10} ${

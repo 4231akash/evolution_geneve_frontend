@@ -28,7 +28,15 @@ const SundialSection = () => {
 
       if (Math.abs(next - currentRef.current) > 0.0001) {
         currentRef.current = next;
-        setScrollProgress(next); // ✅ triggers React only when needed
+
+        // ✅ Only update React state when it's meaningfully different
+        setScrollProgress((prev) => {
+          if (Math.abs(prev - next) > 0.001) {
+            return next;
+          }
+          return prev;
+        });
+
         rafId = requestAnimationFrame(update);
       }
     };
