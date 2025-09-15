@@ -232,66 +232,43 @@
     justify-content: center;
     align-items: center;
   }
-  .scrollImageWrapper {
-    width: 380px;
-    height: 380px;
-    display: flex;
-    flex-direction: column; /* stack h2 + p vertically */
-    justify-content: flex-start; /* start from top */
-    align-items: flex-start; /* align text to left */
-    padding: 1rem;
-  }
-  .scrollImageWrapper2 {
-    width: 380px;
-    height: 380px;
-    display: flex;
-    flex-direction: column; /* stack h2 + p vertically */
-    justify-content: flex-start; /* start from top */
-    align-items: flex-start; /* align text to left */
-    padding: 1rem;
-  }
-  .scrollImageWrapper3 {
-    width: 380px;
-    height: 380px;
-    display: flex;
-    flex-direction: column; /* stack h2 + p vertically */
-    justify-content: flex-start; /* start from top */
-    align-items: flex-start; /* align text to left */
-    padding: 1rem;
-  }
+  .scrollImageWrapper,
+  .scrollImageWrapper2,
+  .scrollImageWrapper3,
   .scrollImageWrapper4 {
-    width: 380px;
-    height: 380px;
+    width: min(90vw, 42 0px);   /* take 90% of screen, max 420px */
+    height: min(80vh, 420px);  /* take 80% height, max 420px */
     display: flex;
-    flex-direction: column; /* stack h2 + p vertically */
-    justify-content: flex-start; /* start from top */
-    align-items: flex-start; /* align text to left */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     padding: 1rem;
-  }
-  .watchImage {
-    max-width: 200px;
-  }
-  .textOverlay {
-    padding: 0;
-    margin-top: 0;
-    max-width: 100%;
-    align-items: flex-start; /* ensure text is left-aligned */
-    text-align: center; /* left-align heading and paragraph */
+    background-size: contain; /* ✅ ensures the image doesn’t crop */
   }
 
-  .textOverlay h2 {
-    font-size: 1rem;
-    line-height: 1.2rem;
-    margin-top: 2rem;
-    align-self: center;
+  .watchImage {
+    max-width: 65vw;   /* scale relative to viewport */
+    max-height: 70vh;  /* prevent overflowing */
+  }
+
+  .textOverlay {
+    padding: 0.5rem;
+    margin-top: 0;
+    max-width: 100%;
+    align-items: flex-start;
     text-align: center;
   }
 
+  .textOverlay h2 {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    margin-top: 1rem;
+  }
+
   .textOverlay p {
-    font-size: 0.8rem;
-    line-height: 1.2rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    font-size: clamp(0.8rem, 3.5vw, 1rem);
+    line-height: 1.3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 

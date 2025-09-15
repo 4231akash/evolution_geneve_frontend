@@ -15,27 +15,37 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ensures it behaves like background-size: cover */
+  object-fit: cover;      /* cover whole section */
+  object-position: center;
   z-index: 1;
-  pointer-events: none; /* prevent user interaction */
+  pointer-events: none;
+  transform: scale(1);
+  transition: transform 0.3s ease;
 }
 
-/* --- Background GIF --- */
-.backgroundGif {
-  position: absolute;
-  inset: 0;
-  background: url("/videos/scroll_map.gif") no-repeat center center;
-  background-size: cover;
-  z-index: 1;
+/* --- Tablet zoom out effect --- */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .backgroundVideo {
+    transform: scale(1.15);
+    object-position: center;
+  }
 }
 
-/* --- Container that holds the image --- */
+/* --- Desktop normal scale --- */
+@media (min-width: 1025px) {
+  .backgroundVideo {
+    transform: scale(1);
+    object-position: center;
+  }
+}
+
+/* --- Scroll/Image container --- */
 .scrollContainer {
   position: relative;
   z-index: 10;
   width: 85%;
   max-width: 1400px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,53 +53,72 @@
   padding: 20px;
 }
 
-/* --- Hide image wrapper by default (desktop/larger screens) --- */
+/* --- Scroll image wrapper --- */
 .scrollImageWrapper {
-  display: none;
+  width: 650px;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* --- Show only on tablet & mobile --- */
-@media (max-width: 1024px) {
+/* --- Scroll image --- */
+.scrollImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* --- Mobile (<768px) --- */
+@media (max-width: 767px) {
   .scrollContainer {
     width: 95%;
-    padding: 12px;
+    padding: 10px;
   }
-
   .scrollImageWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 90vw;
+    height: 80vh;
   }
-
   .scrollImage {
     width: 90vw;
-    height: 90vh;
-  }
-
-  /* Extra tweak for small phones */
-  @media (max-width: 475px) {
-    .scrollImage {
-      width: 92vw;
-      height: 90vh;
-      transform: rotate(90deg);
-    }
+    height: auto;
   }
 }
 
-/* --- Desktop layout (≥1025px) --- */
-@media (min-width: 1025px) {
+/* --- Tablet (768–1024px) --- */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .scrollContainer {
+    width: 90%;
+  }
+  .scrollImageWrapper {
+    width: 80%;
+    height: 85vh;
+  }
   .scrollImage {
-    transform: none;
-    height: 90vh;
-    width: 92vw;
+    width: 100%;
+    height: auto;
   }
 }
 
-/* --- Ultra-wide adjustments --- */
+/* --- Desktop (1025–1536px) --- */
+@media (min-width: 1025px) and (max-width: 1536px) {
+  .scrollContainer {
+    width: 85%;
+  }
+  .scrollImageWrapper {
+    width: 650px;
+    height: 95vh;
+  }
+}
+
+/* --- Ultra-wide (>1536px) --- */
 @media (min-width: 1536px) {
   .scrollContainer {
+    width: 75%;
     max-width: 1600px;
+  }
+  .scrollImageWrapper {
+    width: 700px;
+    height: 95vh;
   }
 }
