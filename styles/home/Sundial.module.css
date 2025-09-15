@@ -233,7 +233,7 @@
     align-items: center;
   }
   .scrollImageWrapper {
-    width: 300px;
+    width: 380px;
     height: 380px;
     display: flex;
     flex-direction: column; /* stack h2 + p vertically */
@@ -242,7 +242,7 @@
     padding: 1rem;
   }
   .scrollImageWrapper2 {
-    width: 300px;
+    width: 380px;
     height: 380px;
     display: flex;
     flex-direction: column; /* stack h2 + p vertically */
@@ -251,7 +251,7 @@
     padding: 1rem;
   }
   .scrollImageWrapper3 {
-    width: 300px;
+    width: 380px;
     height: 380px;
     display: flex;
     flex-direction: column; /* stack h2 + p vertically */
@@ -260,7 +260,7 @@
     padding: 1rem;
   }
   .scrollImageWrapper4 {
-    width: 300px;
+    width: 380px;
     height: 380px;
     display: flex;
     flex-direction: column; /* stack h2 + p vertically */
@@ -298,19 +298,19 @@
 /* SM: large phones / small tablets (≥475px) */
 @media (min-width: 475px) and (max-width: 639px) {
   .scrollImageWrapper {
-    width: 340px;
+    width: 380px;
     height: 420px;
   }
   .scrollImageWrapper2 {
-    width: 340px;
+    width: 380px;
     height: 420px;
   }
   .scrollImageWrapper3{
-    width: 340px;
+    width: 380px;
     height: 420px;
   }
   .scrollImageWrapper4{
-    width: 340px;
+    width: 380px;
     height: 420px;
   }
   .textOverlay {
