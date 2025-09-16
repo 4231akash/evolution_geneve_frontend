@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "../../../styles/collections/Collections.module.css";
+import Header from "../../../components/Header";
 
 export default function ClientDetail({ initialVariant, variants }) {
   const router = useRouter();
@@ -124,8 +125,6 @@ export default function ClientDetail({ initialVariant, variants }) {
   };
 
   // open/close zoom modal
-  const openZoom = () => setIsZoomed(true);
-  const closeZoom = () => setIsZoomed(false);
 
   // ===========================
   // renderHeroViewMain (as you asked)
@@ -166,7 +165,7 @@ export default function ClientDetail({ initialVariant, variants }) {
           className={`${styles.watchImageWrapper10} ${
             isAnimating ? styles.imagePop : ""
           }`}
-          onClick={openZoom} /* replaced setIsDetailView(true) with zoom open */
+        
           style={{ cursor: "pointer" }}
         >
           <Image
@@ -207,57 +206,58 @@ export default function ClientDetail({ initialVariant, variants }) {
   // render (with specs + sticky image)
   // ===========================
   return (
-    <div className={styles.overall}>
-      {renderHeroViewMain()}
+    <>
+      <Header />
+      <div className={styles.overall}>
+        {renderHeroViewMain()}
 
-      <section className={styles.detailsSection}>
-        <div className={styles.detailsContentWrapper} ref={sectionRef}>
-          <div
-            ref={sectionRef}
-            className={`${styles.specsContainer} ${
-              slideInSpecs ? styles.slideIn : ""
-            }`}
-          >
-            <Link
-              href="/collections"
-              className={styles.backButton}
-              style={{ textDecoration: "none" }}
+        <section className={styles.detailsSection}>
+          <div className={styles.detailsContentWrapper} ref={sectionRef}>
+            <div
+              ref={sectionRef}
+              className={`${styles.specsContainer} ${
+                slideInSpecs ? styles.slideIn : ""
+              }`}
             >
-              &larr; Back to Collections
-            </Link>
+              <Link
+                href="/collections"
+                className={styles.backButton}
+                style={{ textDecoration: "none" }}
+              >
+                &larr; Back to Collections
+              </Link>
 
-            <ul className={styles.specList} style={{ paddingTop: "2rem" }}>
-              {selectedVariant.details.map((detail, idx) => (
-                <li key={idx}>
-                  <h4>{detail.title}:</h4>
-                  {detail.content.map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
-                </li>
-              ))}
-            </ul>
-          </div>
+              <ul className={styles.specList} style={{ paddingTop: "2rem" }}>
+                {selectedVariant.details.map((detail, idx) => (
+                  <li key={idx}>
+                    <h4>{detail.title}:</h4>
+                    {detail.content.map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className={styles.stickyImageContainer} ref={containerRef}>
-            <div className={styles.stickyWrapper} ref={stickyRef}>
-              <img
-                key={`${selectedVariant.id}-sticky`}
-                src={selectedVariant.image}
-                alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
-                style={{
-                  width: "100%",
-                  maxWidth: 350,
-                  height: "auto",
-                  display: "block",
-                  margin: "0 auto",
-                }}
-              />
+            <div className={styles.stickyImageContainer} ref={containerRef}>
+              <div className={styles.stickyWrapper} ref={stickyRef}>
+                <img
+                  key={`${selectedVariant.id}-sticky`}
+                  src={selectedVariant.image}
+                  alt={`${selectedVariant.name} watch with ${selectedVariant.strapColor} strap`}
+                  style={{
+                    width: "100%",
+                    maxWidth: 350,
+                    height: "auto",
+                    display: "block",
+                    margin: "0 auto",
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-    
-    </div>
+        </section>
+      </div>
+    </>
   );
 }
