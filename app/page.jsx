@@ -10,6 +10,7 @@ import SandTimerSection from "../sections/home/SandTimerSection";
 import ManualWindingSection from "../sections/home/ManualWindingSection";
 import SelfWindingSection from "../sections/home/SelfWindingSection";
 import useScrollOverlap from "../hooks/useScrollOverlap";
+import useFullpageScroll from "../hooks/useFullPageScroll";
 
 export default function Home() {
   const [loaderDone, setLoaderDone] = useState(false);
@@ -61,3 +62,18 @@ function MainContent() {
     </main>
   );
 }
+
+// function MainContent() {
+//   useFullpageScroll();
+
+//   return (
+//     <main>
+//       <section><HeroSection /></section>
+//       <section><TechnicalSpecsSection /></section>
+//       <section><SundialSection /></section>
+//       <section><SandTimerSection /></section>
+//       <section><ManualWindingSection /></section>
+//       <section><SelfWindingSection /></section>
+//     </main>
+//   );
+// }

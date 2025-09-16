@@ -10,11 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 export default function SmoothScrollProvider({ children }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 5.5, // slightly slower for smoother feel
+      duration: 2.5, // slightly slower for smoother feel
       easing: (t) => 1 - Math.pow(2, -10 * t), // smooth in-out
       smoothWheel: true,
       smoothTouch: true,
-      wheelMultiplier: 0.2,
+      wheelMultiplier: 0.5,
     });
 
     let rafId;
