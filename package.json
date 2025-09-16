@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@lottiefiles/dotlottie-web": "^0.52.0",
     "@studio-freight/lenis": "^1.0.42",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "locomotive-scroll": "^4.1.4",
+    "lottie-react": "^2.4.1",
     "next": "15.5.2",
     "nodemailer": "^7.0.6",
     "react": "19.1.0",

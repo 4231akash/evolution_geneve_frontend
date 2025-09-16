@@ -11,7 +11,7 @@ import ManualWindingSection from "../sections/home/ManualWindingSection";
 import SelfWindingSection from "../sections/home/SelfWindingSection";
 import useScrollOverlap from "../hooks/useScrollOverlap";
 import useFullpageScroll from "../hooks/useFullPageScroll";
-
+import DownScroll from "../components/downScroll";
 export default function Home() {
   const [loaderDone, setLoaderDone] = useState(false);
   const [bgDone, setBgDone] = useState(false);
@@ -59,6 +59,8 @@ function MainContent() {
       <SandTimerSection />
       <ManualWindingSection />
       <SelfWindingSection />
+
+      <DownScroll />
     </main>
   );
 }
