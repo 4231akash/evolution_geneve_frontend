@@ -94,8 +94,8 @@ export default function DownScroll({ size = 100 }) {
       onClick={handleClick}
       style={{
         position: "fixed",
-        right: 24,
-        bottom: 24,
+        right: 5,
+        bottom: 20,
         zIndex: 2147483647,
         width: size,
         height: size,
