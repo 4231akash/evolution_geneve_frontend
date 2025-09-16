@@ -102,6 +102,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .swatchAngle {
   display: flex;
@@ -137,10 +138,10 @@
   justify-content: center;
   width: 100%;
   gap: 1rem;
-  position: sticky;
+  position: absolute;
   z-index: 10;
   bottom: 50;
-  right: 50;
+  right: 0;
 }
 
 /* Brand Title */
@@ -399,6 +400,7 @@
 .heroSection2 > .swatchContainer2 {
   display: flex;
 }
+
 /* ============================= */
 /* Responsive Breakpoints (Full Ranges) */
 /* ============================= */
@@ -426,6 +428,9 @@
     overflow: hidden;
     /* margin: 2rem 2rem; */
   }
+    .watchInfo2{
+    display: none;
+  }
   .watchInfoMain {
     gap: 2rem;
   }
@@ -450,10 +455,12 @@
     position: relative;
     z-index: 4;
   }
-  .specList p {
-    font-size: 1.1rem;
-    color: white;
-  }
+ .specList p {
+  font-size: 1.1rem;
+  color: white;
+  text-shadow: 3px 3px 3px #252219; /* x-offset, y-offset, blur, color */
+}
+
   .watchInfoMain .swatchContainer2 {
     display: flex; /* show first inside one */
   }
@@ -461,12 +468,18 @@
     display: none; /* hide second one */
   }
   .swatchContainer {
-    position: static;
+    position: static !important;
+  }
+  .swatchContainer2 {
+    position: static !important;
   }
 }
 
 /* 475px ≤ width ≤ 639px */
 @media (min-width: 475px) and (max-width: 639px) {
+  .watchInfo2{
+    display: none;
+  }
   .heroContent2 {
     flex-direction: row;
     justify-content: center;
@@ -486,6 +499,9 @@
   }
   .swatchContainer {
     position: static;
+  }
+    .swatchContainer2 {
+    position: static !important;
   }
 }
 

@@ -1,4 +1,3 @@
-// hooks/useScrollOverlap.jsx
 "use client";
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
@@ -16,20 +15,20 @@ export default function useScrollOverlap() {
 
         const next = sections[i + 1];
 
-        // add manual spacing below current section
-        // (so next section doesn’t jump immediately)
-        gsap.set(next, { marginTop: 200 });
+        // spacing below current section (dynamic for mobile)
+        const spacing = Math.min(window.innerHeight * 0.3, 200); // max 200px
+        gsap.set(next, { marginTop: spacing });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: () => `+=${window.innerHeight + 200}`,
+            end: () => `+=${window.innerHeight + spacing}`, // dynamic end distance
             pin: true,
             pinSpacing: false,
-            scrub: 0.5,
+            scrub: Math.max(0.5, window.innerHeight / 1200), // adapt scrub speed
             anticipatePin: 1,
-            fastScrollEnd: true, // ✅ helps prevent stutter at fast swipes
+            fastScrollEnd: true,
             invalidateOnRefresh: true,
           },
         });
@@ -41,8 +40,9 @@ export default function useScrollOverlap() {
         });
       });
 
-      // Parallax effect
+      // Parallax effect (dynamic based on section height)
       gsap.utils.toArray("section .parallax-bg").forEach((bg) => {
+        const parentHeight = bg.closest("section").offsetHeight;
         gsap.to(bg, {
           yPercent: 20,
           ease: "none",
@@ -50,7 +50,7 @@ export default function useScrollOverlap() {
             trigger: bg.closest("section"),
             start: "top bottom",
             end: "bottom top",
-            scrub: true,
+            scrub: Math.max(0.5, window.innerHeight / 1200), // slower scrub on mobile
             invalidateOnRefresh: true,
           },
         });

@@ -155,7 +155,6 @@ export default function CollectionsPage() {
   const containerRef = useRef(null);
   const stickyRef = useRef(null);
   const [slideInSpecs, setSlideInSpecs] = useState(false);
-  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -202,116 +201,125 @@ export default function CollectionsPage() {
     setHideInfo(false);
   };
 
-//   useEffect(() => {
-//   const updatePin = () => {
-//     if (!sectionRef.current || !containerRef.current || !stickyRef.current)
-//       return;
+  //   useEffect(() => {
+  //   const updatePin = () => {
+  //     if (!sectionRef.current || !containerRef.current || !stickyRef.current)
+  //       return;
 
-//     const containerRect = containerRef.current.getBoundingClientRect();
-//     const wrapperRect =
-//       containerRef.current.parentElement.getBoundingClientRect();
-//     const stickyEl = stickyRef.current;
-//     const stickyHeight = stickyEl.offsetHeight;
-//     const topOffset = 80; // adjust for header height if needed
-//     const isDesktop = window.innerWidth >= 1; // breakpoint if needed
+  //     const containerRect = containerRef.current.getBoundingClientRect();
+  //     const wrapperRect =
+  //       containerRef.current.parentElement.getBoundingClientRect();
+  //     const stickyEl = stickyRef.current;
+  //     const stickyHeight = stickyEl.offsetHeight;
+  //     const topOffset = 80; // adjust for header height if needed
+  //     const isDesktop = window.innerWidth >= 1; // breakpoint if needed
 
-//     // dynamic gap (20% of viewport height)
-//     const viewportGap = window.innerHeight * 0.2;
+  //     // dynamic gap (20% of viewport height)
+  //     const viewportGap = window.innerHeight * 0.2;
 
-//     const shouldPin =
-//       isDesktop &&
-//       wrapperRect.top <= topOffset &&
-//       wrapperRect.bottom > topOffset + stickyHeight + viewportGap;
+  //     const shouldPin =
+  //       isDesktop &&
+  //       wrapperRect.top <= topOffset &&
+  //       wrapperRect.bottom > topOffset + stickyHeight + viewportGap;
 
-//     if (shouldPin) {
-//       // --- stick while scrolling ---
-//       containerRef.current.style.minHeight = `${stickyHeight}px`;
-//       stickyEl.style.position = "fixed";
-//       stickyEl.style.top = `${topOffset}px`;
-//       stickyEl.style.left = `${containerRect.left}px`;
-//       stickyEl.style.width = `${containerRect.width}px`;
-//     } else if (wrapperRect.bottom <= topOffset + stickyHeight + viewportGap) {
-//       // --- release earlier with dynamic gap ---
-//       containerRef.current.style.minHeight = "";
-//       stickyEl.style.position = "absolute";
-//       stickyEl.style.top = `${
-//         containerRef.current.offsetHeight - stickyHeight - viewportGap
-//       }px`;
-//       stickyEl.style.left = "0";
-//       stickyEl.style.width = "100%";
-//     } else {
-//       // --- before sticky kicks in ---
-//       containerRef.current.style.minHeight = "";
-//       stickyEl.style.position = "relative";
-//       stickyEl.style.top = "";
-//       stickyEl.style.bottom = "";
-//       stickyEl.style.left = "0";
-//       stickyEl.style.width = "100%";
-//     }
-//   };
+  //     if (shouldPin) {
+  //       // --- stick while scrolling ---
+  //       containerRef.current.style.minHeight = `${stickyHeight}px`;
+  //       stickyEl.style.position = "fixed";
+  //       stickyEl.style.top = `${topOffset}px`;
+  //       stickyEl.style.left = `${containerRect.left}px`;
+  //       stickyEl.style.width = `${containerRect.width}px`;
+  //     } else if (wrapperRect.bottom <= topOffset + stickyHeight + viewportGap) {
+  //       // --- release earlier with dynamic gap ---
+  //       containerRef.current.style.minHeight = "";
+  //       stickyEl.style.position = "absolute";
+  //       stickyEl.style.top = `${
+  //         containerRef.current.offsetHeight - stickyHeight - viewportGap
+  //       }px`;
+  //       stickyEl.style.left = "0";
+  //       stickyEl.style.width = "100%";
+  //     } else {
+  //       // --- before sticky kicks in ---
+  //       containerRef.current.style.minHeight = "";
+  //       stickyEl.style.position = "relative";
+  //       stickyEl.style.top = "";
+  //       stickyEl.style.bottom = "";
+  //       stickyEl.style.left = "0";
+  //       stickyEl.style.width = "100%";
+  //     }
+  //   };
 
-//   window.addEventListener("scroll", updatePin);
-//   window.addEventListener("resize", updatePin);
+  //   window.addEventListener("scroll", updatePin);
+  //   window.addEventListener("resize", updatePin);
 
-//   // run once on mount
-//   updatePin();
+  //   // run once on mount
+  //   updatePin();
 
-//   return () => {
-//     window.removeEventListener("scroll", updatePin);
-//     window.removeEventListener("resize", updatePin);
-//   };
-// }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", updatePin);
+  //     window.removeEventListener("resize", updatePin);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const updatePin = () => {
-      if (!sectionRef.current || !containerRef.current || !stickyRef.current)
-        return;
+useEffect(() => {
+  const updatePin = () => {
+    if (!sectionRef.current || !containerRef.current || !stickyRef.current)
+      return;
 
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const wrapperRect =
-        containerRef.current.parentElement.getBoundingClientRect();
-      const stickyEl = stickyRef.current;
-      const stickyHeight = stickyEl.offsetHeight;
-      const topOffset = 80; // header height if needed
-      const isDesktop = window.innerWidth >= 1; // adjust breakpoint
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const wrapperRect =
+      containerRef.current.parentElement.getBoundingClientRect();
+    const stickyEl = stickyRef.current;
+    const stickyHeight = stickyEl.offsetHeight;
+    const topOffset = 80; // header height if needed
+    const isMobile = window.innerWidth < 768;
 
-      const shouldPin =
-        isDesktop &&
-        wrapperRect.top <= topOffset &&
-        wrapperRect.bottom > topOffset + stickyHeight;
+    // ✅ Only reserve space on desktop
+    if (!isMobile) {
+      containerRef.current.style.minHeight = `${stickyHeight}px`;
+    } else {
+      containerRef.current.style.minHeight = "";
+    }
 
-      if (shouldPin) {
-        containerRef.current.style.minHeight = `${stickyHeight}px`;
-        stickyEl.style.position = "fixed";
-        stickyEl.style.top = `${topOffset}px`;
-        stickyEl.style.left = `${containerRect.left}px`;
-        stickyEl.style.width = `${containerRect.width}px`;
-      } else if (wrapperRect.bottom <= topOffset + stickyHeight) {
-        // --- stick at bottom of wrapper ---
-        containerRef.current.style.minHeight = "";
-        stickyEl.style.position = "absolute";
-        stickyEl.style.top = "auto";
-        stickyEl.style.bottom = "0";
-        stickyEl.style.left = "0"; // relative inside container
-        stickyEl.style.width = "100%";
-      } else {
-        // --- before pin ---
-        containerRef.current.style.minHeight = "";
-        stickyEl.style.position = "relative";
-        stickyEl.style.top = "";
-        stickyEl.style.bottom = "-10px";
-        stickyEl.style.left = "0";
-        stickyEl.style.width = "100%";
-      }
-    };
+    const bottomGap = isMobile ? 0 : 0;
 
-    window.addEventListener("scroll", updatePin);
-    window.addEventListener("resize", updatePin);
-    return () => {
-      window.removeEventListener("scroll", updatePin);
-      window.removeEventListener("resize", updatePin);
-    };
-  }, []);
+    const shouldPin =
+      wrapperRect.top <= topOffset &&
+      wrapperRect.bottom > topOffset + stickyHeight + bottomGap;
+
+    if (shouldPin) {
+      stickyEl.style.position = "fixed";
+      stickyEl.style.top = `${topOffset}px`;
+      stickyEl.style.left = `${containerRect.left}px`;
+      stickyEl.style.width = `${containerRect.width}px`;
+    } else if (wrapperRect.bottom <= topOffset + stickyHeight + bottomGap) {
+      stickyEl.style.position = "absolute";
+      stickyEl.style.top = "auto";
+      stickyEl.style.bottom = `${bottomGap}px`;
+      stickyEl.style.left = "0";
+      stickyEl.style.width = "100%";
+    } else {
+      stickyEl.style.position = "relative";
+      stickyEl.style.top = "";
+      stickyEl.style.bottom = "";
+      stickyEl.style.left = "0";
+      stickyEl.style.width = "100%";
+    }
+  };
+
+  window.addEventListener("scroll", updatePin);
+  window.addEventListener("resize", updatePin);
+
+  updatePin();
+
+  return () => {
+    window.removeEventListener("scroll", updatePin);
+    window.removeEventListener("resize", updatePin);
+  };
+}, []);
+
+
+
   const [hovered, setHovered] = useState(false);
 
   const renderHeroView = () => (
@@ -341,6 +349,7 @@ export default function CollectionsPage() {
             <p>{selectedVariant.material}</p>
             <span>Limited to 600 pieces</span>
           </div>
+
           {/* Conditionally render / hide this block */}
         </div>
         <div className={styles.swatchAngle}>
@@ -445,12 +454,13 @@ export default function CollectionsPage() {
       </div>
     </section>
   );
-  const renderDetailView = () => (
+  const renderDetailView = () => (  
     <div className={styles.overall}>
       {renderHeroViewMain()}
-      <section className={styles.detailsSection} ref={sectionRef}>
-        <div className={styles.detailsContentWrapper}>
+      <section className={styles.detailsSection}>
+        <div className={styles.detailsContentWrapper}   ref={sectionRef}>
           <div
+            ref={sectionRef}
             className={`${styles.specsContainer} ${
               slideInSpecs ? styles.slideIn : ""
             }`}
