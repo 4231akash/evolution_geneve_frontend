@@ -38,44 +38,56 @@ export default function DownScroll({ size = 100 }) {
 
   if (!mounted) return null;
 
-const handleClick = () => {
-  if (isScrolling) return;
+  const handleClick = () => {
+    if (isScrolling) return;
 
-  const sections = document.querySelectorAll("section");
-  if (!sections.length) return;
+    const sections = document.querySelectorAll("section");
+    if (!sections.length) return;
 
-  const currentScroll = window.scrollY;
-  let nextSection = null;
+    const currentScroll = window.scrollY;
+    let nextSection = null;
 
-  // Find the first section below viewport
-  for (let i = 0; i < sections.length; i++) {
-    const rect = sections[i].getBoundingClientRect();
-    const top = rect.top + window.scrollY;
+    // Find the first section below viewport
+    for (let i = 0; i < sections.length; i++) {
+      const rect = sections[i].getBoundingClientRect();
+      const top = rect.top + window.scrollY;
 
-    if (top > currentScroll + 1) {
-      nextSection = sections[i];
-      break;
+      if (top > currentScroll + 1) {
+        nextSection = sections[i];
+        break;
+      }
     }
-  }
 
-  // If no next section (we are at last section), go to first
-  if (!nextSection || currentScroll >= sections[sections.length - 1].offsetTop - 1) {
-    nextSection = sections[3]; // HeroSection
-    console.log("Scrolling to top" + nextSection );
-  }
-
-  if (nextSection) {
-    setIsScrolling(true);
-
-    gsap.to(window, {
-      duration: 1.8,
-      scrollTo: { y: nextSection, offsetY: 0 },
-      ease: "power2.inOut",
+    // If no next section (we are at last section), go to first
+    if (
+      !nextSection ||
+      currentScroll >= sections[sections.length - 1].offsetTop - 1
+    ) {
+           const tl = gsap.timeline({
       onComplete: () => setIsScrolling(false),
     });
-  }
-};
+      nextSection = sections[0].offsetTop - 1; // HeroSection
+      console.log("Scrolling to top" + nextSection);
+          tl.to(window, {
+        duration: 10.5, // adjust speed per section
+        scrollTo: { y: nextSection, offsetY: 0 },
+        ease: "power2.inOut",
+      });
+    }else{
 
+        if (nextSection) {
+          setIsScrolling(true);
+    
+          gsap.to(window, {
+            duration: 3.8,
+            scrollTo: { y: nextSection, offsetY: 0 },
+            ease: "power2.inOut",
+            onComplete: () => setIsScrolling(false),
+          });
+        }
+    }
+
+  };
 
   return (
     <div
