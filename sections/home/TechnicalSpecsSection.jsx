@@ -142,7 +142,7 @@ const TechnicalSpecsSection = () => {
   return (
     <section id="specs" className={styles.techSection} ref={sectionRef}>
       <BackgroundVideo
-        desktopSrc="/videos/scroll_desktop_video.mp4"
+        desktopSrc="/videos/map_draw_desktop.mp4"
         mobileSrc="/videos/mobile_video.mp4"
         poster="/videos/scroll_map.gif"
         className={styles.backgroundVideo}
