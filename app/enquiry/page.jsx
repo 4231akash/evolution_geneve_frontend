@@ -1,56 +1,75 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
-import Loader from "../../components/Loader";
-import Header from "../../components/Header";
-import JourneySection from "../../sections/journey/JourneySection";
-import EnquiryPage from "../../sections/enquiry/EnquiryPage";
-import useScrollOverlap from "../../hooks/useScrollOverlap";
-import styles from "../../styles/journey/JourneySection.module.css";
+import EnquiryPageClient from "./EnquiryPageClient";
 
-export default function Home() {
-  const [loaderDone, setLoaderDone] = useState(false);
-  const [bgDone, setBgDone] = useState(false);
+// import { useEffect, useState } from "react";
+// import Loader from "../../components/Loader";
+// import Header from "../../components/Header";
+// import JourneySection from "../../sections/journey/JourneySection";
+// import EnquiryPage from "../../sections/enquiry/EnquiryPage";
+// import useScrollOverlap from "../../hooks/useScrollOverlap";
+// import styles from "../../styles/journey/JourneySection.module.css";
 
-  // Preload hero background while loader plays
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/images/banner_main.svg";
+// export default function Home() {
+//   const [loaderDone, setLoaderDone] = useState(false);
+//   const [bgDone, setBgDone] = useState(false);
 
-    if (img.complete) {
-      setBgDone(true);
-      return;
-    }
+//   // Preload hero background while loader plays
+//   useEffect(() => {
+//     const img = new Image();
+//     img.src = "/images/banner_main.svg";
 
-    img.onload = () => setBgDone(true);
-    img.onerror = (err) => {
-      console.warn("Hero background failed to load:", err);
-      setBgDone(true); // allow site to proceed even if bg fails
-    };
-  }, []);
+//     if (img.complete) {
+//       setBgDone(true);
+//       return;
+//     }
 
-  const ready = loaderDone && bgDone;
+//     img.onload = () => setBgDone(true);
+//     img.onerror = (err) => {
+//       console.warn("Hero background failed to load:", err);
+//       setBgDone(true); // allow site to proceed even if bg fails
+//     };
+//   }, []);
 
-  return (
-    <>
-      {!ready && <Loader onFinish={() => setLoaderDone(true)} />}
-      {ready && (
-        <>
-          <Header />
-          <MainContent />
-        </>
-      )}
-    </>
-  );
-}
+//   const ready = loaderDone && bgDone;
 
-function MainContent() {
-  // Hook to manage ScrollTrigger overlap behavior
-  // useScrollOverlap();
+//   return (
+//     <>
+//       {!ready && <Loader onFinish={() => setLoaderDone(true)} />}
+//       {ready && (
+//         <>
+//           <Header />
+//           <MainContent />
+//         </>
+//       )}
+//     </>
+//   );
+// }
 
+// function MainContent() {
+//   // Hook to manage ScrollTrigger overlap behavior
+//   // useScrollOverlap();
+
+//   return (
+//     <main>
+//       <EnquiryPage />
+//     </main>
+//   );
+// }
+
+
+
+export const metadata = {
+  title: "Enquiry | Contact Evolution Geneve for Assistance",
+  description:
+    "Have a question or need support? Reach out to Evolution Geneve through our enquiry page. Our team is here to assist you with prompt and professional guidance.",
+};
+
+export default function EnquiryPageWrapper() {
   return (
     <main>
-      <EnquiryPage />
+      <EnquiryPageClient />
     </main>
   );
 }
+

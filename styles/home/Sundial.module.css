@@ -30,7 +30,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: url("/videos/bg_self_winding_video.gif") no-repeat center center;
+  background: url("/videos/self_winding_bg.gif") no-repeat center center;
   background-size: cover;
   filter: brightness(0.3);
   z-index: 1;
@@ -41,7 +41,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: url("/videos/bg_manual_winding_video.gif") no-repeat center center;
+  background: url("/videos/manual_winding_bg.gif") no-repeat center center;
   background-size: cover;
   filter: brightness(0.3);
   z-index: 1;

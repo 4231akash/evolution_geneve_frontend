@@ -60,14 +60,11 @@
 //   }
 // }
 
+"use server";
 
-
-
-'use server';
-
-import { NextResponse } from 'next/server';
-import { readFile } from 'fs/promises';
-import path from 'path';
+import { NextResponse } from "next/server";
+import { readFile } from "fs/promises";
+import path from "path";
 
 export async function POST(request) {
   try {
@@ -75,16 +72,19 @@ export async function POST(request) {
 
     if (!name || !email || !message) {
       return NextResponse.json(
-        { error: 'Name, Email, and Message are required.' },
+        { error: "Name, Email, and Message are required." },
         { status: 400 }
       );
     }
 
     // Dynamically import nodemailer only on server
-    const nodemailer = await import('nodemailer');
+    const nodemailer = await import("nodemailer");
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      // service: 'gmail',
+      host: "mail.evolutiongeneve.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_SERVER_USER,
         pass: process.env.EMAIL_SERVER_PASSWORD,
@@ -92,9 +92,18 @@ export async function POST(request) {
     });
 
     // Load templates
-    const templatesDir = path.join(process.cwd(), 'app/api/send-enquiry/templates');
-    const adminTemplate = await readFile(path.join(templatesDir, 'admin-enquiry.html'), 'utf8');
-    const userTemplate = await readFile(path.join(templatesDir, 'user-confirmation.html'), 'utf8');
+    const templatesDir = path.join(
+      process.cwd(),
+      "app/api/send-enquiry/templates"
+    );
+    const adminTemplate = await readFile(
+      path.join(templatesDir, "admin-enquiry.html"),
+      "utf8"
+    );
+    const userTemplate = await readFile(
+      path.join(templatesDir, "user-confirmation.html"),
+      "utf8"
+    );
 
     // Replace placeholders
     const subject = `New Enquiry from ${name}`;
@@ -104,19 +113,33 @@ export async function POST(request) {
     const adminHtml = adminTemplate
       .replace(/{{name}}/g, name)
       .replace(/{{email}}/g, email)
-      .replace(/{{phone}}/g, phone || 'Not provided')
+      .replace(/{{phone}}/g, phone || "Not provided")
       .replace(/{{subject}}/g, subject)
       .replace(/{{message}}/g, message)
-      .replace(/{{admin_dashboard_link}}/g, process.env.ADMIN_DASHBOARD_URL || 'https://instagram.com/evolutiongeneve');
+      .replace(
+        /{{admin_dashboard_link}}/g,
+        process.env.ADMIN_DASHBOARD_URL ||
+          "https://instagram.com/evolutiongeneve"
+      );
 
     const userHtml = userTemplate
       .replace(/{{name}}/g, name)
       .replace(/{{subject}}/g, subject)
       .replace(/{{message}}/g, message)
       .replace(/{{ticket_id}}/g, ticketId)
-      .replace(/{{support_center_link}}/g, process.env.SUPPORT_CENTER_URL || 'https://instagram.com/evolutiongeneve')
-      .replace(/{{support_phone}}/g, process.env.SUPPORT_PHONE || '+97336440400')
-      .replace(/{{company_website}}/g, process.env.COMPANY_WEBSITE || 'https://instagram.com/evolutiongeneve')
+      .replace(
+        /{{support_center_link}}/g,
+        process.env.SUPPORT_CENTER_URL ||
+          "https://instagram.com/evolutiongeneve"
+      )
+      .replace(
+        /{{support_phone}}/g,
+        process.env.SUPPORT_PHONE || "+97336440400"
+      )
+      .replace(
+        /{{company_website}}/g,
+        process.env.COMPANY_WEBSITE || "https://instagram.com/evolutiongeneve"
+      )
       .replace(/{{year}}/g, year);
 
     // Send to Admin
@@ -136,9 +159,15 @@ export async function POST(request) {
       html: userHtml,
     });
 
-    return NextResponse.json({ message: 'Emails sent successfully' }, { status: 200 });
+    return NextResponse.json(
+      { message: "Emails sent successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error('API Error:', error);
-    return NextResponse.json({ error: 'Failed to send email.' }, { status: 500 });
+    console.error("API Error:", error);
+    return NextResponse.json(
+      { error: "Failed to send email." },
+      { status: 500 }
+    );
   }
 }

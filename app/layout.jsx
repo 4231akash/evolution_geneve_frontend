@@ -19,6 +19,11 @@ const playfair = Playfair_Display({
 export const metadata = {
   title: "Evolution of Timekeeping",
   description: "Explore the evolution of timekeeping through history",
+  icons: {
+    icon: "/favicon.ico",      // main favicon
+    shortcut: "/favicon.ico",  // optional shortcut icon
+    apple: "/favicon.ico", // iOS icon (optional)
+  },
 };
 
 export default function RootLayout({ children }) {

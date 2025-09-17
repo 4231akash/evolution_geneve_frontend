@@ -1,7 +1,7 @@
 // app/collections/watchVariants.js
 export const watchVariants = [
   {
-    id: "burgundy",
+    id: "first-evolution-evoo1-stainless-steel-brown",
     name: "FIRST EVOLUTION",
     model: "EV001",
     material: "STAINLESS STEEL",
@@ -70,7 +70,7 @@ export const watchVariants = [
     ],
   },
   {
-    id: "orange",
+    id: "first-evolution-evoo1-stainless-steel-beige",
     name: "FIRST EVOLUTION",
     model: "EV001",
     material: "STAINLESS STEEL",

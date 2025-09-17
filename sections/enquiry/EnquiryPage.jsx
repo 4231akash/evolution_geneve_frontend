@@ -4,7 +4,7 @@ import { useState } from "react";
 import styles from "../../styles/enquiry/Enquiry.module.css";
 import Image from "next/image";
 
-export default function EnquiryPage() {
+export default function EnquiryPageClient() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
