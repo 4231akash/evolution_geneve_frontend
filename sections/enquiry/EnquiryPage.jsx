@@ -23,13 +23,15 @@ export default function EnquiryPageClient() {
     }));
   };
 
+  const baseUrl="https://nodemail.flutterforever.com/api/v1/send-email";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
     setLoading(true); // ✅ disable button
 
     try {
-      const response = await fetch("/api/send-enquiry", {
+      const response = await fetch(baseUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

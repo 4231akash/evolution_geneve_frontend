@@ -15,13 +15,21 @@
 //   return <ClientDetail initialVariant={variant} variants={watchVariants} />;
 // }
 
+
 import { notFound } from "next/navigation";
 import ClientDetail from "./ClientDetail";
 import { watchVariants } from "../watchVariants";
 
+// ✅ Generate static paths for all variants
+export async function generateStaticParams() {
+  return watchVariants.map((variant) => ({
+    slug: variant.id, // must match [slug]
+  }));
+}
+
 // ✅ Dynamic metadata for SEO
 export async function generateMetadata({ params }) {
-  const { slug } = await params; // <-- await here
+  const { slug } = params;
   const variant = watchVariants.find((w) => w.id === slug);
 
   if (!variant) {
@@ -40,7 +48,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CollectionSlugPage({ params }) {
-  const { slug } = await params; // <-- also await here
+  const { slug } = params;
   const variant = watchVariants.find((w) => w.id === slug);
 
   if (!variant) {

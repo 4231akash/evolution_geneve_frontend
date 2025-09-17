@@ -24,6 +24,7 @@ export const metadata = {
     shortcut: "/favicon.ico",  // optional shortcut icon
     apple: "/favicon.ico", // iOS icon (optional)
   },
+  
 };
 
 export default function RootLayout({ children }) {

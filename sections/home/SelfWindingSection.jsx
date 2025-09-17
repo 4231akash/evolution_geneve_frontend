@@ -3,8 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "../../styles/home/Sundial.module.css";
-
-import scrollImage from "../../public/images/right_note.png";
 import selfWindingWatch from "../../public/images/self_winding_watch.webp"; // ✅ Import for Next Image
 
 const easeInOutCubic = (t) =>
