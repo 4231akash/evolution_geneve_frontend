@@ -57,7 +57,11 @@ export default function Loader({ onFinish }) {
         // loadImage("/videos/manual_winding_bg.gif"),
         // loadImage("/videos/self_winding_bg.gif"),
 
+
         // WebP watch images
+        loadImage("/images/main_watch_brown.webp"),
+        loadImage("/images/inspires.webp"),
+        loadImage("/images/innovation.webp"),
         loadImage("/images/sundial_watch.webp"),
         loadImage("/images/sand_timer_watch.webp"),
         loadImage("/images/manual_winding_watch.webp"),
