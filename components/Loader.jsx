@@ -27,8 +27,8 @@ export default function Loader({ onFinish }) {
           video.playsInline = true;
 
           video.onloadeddata = () => {
-            // decode first frame to prevent black flash
             try {
+              // decode first frame → prevents black flash
               video.currentTime = 0.01;
               video.play().then(() => {
                 video.pause();
@@ -44,9 +44,24 @@ export default function Loader({ onFinish }) {
 
       // --- preload all required assets
       await Promise.all([
+        // SVG
         loadImage("/images/banner_main.svg"),
+
+        // Videos
         loadVideo("/videos/map_draw_desktop.mp4"),
         loadVideo("/videos/mobile_video.mp4"),
+
+        // GIF backgrounds
+        loadImage("/videos/bg_sand_timer_video.gif"),
+        loadImage("/videos/bg_sundial_video.gif"),
+        loadImage("/videos/manual_winding_bg.gif"),
+        loadImage("/videos/self_winding_bg.gif"),
+
+        // WebP watch images
+        loadImage("/images/sundial_watch.webp"),
+        loadImage("/images/sand_timer_watch.webp"),
+        loadImage("/images/manual_winding_watch.webp"),
+        loadImage("/images/self_winding_watch.webp"),
       ]);
 
       // --- ensure loader is visible at least 1s

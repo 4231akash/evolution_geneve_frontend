@@ -294,39 +294,49 @@
   .rightContent {
     width: 100%;
   }
-  .scrollImageWrapper {
-    width: 380px;
-    height: 420px;
+  .contentWrapper {
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
   }
-  .scrollImageWrapper2 {
-    width: 380px;
-    height: 420px;
-  }
-  .scrollImageWrapper3 {
-    width: 380px;
-    height: 420px;
-  }
+  .scrollImageWrapper,
+  .scrollImageWrapper2,
+  .scrollImageWrapper3,
   .scrollImageWrapper4 {
-    width: 380px;
-    height: 420px;
+    width: min(90vw, 42 0px); /* take 90% of screen, max 420px */
+    height: min(50vh, 420px); /* take 80% height, max 420px */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem;
+    background-size: contain; /* ✅ ensures the image doesn’t crop */
   }
-  .textOverlay {
-    padding: 0;
-    margin-top: 0;
-    max-width: 250px;
-  }
-  .textOverlay h2 {
-    font-size: 1.4rem;
-    line-height: 1.8rem;
-  }
-  .textOverlay p {
-    font-size: 1rem;
-    line-height: 1.4rem;
-    padding-left: 1.2rem;
-    padding-right: 1.2rem;
-  }
+
   .watchImage {
-    max-width: 220px;
+    max-width: 65vw; /* scale relative to viewport */
+    max-height: 70vh; /* prevent overflowing */
+  }
+
+  .textOverlay {
+    padding: 0.5rem;
+    margin-top: 0;
+    max-width: 100%;
+    align-items: flex-start;
+    text-align: center;
+  }
+
+  .textOverlay h2 {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    margin-top: 1rem;
+  }
+
+  .textOverlay p {
+    font-size: clamp(0.8rem, 3.5vw, 1rem);
+    line-height: 1.3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 
