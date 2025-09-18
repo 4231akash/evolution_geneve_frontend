@@ -52,10 +52,10 @@ export default function Loader({ onFinish }) {
         loadVideo("/videos/mobile_video.mp4"),
 
         // GIF backgrounds
-        loadImage("/videos/bg_sand_timer_video.gif"),
-        loadImage("/videos/bg_sundial_video.gif"),
-        loadImage("/videos/manual_winding_bg.gif"),
-        loadImage("/videos/self_winding_bg.gif"),
+        // loadImage("/videos/bg_sand_timer_video.gif"),
+        // loadImage("/videos/bg_sundial_video.gif"),
+        // loadImage("/videos/manual_winding_bg.gif"),
+        // loadImage("/videos/self_winding_bg.gif"),
 
         // WebP watch images
         loadImage("/images/sundial_watch.webp"),
