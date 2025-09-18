@@ -16,69 +16,59 @@ export default function HomePage() {
   const [loaderDone, setLoaderDone] = useState(false);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
 
-  useEffect(() => {
-    const assets = [
-      "/images/banner_main.svg",
-      "/videos/bg_sand_timer_video.gif",
-      "/videos/bg_sundial_video.gif",
-      "/videos/manual_winding_bg.gif",
-      "/videos/self_winding_bg.gif",
-      "/videos/map_draw_desktop.mp4",
-      "/videos/mobile_video.mp4",
-    ];
+useEffect(() => {
+  const assets = [
+    "/images/banner_main.svg",
+    "/videos/bg_sand_timer_video.gif",
+    "/videos/bg_sundial_video.gif",
+    "/videos/manual_winding_bg.gif",
+    "/videos/self_winding_bg.gif",
+    "/videos/map_draw_desktop.mp4",
+    "/videos/mobile_video.mp4",
+  ];
 
-    let loadedCount = 0;
-
-    const checkDone = () => {
-      loadedCount++;
-      if (loadedCount === assets.length) {
-        // add min wait for smoothness
-        setTimeout(() => setAssetsLoaded(true));
-      }
-    };
-
-    assets.forEach((src) => {
-      if (src.endsWith(".mp4")) {
-        const video = document.createElement("video");
-        video.src = src;
-        video.preload = "auto";
-        video.muted = true;
-        video.playsInline = true;
-
-        video.onloadeddata = () => {
-          // force decode first frame
-          try {
-            video.currentTime = 0.01;
-            video.play().then(() => {
-              video.pause();
-              checkDone();
-            }).catch(checkDone);
-          } catch {
-            checkDone();
-          }
-        };
-
-        video.onerror = checkDone;
-      } else {
-        const img = new Image();
-        img.src = src;
-        img.onload = checkDone;
-        img.onerror = checkDone;
-      }
+  // Wrap preloaders in Promises
+  const preloadImage = (src) =>
+    new Promise((resolve) => {
+      const img = new Image();
+      img.src = "/images/banner_main.svg";
+      img.onload = resolve;
+      img.onerror = resolve; // resolve even on error
     });
-  }, []);
 
-  const ready = loaderDone && assetsLoaded;
+  const preloadVideo = (src) =>
+    new Promise((resolve) => {
+      const video = document.createElement("video");
+      video.src = src;
+      video.preload = "auto";
+      video.onloadeddata = resolve;
+      video.onerror = resolve;
+    });
+
+  // Map assets to correct loader
+  const preloaders = assets.map((src) =>
+    src.match(/\.(png|jpg|jpeg|svg|gif)$/i)
+      ? preloadImage(src)
+      : preloadVideo(src)
+  );
+
+  // Wait for all or fallback after 5s
+  Promise.race([
+    Promise.all(preloaders),
+    new Promise((resolve) => setTimeout(resolve, 5000)), // fallback timeout
+  ]).then(() => {
+    setLoaderDone(true);
+  });
+}, []);
 
   return (
     <>
-      {!ready && (
+      {!loaderDone && (
         <>
-          <PreloadVideos /> {/* 👈 keep videos mounted & decoding */}
           <Loader onFinish={() => setLoaderDone(true)} />
         </>
       )}
-      {ready && (
+      {loaderDone && (
         <>
           <Header />
           <MainContent />
@@ -92,7 +82,7 @@ function MainContent() {
   useScrollOverlap();
 
   return (
-    <main style={{ backgroundColor: "#000" }}>
+    <main>
       <HeroSection />
       <TechnicalSpecsSection />
       <SundialSection />
@@ -104,12 +94,3 @@ function MainContent() {
   );
 }
 
-/** 👇 hidden pre-mount video elements */
-function PreloadVideos() {
-  return (
-    <div style={{ display: "none" }}>
-      <video src="/videos/map_draw_desktop.mp4" preload="auto" muted playsInline />
-      <video src="/videos/mobile_video.mp4" preload="auto" muted playsInline />
-    </div>
-  );
-}
