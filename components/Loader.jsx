@@ -1,87 +1,82 @@
 "use client";
+
 import { useEffect, useState } from "react";
 
 export default function Loader({ onFinish }) {
-  const [done, setDone] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const waitForAssets = async () => {
-      // --- collect promises for imgs, bg imgs, videos ---
-      const imgPromises = Array.from(document.images).map(
-        (img) =>
-          new Promise((resolve) => {
-            if (img.complete && img.naturalWidth !== 0) resolve();
-            else img.onload = img.onerror = resolve;
-          })
-      );
+    const preloadAssets = async () => {
+      const startTime = Date.now();
 
-      const bgPromises = Array.from(document.querySelectorAll("*"))
-        .map((el) => {
-          const bg = getComputedStyle(el).backgroundImage;
-          if (bg && bg !== "none" && bg.includes("url(")) {
-            const url = bg.slice(5, -2);
-            return new Promise((resolve) => {
-              const img = new Image();
-              img.src = url;
-              img.onload = img.onerror = resolve;
-            });
-          }
-          return null;
-        })
-        .filter(Boolean);
+      // --- helper for images
+      const loadImage = (src) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = img.onerror = resolve;
+        });
 
-      const videoPromises = Array.from(document.querySelectorAll("video")).map(
-        (video) =>
-          new Promise((resolve) => {
-            if (video.readyState >= 3) resolve();
-            else video.onloadeddata = video.onerror = resolve;
-          })
-      );
+      // --- helper for videos
+      const loadVideo = (src) =>
+        new Promise((resolve) => {
+          const video = document.createElement("video");
+          video.src = src;
+          video.preload = "auto";
+          video.muted = true;
+          video.playsInline = true;
 
-      // Wait for everything, max 10s timeout
-      await Promise.race([
-        Promise.all([...imgPromises, ...bgPromises, ...videoPromises]),
-        new Promise((resolve) => setTimeout(resolve, 10000)),
+          video.onloadeddata = () => {
+            // decode first frame to prevent black flash
+            try {
+              video.currentTime = 0.01;
+              video.play().then(() => {
+                video.pause();
+                resolve();
+              }).catch(resolve);
+            } catch {
+              resolve();
+            }
+          };
+
+          video.onerror = resolve;
+        });
+
+      // --- preload all required assets
+      await Promise.all([
+        loadImage("/images/banner_main.svg"),
+        loadVideo("/videos/map_draw_desktop.mp4"),
+        loadVideo("/videos/mobile_video.mp4"),
       ]);
 
-      // 🔑 Prevent black flash → wait one paint cycle
-      requestAnimationFrame(() => {
-        setDone(true);
+      // --- ensure loader is visible at least 1s
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(1000 - elapsed, 0);
+
+      setTimeout(() => {
+        setIsVisible(false);
         onFinish?.();
-        setTimeout(() => setHidden(true), 600); // after fade animation
-      });
+      }, remaining);
     };
 
-    if (document.readyState === "complete") waitForAssets();
-    else window.addEventListener("load", waitForAssets);
-
-    return () => window.removeEventListener("load", waitForAssets);
+    preloadAssets();
   }, [onFinish]);
 
-  if (hidden) return null;
+  if (!isVisible) return null;
 
   return (
-    <div
-      className={`loader-wrapper ${done ? "loader-done" : ""}`}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "#000", // match your page background
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        transition: "opacity 0.6s ease",
-        zIndex: 9999,
-        opacity: done ? 0 : 1,
-      }}
-    >
+    <div className="loader-wrapper">
       <img
         src="/images/evolution_logo.svg"
         alt="Loading..."
         className="loader-logo"
         draggable="false"
       />
+      <div className="loader-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   );
 }
